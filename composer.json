@@ -1,0 +1,35 @@
+{
+    "name": "konnco/filament-import",
+    "description": "Import CSV XLS easily with filament",
+    "autoload": {
+        "psr-4": {
+            "Konnco\\FilamentImport\\": "src/"
+        }
+    },
+    "keywords": [
+        "konnco",
+        "filament-import"
+    ],
+    "authors": [
+        {
+            "name": "Franky So",
+            "email": "frankyso.mail@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^8.0",
+        "illuminate/support": "^8.0|^9.0"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Konnco\\FilamentImport\\FilamentImportServiceProvider"
+            ]
+        }
+    }
+}
