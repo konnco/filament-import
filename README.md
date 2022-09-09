@@ -115,7 +115,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [Arthur Minasyan](https://github.com/konnco)
+- [Franky So](https://github.com/frankyso)
 - [All Contributors](../../contributors)
 
 ## License
