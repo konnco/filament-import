@@ -38,19 +38,62 @@ class ListCredentialDatabases extends ListRecords
                 ->fields([
                     ImportField::make('project')
                         ->label('Project')
-                        ->mutateBeforeCreate(fn($string)=>$string)
-                        ->required()
                         ->helperText('Define as project helper'),
                     ImportField::make('manager')
-                        ->label('Manager')
-                        ->mutateBeforeCreate(fn($string)=>$string)
-                        ->required()
-                        ->helperText('Define as project helper'),
+                        ->label('Manager'),
                 ])
         ];
     }
 }
 ```
+### Required Field
+```php
+protected function getActions(): array
+{
+    return [
+        ImportAction::make()
+            ->fields([
+                ImportField::make('project')
+                    ->label('Project')
+                    ->required(),
+            ])
+    ];
+}
+```
+
+### Mutate Data
+you can also manipulate data from row spreadsheet before saving to model
+```php
+protected function getActions(): array
+{
+    return [
+        ImportAction::make()
+            ->fields([
+                ImportField::make('project')
+                    ->label('Project')
+                    ->mutateBeforeCreate(fn($string) => Str::of($string)->camelCase())
+                    ->required(),
+            ])
+    ];
+}
+```
+
+### Grid Column
+Of course you can divide the column grid into several parts to beautify the appearance of the data map
+```php
+protected function getActions(): array
+{
+    return [
+        ImportAction::make()
+            ->fields([
+                ImportField::make('project')
+                    ->label('Project')
+                    ->required(),
+            ], columns:2)
+    ];
+}
+```
+
 
 ## Testing
 
