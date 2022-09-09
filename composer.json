@@ -1,30 +1,32 @@
 {
     "name": "konnco/filament-import",
-    "description": "Import CSV XLS easily with filament",
+    "description": "",
+    "keywords": [
+        "import",
+        "laravel",
+        "filament-import"
+    ],
     "autoload": {
         "psr-4": {
             "Konnco\\FilamentImport\\": "src/"
         }
     },
-    "keywords": [
-        "konnco",
-        "filament-import"
-    ],
+    "license": "MIT",
     "authors": [
         {
             "name": "Franky So",
             "email": "frankyso.mail@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "require": {
         "php": "^8.0",
-        "illuminate/support": "^8.0|^9.0"
+        "spatie/laravel-package-tools": "^1.9.2",
+        "illuminate/contracts": "^9.0",
+        "illuminate/support": "^9.0",
+        "maatwebsite/excel": "^3.1"
     },
-    "config": {
-        "sort-packages": true
-    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "extra": {
         "laravel": {
             "providers": [
