@@ -8,15 +8,18 @@ trait HasFieldMutation
 {
     protected bool|Closure $mutateBeforeCreate = false;
 
-    public function mutateBeforeCreate(Closure $fn):static{
+    public function mutateBeforeCreate(Closure $fn): static
+    {
         $this->mutateBeforeCreate = $fn;
+
         return $this;
     }
 
-    public function doMutateBeforeCreate($state){
+    public function doMutateBeforeCreate($state)
+    {
         $closure = $this->mutateBeforeCreate;
 
-        if(!$closure){
+        if (! $closure) {
             return $state;
         }
 

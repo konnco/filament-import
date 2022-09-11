@@ -1,5 +1,6 @@
 <?php
+
 return [
     'import' => 'Import',
-    'skip_header'=>'Skip header'
+    'skip_header' => 'Skip header',
 ];

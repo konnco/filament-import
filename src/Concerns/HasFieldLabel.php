@@ -12,18 +12,21 @@ trait HasFieldLabel
     protected ?string $label = null;
 
     /**
-     * @param string $label
+     * @param  string  $label
      * @return $this
      */
-    public function label(string $label):static{
+    public function label(string $label): static
+    {
         $this->label = $label;
+
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getLabel():string{
+    public function getLabel(): string
+    {
         return $this->label ?? Str::of($this->label)->title();
     }
 }

@@ -2,29 +2,21 @@
 
 namespace Konnco\FilamentImport\Actions;
 
-use Closure;
 use Filament\Forms\ComponentContainer;
-use Filament\Forms\Components\FileUpload;
-use Filament\Support\Actions\Concerns\CanCustomizeProcess;
-use Illuminate\Database\Eloquent\Model;
-use Filament\Pages\Actions\Action;
-use Filament\Forms;
 use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\TextInput;
-use Konnco\FilamentImport\Concerns\HasTemporaryDisk;
-use Konnco\FilamentImport\Concerns\HasFieldMutation;
-use Konnco\FilamentImport\ImportField;
-use Livewire\TemporaryUploadedFile;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
+use Filament\Pages\Actions\Action;
+use Filament\Support\Actions\Concerns\CanCustomizeProcess;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Konnco\FilamentImport\Concerns\HasTemporaryDisk;
+use Konnco\FilamentImport\ImportField;
+use Livewire\TemporaryUploadedFile;
 use Maatwebsite\Excel\Concerns\Importable;
-use Maatwebsite\Excel\Facades\Excel;
-use Maatwebsite\Excel\Importer;
-use Illuminate\Support\Str;
 
 class ImportAction extends Action
 {
@@ -33,6 +25,7 @@ class ImportAction extends Action
     use HasTemporaryDisk;
 
     protected array $fields = [];
+
     protected array $cachedHeadingOptions = [];
 
     public static function getDefaultName(): ?string
@@ -54,25 +47,25 @@ class ImportAction extends Action
 
         $this->action(function (ComponentContainer $form): void {
             $model = $form->getModel();
-                $this->process(function (array $data) use ($model) {
-                    $selectedField = collect($data)->except('fileRealPath','file','skipHeader');
+            $this->process(function (array $data) use ($model) {
+                $selectedField = collect($data)->except('fileRealPath', 'file', 'skipHeader');
 
-                    $spreadsheet = $this->toCollection(new UploadedFile(Storage::disk('local')->path($data['file']), $data['file']))
-                                    ->first()
-                                    ->skip((int) $data['skipHeader']);
+                $spreadsheet = $this->toCollection(new UploadedFile(Storage::disk('local')->path($data['file']), $data['file']))
+                                ->first()
+                                ->skip((int) $data['skipHeader']);
 
-                    DB::transaction(function () use($spreadsheet, $selectedField, $model) {
-                        $spreadsheet->each(function($row) use ($selectedField, $model) {
-                            $prepareInsert = [];
+                DB::transaction(function () use ($spreadsheet, $selectedField, $model) {
+                    $spreadsheet->each(function ($row) use ($selectedField, $model) {
+                        $prepareInsert = [];
 
-                            $selectedField->each(function($value, $key) use (&$prepareInsert) {
-                                $prepareInsert[$key] = $this->fields[$key]?->doMutateBeforeCreate($value);
-                            });
-
-                            $model::create($prepareInsert);
+                        $selectedField->each(function ($value, $key) use (&$prepareInsert) {
+                            $prepareInsert[$key] = $this->fields[$key]?->doMutateBeforeCreate($value);
                         });
+
+                        $model::create($prepareInsert);
                     });
                 });
+            });
         });
     }
 
@@ -83,7 +76,7 @@ class ImportAction extends Action
     {
         $this->form([
             FileUpload::make('file')
-                ->label("")
+                ->label('')
                 ->required()
                 ->acceptedFileTypes(config('filament-import.accepted_mimes'))
                 ->imagePreviewHeight('250')
@@ -96,21 +89,22 @@ class ImportAction extends Action
             Hidden::make('fileRealPath'),
             Toggle::make('skipHeader')
                 ->default(true)
-                ->label(__('filament-import::actions.skip_header'))
+                ->label(__('filament-import::actions.skip_header')),
         ]);
     }
 
     /**
-     * @param array $fields
-     * @param int $columns
+     * @param  array  $fields
+     * @param  int  $columns
      * @return $this
      */
-    public function fields(array $fields, int $columns = 1):static {
-        $this->fields = collect($fields)->mapWithKeys(fn($item)=> [$item->getName() => $item])->toArray();
+    public function fields(array $fields, int $columns = 1): static
+    {
+        $this->fields = collect($fields)->mapWithKeys(fn ($item) => [$item->getName() => $item])->toArray();
 
         $fields = collect($fields);
 
-        $fields = $fields->map(fn(ImportField $field)=>$this->getFields($field))->toArray();
+        $fields = $fields->map(fn (ImportField $field) => $this->getFields($field))->toArray();
 
         $this->form(
             array_merge(
@@ -119,9 +113,9 @@ class ImportAction extends Action
                     Fieldset::make('Data matching')
                         ->schema($fields)
                         ->columns($columns)
-                        ->visible(function(Callable $get){
+                        ->visible(function (callable $get) {
                             return $get('file') != null;
-                        })
+                        }),
                 ]
             )
         );
@@ -130,7 +124,7 @@ class ImportAction extends Action
     }
 
     /**
-     * @param ImportField $field
+     * @param  ImportField  $field
      * @return mixed
      */
     private function getFields(ImportField $field): mixed
@@ -139,8 +133,7 @@ class ImportAction extends Action
                 ->helperText($field->getHelperText())
                 ->required($field->isRequired())
                 ->placeholder($field->getPlaceholder())
-                ->options(function(Callable $get){
-
+                ->options(function (callable $get) {
                     /**
                      * @var TemporaryUploadedFile $uploadedFile
                      */

@@ -7,18 +7,21 @@ trait HasFieldPlaceholder
     protected ?string $placeholder = null;
 
     /**
-     * @param string $placeholder
+     * @param  string  $placeholder
      * @return $this
      */
-    public function placeholder(string $placeholder):static{
+    public function placeholder(string $placeholder): static
+    {
         $this->placeholder = $placeholder;
+
         return $this;
     }
 
     /**
      * @return string|null
      */
-    public function getPlaceholder():?string{
+    public function getPlaceholder(): ?string
+    {
         return $this->placeholder;
     }
 }

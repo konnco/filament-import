@@ -10,7 +10,8 @@ trait HasFieldHelper
      * @param $text
      * @return $this
      */
-    public function helperText($text):static{
+    public function helperText($text): static
+    {
         $this->helperText = $text;
 
         return $this;
@@ -19,7 +20,8 @@ trait HasFieldHelper
     /**
      * @return string|null
      */
-    public function getHelperText():?string{
+    public function getHelperText(): ?string
+    {
         return $this->helperText;
     }
 }

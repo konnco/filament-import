@@ -5,6 +5,7 @@ namespace Konnco\FilamentImport\Concerns;
 trait HasTemporaryDisk
 {
     protected string $temporaryDisk;
+
     protected string $temporaryDirectory;
 
     /**
@@ -16,7 +17,7 @@ trait HasTemporaryDisk
     }
 
     /**
-     * @param string $temporaryDisk
+     * @param  string  $temporaryDisk
      */
     public function temporaryDisk(string $temporaryDisk): void
     {
@@ -32,7 +33,7 @@ trait HasTemporaryDisk
     }
 
     /**
-     * @param string $temporaryPath
+     * @param  string  $temporaryPath
      */
     public function temporaryDirectory(string $temporaryPath): void
     {
