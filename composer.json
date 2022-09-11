@@ -25,6 +25,32 @@
         "illuminate/support": "^9.0",
         "maatwebsite/excel": "^3.1"
     },
+    "require-dev": {
+        "laravel/pint": "^1.0",
+        "nunomaduro/collision": "^6.0",
+        "nunomaduro/larastan": "^2.0.1",
+        "orchestra/testbench": "^7.0",
+        "pestphp/pest": "^1.21",
+        "pestphp/pest-plugin-laravel": "^1.1",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "phpstan/phpstan-phpunit": "^1.0",
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Konnco\\FilamentImport\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true
+    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "extra": {
