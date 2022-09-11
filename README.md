@@ -2,8 +2,8 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/konnco/filament-import.svg?style=flat-square)](https://packagist.org/packages/konnco/filament-import)
 [![Total Downloads](https://img.shields.io/packagist/dt/konnco/filament-import.svg?style=flat-square)](https://packagist.org/packages/konnco/filament-import)
-<!-- [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/konnco/filament-import/run-tests?label=tests)](https://github.com/konnco/filament-import/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/konnco/filament-import/Check%20&%20fix%20styling?label=code%20style)](https://github.com/konnco/filament-import/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain) -->
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/konnco/filament-import/run-tests?label=tests)](https://github.com/konnco/filament-import/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/konnco/filament-import/Check%20&%20fix%20styling?label=code%20style)](https://github.com/konnco/filament-import/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
 
 make it easy to import spreadsheets to databases with dynamic mapping forms
 
@@ -79,7 +79,7 @@ protected function getActions(): array
 ```
 
 ### Grid Column
-Of course you can divide the column grid into several parts to beautify the appearance of the data map
+Of course, you can divide the column grid into several parts to beautify the appearance of the data map
 ```php
 protected function getActions(): array
 {

@@ -3,26 +3,21 @@
 namespace Konnco\FilamentImport\Actions;
 
 use Closure;
-use Filament\Forms\ComponentContainer;
-use Filament\Support\Actions\Concerns\CanCustomizeProcess;
-use Illuminate\Database\Eloquent\Model;
-use Filament\Pages\Actions\Action;
 use Filament\Forms;
+use Filament\Forms\ComponentContainer;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\TextInput;
-use Konnco\FilamentImport\ImportField;
-use Livewire\TemporaryUploadedFile;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
+use Filament\Pages\Actions\Action;
+use Filament\Support\Actions\Concerns\CanCustomizeProcess;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Maatwebsite\Excel\Concerns\Importable;
-use Maatwebsite\Excel\Facades\Excel;
-use Maatwebsite\Excel\Importer;
-use PhpParser\Node\Expr\CallLike;
 use Illuminate\Support\Str;
+use Konnco\FilamentImport\ImportField;
+use Livewire\TemporaryUploadedFile;
+use Maatwebsite\Excel\Concerns\Importable;
 
 class ImportAction extends Action
 {
@@ -34,6 +29,7 @@ class ImportAction extends Action
     protected ?Closure $mutateBeforeCreate;
 
     protected $fields = [];
+
     protected $cachedOptions;
 
     public static function getDefaultName(): ?string
@@ -49,23 +45,23 @@ class ImportAction extends Action
 
         $this->form([
             Forms\Components\FileUpload::make('file')
-                ->label("")
+                ->label('')
                 ->required()
                 ->acceptedFileTypes([
                     'application/vnd.ms-excel',
                     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                    'text/csv'
+                    'text/csv',
                 ])
                 ->imagePreviewHeight('250')
                 ->reactive()
                 ->disk('local')
                 ->directory('filament-import')
-                ->afterStateUpdated(function (Callable $set, TemporaryUploadedFile $state) {
+                ->afterStateUpdated(function (callable $set, TemporaryUploadedFile $state) {
                     $set('path', $state->getRealPath());
                 }),
             Toggle::make('skipHeader')
                 ->default(true)
-                ->label('Skip header')
+                ->label('Skip header'),
         ]);
 
         $this->button();
@@ -74,32 +70,34 @@ class ImportAction extends Action
 
         $this->action(function (ComponentContainer $form): void {
             $model = $form->getModel();
-                $this->process(function (array $data) use ($model) {
-                    $selectedField = collect($data)->except('path','file','skipHeader');
+            $this->process(function (array $data) use ($model) {
+                $selectedField = collect($data)->except('path', 'file', 'skipHeader');
 
-                    $spreadsheet = $this->toCollection(new UploadedFile(Storage::disk('local')->path($data['file']), $data['file']))
-                                    ->first()
-                                    ->skip((int) $data['skipHeader']);
+                $spreadsheet = $this->toCollection(new UploadedFile(Storage::disk('local')->path($data['file']), $data['file']))
+                                ->first()
+                                ->skip((int) $data['skipHeader']);
 
-                    DB::transaction(function () use($spreadsheet, $selectedField, $model) {
-                        $spreadsheet->each(function($row) use ($selectedField, $model) {
-                            $prepareInsert = [];
+                DB::transaction(function () use ($spreadsheet, $selectedField, $model) {
+                    $spreadsheet->each(function ($row) use ($selectedField, $model) {
+                        $prepareInsert = [];
 
-                            $selectedField->each(function($value, $key) use (&$prepareInsert) {
-                                $prepareInsert[$key] = $this->fields[$key]?->doMutateBeforeCreate($value);
-                            });
-
-                            $model::create($prepareInsert);
+                        $selectedField->each(function ($value, $key) use (&$prepareInsert) {
+                            $prepareInsert[$key] = $this->fields[$key]?->doMutateBeforeCreate($value);
                         });
+
+                        $model::create($prepareInsert);
                     });
                 });
+            });
         });
     }
 
-    public function getExcelReaderType($path){
+    public function getExcelReaderType($path)
+    {
         $infoPath = pathinfo($path);
 
         $extension = Str::of($infoPath['extension'])->ucfirst();
+
         return $extension;
     }
 
@@ -110,12 +108,13 @@ class ImportAction extends Action
         return $this;
     }
 
-    public function fields(array $fields, $columns = 1):static {
-        $this->fields = collect($fields)->mapWithKeys(fn($item)=> [$item->getName() => $item])->toArray();
+    public function fields(array $fields, $columns = 1): static
+    {
+        $this->fields = collect($fields)->mapWithKeys(fn ($item) => [$item->getName() => $item])->toArray();
 
         $fields = collect($fields);
 
-        $fields = $fields->map(fn(ImportField $field)=>$this->mapField($field))->toArray();
+        $fields = $fields->map(fn (ImportField $field) => $this->mapField($field))->toArray();
         $fields[] = Hidden::make('path');
 
         $this->form(
@@ -125,9 +124,9 @@ class ImportAction extends Action
                     Fieldset::make('Data matching')
                         ->schema($fields)
                         ->columns($columns)
-                        ->visible(function(Callable $get){
+                        ->visible(function (callable $get) {
                             return $get('file') != null;
-                        })
+                        }),
                 ]
             )
         );
@@ -135,16 +134,18 @@ class ImportAction extends Action
         return $this;
     }
 
-    public function columns(int $columns){
+    public function columns(int $columns)
+    {
         $this->columns = $columns;
     }
 
-    private function mapField(ImportField $field){
+    private function mapField(ImportField $field)
+    {
         return Select::make($field->getName())
                 ->helperText($field->getHelperText())
                 ->required($field->isRequired())
                 ->placeholder($field->getPlaceholder())
-                ->options(function(Callable $get){
+                ->options(function (callable $get) {
                     /**
                      * @var TemporaryUploadedFile $uploadedFile
                      */
