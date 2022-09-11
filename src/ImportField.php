@@ -1,4 +1,5 @@
 <?php
+
 namespace Konnco\FilamentImport;
 
 use Closure;
@@ -15,64 +16,79 @@ class ImportField
 
     public function __construct(private string $name)
     {
-
     }
 
-    public static function make(string $name):static{
+    public static function make(string $name): static
+    {
         return new self($name);
     }
 
-    public function getName(){
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function label(string $label):static{
+    public function label(string $label): static
+    {
         $this->label = $label;
+
         return $this;
     }
 
-    public function getLabel():string{
+    public function getLabel(): string
+    {
         return $this->label;
     }
 
-    public function mutateBeforeCreate(Closure $fn):static{
+    public function mutateBeforeCreate(Closure $fn): static
+    {
         $this->mutateBeforeCreate = $fn;
+
         return $this;
     }
 
-    public function doMutateBeforeCreate($state){
+    public function doMutateBeforeCreate($state)
+    {
         $closure = $this->mutateBeforeCreate;
 
-        if(!$closure){
+        if (! $closure) {
             return $state;
         }
 
         return $closure($state);
     }
 
-    public function required():static{
+    public function required(): static
+    {
         $this->isRequired = true;
+
         return $this;
     }
 
-    public function isRequired():bool{
+    public function isRequired(): bool
+    {
         return $this->isRequired;
     }
 
-    public function helperText():static{
+    public function helperText(): static
+    {
         return $this;
     }
 
-    public function getHelperText():?string{
+    public function getHelperText(): ?string
+    {
         return $this->helperText;
     }
 
-    public function placeholder(string $placeholder):static{
+    public function placeholder(string $placeholder): static
+    {
         $this->placeholder = $placeholder;
+
         return $this;
     }
 
-    public function getPlaceholder():?string{
+    public function getPlaceholder(): ?string
+    {
         return $this->placeholder;
     }
 }
