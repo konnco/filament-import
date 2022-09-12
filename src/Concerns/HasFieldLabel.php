@@ -27,6 +27,6 @@ trait HasFieldLabel
      */
     public function getLabel(): string
     {
-        return $this->label ?? Str::of($this->label)->title();
+        return $this->label ?? Str::of($this->name)->title();
     }
 }
