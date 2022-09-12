@@ -1,9 +1,22 @@
 # Filament Import
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/konnco/filament-import.svg?style=flat-square)](https://packagist.org/packages/konnco/filament-import)
-[![Total Downloads](https://img.shields.io/packagist/dt/konnco/filament-import.svg?style=flat-square)](https://packagist.org/packages/konnco/filament-import)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/konnco/filament-import/run-tests?label=tests)](https://github.com/konnco/filament-import/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/konnco/filament-import/Check%20&%20fix%20styling?label=code%20style)](https://github.com/konnco/filament-import/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
+<p align="center">
+    <a href="https://filamentadmin.com/docs/2.x/admin/installation">
+        <img alt="FILAMENT 1.x" src="https://img.shields.io/badge/FILAMENT-1.x-EBB304?style=for-the-badge">
+    </a>
+    <a href="https://packagist.org/packages/konnco/filament-import">
+        <img alt="Packagist" src="https://img.shields.io/packagist/v/konnco/filament-import.svg?style=for-the-badge&logo=packagist">
+    </a>
+    <a href="https://github.com/konnco/filament-import/actions?query=workflow%3Arun-tests+branch%3Amain">
+        <img alt="Tests Passing" src="https://img.shields.io/github/workflow/status/konnco/filament-import/run-tests?style=for-the-badge&logo=github&label=tests">
+    </a>
+    <a href="https://github.com/konnco/filament-import/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain">
+        <img alt="Code Style Passing" src="https://img.shields.io/github/workflow/status/konnco/filament-import/run-tests?style=for-the-badge&logo=github&label=code%20style">
+    </a>
+    <a href="https://packagist.org/packages/konnco/filament-import">
+    <img alt="Downloads" src="https://img.shields.io/packagist/dt/konnco/filament-import.svg?style=for-the-badge" >
+    </a>
+</p>
 
 make it easy to import spreadsheets to databases with dynamic mapping forms
 
