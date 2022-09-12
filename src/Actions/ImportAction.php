@@ -130,6 +130,7 @@ class ImportAction extends Action
     private function getFields(ImportField $field): mixed
     {
         return Select::make($field->getName())
+                ->label($field->getLabel())
                 ->helperText($field->getHelperText())
                 ->required($field->isRequired())
                 ->placeholder($field->getPlaceholder())
