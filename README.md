@@ -7,7 +7,7 @@
     <a href="https://packagist.org/packages/konnco/filament-import">
         <img alt="Packagist" src="https://img.shields.io/packagist/v/konnco/filament-import.svg?logo=packagist">
     </a>
-    [![Fix PHP code style issues](https://github.com/konnco/filament-import/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/konnco/filament-import/actions/workflows/php-cs-fixer.yml)
+[![Fix PHP code style issues](https://github.com/konnco/filament-import/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/konnco/filament-import/actions/workflows/php-cs-fixer.yml)
     <a href="https://packagist.org/packages/konnco/filament-import">
     <img alt="Downloads" src="https://img.shields.io/packagist/dt/konnco/filament-import.svg" >
     </a>
