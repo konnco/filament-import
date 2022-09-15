@@ -58,9 +58,9 @@ class ImportAction extends Action
                     $spreadsheet->each(function ($row) use ($selectedField, $model) {
                         $prepareInsert = [];
 
-                        $selectedField->each(function ($key, $value) use (&$prepareInsert) {
-                            $prepareInsert[$key] = $this->fields[$key]?->doMutateBeforeCreate($value);
-                        });
+                        foreach ($selectedField as $key => $value) {
+                            $prepareInsert[$key] = $this->fields[$key]->doMutateBeforeCreate($row[$value]) ?? $row[$value];
+                        }
 
                         $model::create($prepareInsert);
                     });
