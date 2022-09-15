@@ -2,19 +2,14 @@
 
 <p align="center">
     <a href="https://filamentadmin.com/docs/2.x/admin/installation">
-        <img alt="FILAMENT 1.x" src="https://img.shields.io/badge/FILAMENT-1.x-EBB304?style=for-the-badge">
+        <img alt="FILAMENT 1.x" src="https://img.shields.io/badge/FILAMENT-1.x-EBB304">
     </a>
     <a href="https://packagist.org/packages/konnco/filament-import">
-        <img alt="Packagist" src="https://img.shields.io/packagist/v/konnco/filament-import.svg?style=for-the-badge&logo=packagist">
+        <img alt="Packagist" src="https://img.shields.io/packagist/v/konnco/filament-import.svg?logo=packagist">
     </a>
-    <a href="https://github.com/konnco/filament-import/actions?query=workflow%3Arun-tests+branch%3Amain">
-        <img alt="Tests Passing" src="https://img.shields.io/github/workflow/status/konnco/filament-import/run-tests?style=for-the-badge&logo=github&label=tests">
-    </a>
-    <a href="https://github.com/konnco/filament-import/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain">
-        <img alt="Code Style Passing" src="https://img.shields.io/github/workflow/status/konnco/filament-import/run-tests?style=for-the-badge&logo=github&label=code%20style">
-    </a>
+    [![Fix PHP code style issues](https://github.com/konnco/filament-import/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/konnco/filament-import/actions/workflows/php-cs-fixer.yml)
     <a href="https://packagist.org/packages/konnco/filament-import">
-    <img alt="Downloads" src="https://img.shields.io/packagist/dt/konnco/filament-import.svg?style=for-the-badge" >
+    <img alt="Downloads" src="https://img.shields.io/packagist/dt/konnco/filament-import.svg" >
     </a>
 </p>
 
