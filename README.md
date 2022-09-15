@@ -69,6 +69,23 @@ protected function getActions(): array
 }
 ```
 
+### Disable Mass Create
+if you still want to stick with the event model you might need this and turn off mass create
+```php
+protected function getActions(): array
+{
+    return [
+        ImportAction::make()
+            ->massCreate(false)
+            ->fields([
+                ImportField::make('project')
+                    ->label('Project')
+                    ->required(),
+            ])
+    ];
+}
+```
+
 ### Mutate Data
 you can also manipulate data from row spreadsheet before saving to model
 ```php

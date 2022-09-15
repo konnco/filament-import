@@ -86,9 +86,10 @@ class ImportAction extends Action
         ]);
     }
 
-    public function massCreate($massCreate = true)
+    public function massCreate($massCreate = true):static
     {
         $this->massCreate = $massCreate;
+        return $this;
     }
 
     /**
