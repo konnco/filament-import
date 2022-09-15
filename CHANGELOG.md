@@ -2,6 +2,21 @@
 
 All notable changes to `:package_name` will be documented in this file.
 
+## 1.0.2 - 2022-09-15
+
+### What's Changed
+
+- fix: undefined array key by @tryoasnafi in https://github.com/konnco/filament-import/pull/13
+- Fixed support csv & xls by @frankyso in https://github.com/konnco/filament-import/pull/14
+- docs(contributor): contributors readme action update by @github-actions in https://github.com/konnco/filament-import/pull/15
+
+### New Contributors
+
+- @tryoasnafi made their first contribution in https://github.com/konnco/filament-import/pull/13
+- @github-actions made their first contribution in https://github.com/konnco/filament-import/pull/15
+
+**Full Changelog**: https://github.com/konnco/filament-import/compare/1.0.1...1.0.2
+
 ## 1.0.0 - 2022-09-11
 
 ### What's Changed

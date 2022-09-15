@@ -139,4 +139,38 @@ Please see [CONTRIBUTING](https://github.com/konnco/.github/blob/main/CONTRIBUTI
 
 Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
 
-### Contributors
+## Collaborators
+
+<!-- readme: collaborators -start -->
+<table>
+</table>
+<!-- readme: collaborators -end -->
+
+## Contributors
+
+<!-- readme: contributors -start -->
+<table>
+<tr>
+    <td align="center">
+        <a href="https://github.com/frankyso">
+            <img src="https://avatars.githubusercontent.com/u/5705520?v=4" width="100;" alt="frankyso"/>
+            <br />
+            <sub><b>Franky So</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/rizkyanfasafm">
+            <img src="https://avatars.githubusercontent.com/u/24226461?v=4" width="100;" alt="rizkyanfasafm"/>
+            <br />
+            <sub><b>Rizky Anfasa Farras Mada</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/tryoasnafi">
+            <img src="https://avatars.githubusercontent.com/u/61939827?v=4" width="100;" alt="tryoasnafi"/>
+            <br />
+            <sub><b>Tryo Asnafi</b></sub>
+        </a>
+    </td></tr>
+</table>
+<!-- readme: contributors -end -->
