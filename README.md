@@ -121,11 +121,4 @@ Please see [CONTRIBUTING](https://github.com/konnco/.github/blob/main/CONTRIBUTI
 
 Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
 
-## Credits
-
-- [Franky So](https://github.com/frankyso)
-- [All Contributors](../../contributors)
-
-## License
-
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+### Contributors
