@@ -11,7 +11,7 @@
     <img alt="Downloads" src="https://img.shields.io/packagist/dt/konnco/filament-import.svg" >
 </a>
 
-[![Fix PHP code style issues](https://github.com/konnco/filament-import/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/konnco/filament-import/actions/workflows/php-cs-fixer.yml)
+[![Code Styles](https://github.com/konnco/filament-import/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/konnco/filament-import/actions/workflows/php-cs-fixer.yml)
 
 make it easy to import spreadsheets to databases with dynamic mapping forms
 
