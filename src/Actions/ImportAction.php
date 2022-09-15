@@ -50,9 +50,6 @@ class ImportAction extends Action
         $this->groupedIcon('heroicon-s-plus');
 
         $this->action(function (ComponentContainer $form): void {
-            /**
-             * @var Model $model
-             */
             $model = $form->getModel();
 
             $this->process(function (array $data) use ($model) {
@@ -60,6 +57,7 @@ class ImportAction extends Action
 
                 Import::make(spreadsheetFilePath:$data['file'])
                     ->fields($selectedField)
+                    ->formSchemas($this->fields)
                     ->model($model)
                     ->disk('local')
                     ->skipHeader((bool) $data['skipHeader'])

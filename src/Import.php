@@ -11,11 +11,13 @@ use Illuminate\Support\Facades\Storage;
 class Import {
     use Importable;
 
-    protected $spreadsheet;
+    protected string $spreadsheet;
 
-    protected $fields = [];
+    protected Collection $fields;
 
-    protected $model;
+    protected array $formSchemas;
+
+    protected string $model;
 
     protected $disk = "local";
 
@@ -23,7 +25,7 @@ class Import {
 
     protected $massCreate = true;
 
-    public static function make(Collection $spreadsheetFilePath):static{
+    public static function make(string $spreadsheetFilePath):static{
         return (new self)
             ->spreadsheet($spreadsheetFilePath);
     }
@@ -33,12 +35,17 @@ class Import {
         return $this;
     }
 
+    public function formSchemas(array $formSchemas):static{
+        $this->formSchemas = $formSchemas;
+        return $this;
+    }
+
     public function spreadsheet($spreadsheet):static{
         $this->spreadsheet = $spreadsheet;
         return $this;
     }
 
-    public function model(Model $model):static{
+    public function model(string $model):static{
         $this->model = $model;
         return $this;
     }
@@ -70,22 +77,14 @@ class Import {
 
     public function execute(){
         DB::transaction(function () {
-            $this->getSpreadsheetData()->each(function ($row) {
+            foreach($this->getSpreadsheetData() as $row) {
                 $prepareInsert = [];
 
-                if($this->getSpreadsheetExtension() == "xls"){
-                    $this->fields->each(function ($value, $key) use (&$prepareInsert) {
-                        $prepareInsert[$key] = $this->fields[$key]?->doMutateBeforeCreate($value);
-                    });
+                foreach ($this->fields as $key => $value) {
+                    $prepareInsert[$key] = $this->formSchemas[$key]?->doMutateBeforeCreate($row[$value]) ?? $row[$value];
                 }
 
-                if($this->getSpreadsheetExtension() == "csv"){
-                    $this->fields->each(function ($key, $value) use (&$prepareInsert) {
-                        $prepareInsert[$key] = $this->fields[$key]?->doMutateBeforeCreate($value);
-                    });
-                }
-
-                if($this->massCreate){
+                if ($this->massCreate) {
                     $this->model::create($prepareInsert);
                     return;
                 }
@@ -93,7 +92,7 @@ class Import {
                 $model = new $this->model;
                 $model->fill($prepareInsert);
                 $model->save();
-            });
+            }
         });
     }
 }
