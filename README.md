@@ -2,7 +2,7 @@
 
 
 <a href="https://filamentadmin.com/docs/2.x/admin/installation">
-    <img alt="FILAMENT 1.x" src="https://img.shields.io/badge/FILAMENT-1.x-EBB304">
+    <img alt="FILAMENT 2.x" src="https://img.shields.io/badge/FILAMENT-2.x-EBB304">
 </a>
 <a href="https://packagist.org/packages/konnco/filament-import">
     <img alt="Packagist" src="https://img.shields.io/packagist/v/konnco/filament-import.svg?logo=packagist">
