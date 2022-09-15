@@ -1,6 +1,6 @@
 # Filament Import
 
-<p align="center">
+
     <a href="https://filamentadmin.com/docs/2.x/admin/installation">
         <img alt="FILAMENT 1.x" src="https://img.shields.io/badge/FILAMENT-1.x-EBB304">
     </a>
@@ -11,7 +11,6 @@
     <a href="https://packagist.org/packages/konnco/filament-import">
     <img alt="Downloads" src="https://img.shields.io/packagist/dt/konnco/filament-import.svg" >
     </a>
-</p>
 
 make it easy to import spreadsheets to databases with dynamic mapping forms
 
