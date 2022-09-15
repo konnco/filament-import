@@ -10,11 +10,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Pages\Actions\Action;
 use Filament\Support\Actions\Concerns\CanCustomizeProcess;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Konnco\FilamentImport\Concerns\HasTemporaryDisk;
-use Konnco\FilamentImport\ImportField;
+use Konnco\FilamentImport\Import;
 use Livewire\TemporaryUploadedFile;
 use Maatwebsite\Excel\Concerns\Importable;
 
@@ -25,6 +22,8 @@ class ImportAction extends Action
     use HasTemporaryDisk;
 
     protected array $fields = [];
+
+    protected $massCreate = true;
 
     protected array $cachedHeadingOptions = [];
 
@@ -47,24 +46,18 @@ class ImportAction extends Action
 
         $this->action(function (ComponentContainer $form): void {
             $model = $form->getModel();
+
             $this->process(function (array $data) use ($model) {
                 $selectedField = collect($data)->except('fileRealPath', 'file', 'skipHeader');
 
-                $spreadsheet = $this->toCollection(new UploadedFile(Storage::disk('local')->path($data['file']), $data['file']))
-                                ->first()
-                                ->skip((int) $data['skipHeader']);
-
-                DB::transaction(function () use ($spreadsheet, $selectedField, $model) {
-                    $spreadsheet->each(function ($row) use ($selectedField, $model) {
-                        $prepareInsert = [];
-
-                        foreach ($selectedField as $key => $value) {
-                            $prepareInsert[$key] = $this->fields[$key]->doMutateBeforeCreate($row[$value]) ?? $row[$value];
-                        }
-
-                        $model::create($prepareInsert);
-                    });
-                });
+                Import::make(spreadsheetFilePath:$data['file'])
+                    ->fields($selectedField)
+                    ->formSchemas($this->fields)
+                    ->model($model)
+                    ->disk('local')
+                    ->skipHeader((bool) $data['skipHeader'])
+                    ->massCreate($this->massCreate)
+                    ->execute();
             });
         });
     }
@@ -91,6 +84,11 @@ class ImportAction extends Action
                 ->default(true)
                 ->label(__('filament-import::actions.skip_header')),
         ]);
+    }
+
+    public function massCreate($massCreate = true)
+    {
+        $this->massCreate = $massCreate;
     }
 
     /**
