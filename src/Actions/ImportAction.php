@@ -109,7 +109,7 @@ class ImportAction extends Action
             array_merge(
                 $this->getFormSchema(),
                 [
-                    Fieldset::make('Data matching')
+                    Fieldset::make('Match data to column')
                         ->schema($fields)
                         ->columns($columns)
                         ->visible(function (callable $get) {
