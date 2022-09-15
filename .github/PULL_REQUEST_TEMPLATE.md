@@ -4,7 +4,7 @@ Describe the big picture of your changes here to communicate to the maintainers 
 
 ## Types of changes
 
-What types of changes does your code introduce to Appium?
+What types of changes does your code introduce to Filament Import?
 _Put an `x` in the boxes that apply_
 
 - [ ]  ✨ New feature (non-breaking change which adds functionality)
