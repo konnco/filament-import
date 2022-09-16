@@ -100,7 +100,7 @@ class Import
                 $prepareInsert = [];
 
                 foreach ($this->fields as $key => $value) {
-                    $prepareInsert[$key] = $this->formSchemas[$key]?->doMutateBeforeCreate($row[$value]) ?? $row[$value];
+                    $prepareInsert[$key] = $this->formSchemas[$key]?->doMutateBeforeCreate($row[$value], $row) ?? $row[$value];
                 }
 
                 if ($this->massCreate) {
