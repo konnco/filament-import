@@ -106,7 +106,7 @@ class Import
                 if ($this->massCreate) {
                     $this->model::create($prepareInsert);
 
-                    return;
+                    continue;
                 }
 
                 $model = new $this->model;
