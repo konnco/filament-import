@@ -20,7 +20,7 @@ trait HasFieldMutation
     {
         $closure = $this->mutateBeforeCreate;
 
-        if (!$closure) {
+        if (! $closure) {
             return $state;
         }
 
