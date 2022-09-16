@@ -103,15 +103,13 @@ class Import
                     $prepareInsert[$key] = $this->formSchemas[$key]?->doMutateBeforeCreate($row[$value]) ?? $row[$value];
                 }
 
-                if ($this->massCreate) {
-                    $this->model::create($prepareInsert);
+                if (! $this->massCreate) {
+                    $this->model::fill($prepareInsert)->save();
 
-                    continue;
+                    return;
                 }
 
-                $model = new $this->model;
-                $model->fill($prepareInsert);
-                $model->save();
+                $this->model::create($prepareInsert);
             }
         });
     }
