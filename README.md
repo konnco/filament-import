@@ -167,6 +167,13 @@ Please review [our security policy](../../security/policy) on how to report secu
         </a>
     </td>
     <td align="center">
+        <a href="https://github.com/abduromanov">
+            <img src="https://avatars.githubusercontent.com/u/37548312?v=4" width="100;" alt="abduromanov"/>
+            <br />
+            <sub><b>Hafiz Abd</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/rizkyanfasafm">
             <img src="https://avatars.githubusercontent.com/u/24226461?v=4" width="100;" alt="rizkyanfasafm"/>
             <br />
@@ -178,13 +185,6 @@ Please review [our security policy](../../security/policy) on how to report secu
             <img src="https://avatars.githubusercontent.com/u/61939827?v=4" width="100;" alt="tryoasnafi"/>
             <br />
             <sub><b>Tryo Asnafi</b></sub>
-        </a>
-    </td>
-    <td align="center">
-        <a href="https://github.com/abduromanov">
-            <img src="https://avatars.githubusercontent.com/u/37548312?v=4" width="100;" alt="abduromanov"/>
-            <br />
-            <sub><b>Hafiz Abd</b></sub>
         </a>
     </td></tr>
 </table>
