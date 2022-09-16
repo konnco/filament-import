@@ -179,6 +179,13 @@ Please review [our security policy](../../security/policy) on how to report secu
             <br />
             <sub><b>Tryo Asnafi</b></sub>
         </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/abduromanov">
+            <img src="https://avatars.githubusercontent.com/u/37548312?v=4" width="100;" alt="abduromanov"/>
+            <br />
+            <sub><b>Hafiz Abd</b></sub>
+        </a>
     </td></tr>
 </table>
 <!-- readme: contributors -end -->
