@@ -97,12 +97,30 @@ protected function getActions(): array
             ->fields([
                 ImportField::make('project')
                     ->label('Project')
-                    ->mutateBeforeCreate(fn($string) => Str::of($string)->camelCase())
+                    ->mutateBeforeCreate(fn($value) => Str::of($value)->camelCase())
                     ->required(),
             ])
     ];
 }
 ```
+otherwise you can manipulate data with other column in the same row by passing `$row` as second argument and access the index of column
+
+For example when create email from username that filled in the first column of spreadsheet
+```php
+protected function getActions(): array
+{
+    return [
+        ImportAction::make()
+            ->fields([
+                ImportField::make('email')
+                    ->label('Email')
+                    ->mutateBeforeCreate(fn($value, $row) => $row[0] . '@mail.com')
+                    ->required(),
+            ])
+    ];
+}
+```
+
 
 ### Grid Column
 Of course, you can divide the column grid into several parts to beautify the appearance of the data map
