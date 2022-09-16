@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `:package_name` will be documented in this file.
+All notable changes to `konnco/filament-import` will be documented in this file.
 
 ## 1.0.3 - 2022-09-16
 
