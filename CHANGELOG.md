@@ -2,6 +2,10 @@
 
 All notable changes to `:package_name` will be documented in this file.
 
+## 1.0.3 - 2022-09-16
+
+**Full Changelog**: https://github.com/konnco/filament-import/compare/1.0.2...1.0.3
+
 ## 1.0.2 - 2022-09-15
 
 ### What's Changed
