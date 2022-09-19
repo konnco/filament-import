@@ -147,6 +147,31 @@ protected function getActions(): array
 }
 ```
 
+### Static Field Data
+for the static field data you can use the common fields from filament
+
+```php
+use Filament\Forms\Components\Select;
+
+protected function getActions(): array
+{
+    return [
+        ImportAction::make()
+            ->fields([
+                ImportField::make('name')
+                    ->label('Project')
+                    ->required(),
+                Select::make('status')
+                    ->options([
+                        'draft' => 'Draft',
+                        'reviewing' => 'Reviewing',
+                        'published' => 'Published',
+                    ])
+            ], columns:2)
+    ];
+}
+```
+
 
 ## Testing
 
