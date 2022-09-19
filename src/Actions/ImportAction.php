@@ -3,6 +3,7 @@
 namespace Konnco\FilamentImport\Actions;
 
 use Filament\Forms\ComponentContainer;
+use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
@@ -104,7 +105,7 @@ class ImportAction extends Action
 
         $fields = collect($fields);
 
-        $fields = $fields->map(fn (ImportField $field) => $this->getFields($field))->toArray();
+        $fields = $fields->map(fn (ImportField|Field $field) => $this->getFields($field))->toArray();
 
         $this->form(
             array_merge(
@@ -127,8 +128,12 @@ class ImportAction extends Action
      * @param  ImportField  $field
      * @return mixed
      */
-    private function getFields(ImportField $field): mixed
+    private function getFields(ImportField|Field $field): mixed
     {
+        if($field instanceof Field){
+            return $field;
+        }
+
         return Select::make($field->getName())
                 ->label($field->getLabel())
                 ->helperText($field->getHelperText())

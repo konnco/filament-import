@@ -2,11 +2,13 @@
 
 namespace Konnco\FilamentImport;
 
+use Filament\Forms\Components\Field;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Konnco\FilamentImport\Actions\ImportField;
 use Maatwebsite\Excel\Concerns\Importable;
 
 class Import
@@ -101,7 +103,14 @@ class Import
                 $prepareInsert = collect([]);
 
                 foreach (Arr::dot($this->fields) as $key => $value) {
-                    $prepareInsert[$key] = $this->formSchemas[$key]?->doMutateBeforeCreate($row[$value]) ?? $row[$value];
+                    $field = $this->formSchemas[$key];
+                    $fieldValue = $row[$value];
+
+                    if($field instanceof ImportField){
+                        $fieldValue = $field?->doMutateBeforeCreate($row[$value]) ?? $row[$value];
+                    }
+
+                    $prepareInsert[$key] = $fieldValue;
                 }
 
                 $prepareInsert = Arr::undot($prepareInsert);
