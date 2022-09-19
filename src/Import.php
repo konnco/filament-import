@@ -114,8 +114,6 @@ class Import
 
                 $prepareInsert = Arr::undot($prepareInsert);
 
-                $prepareInsert = Arr::undot($prepareInsert);
-
                 if (! $this->massCreate) {
                     $this->model::fill($prepareInsert)->save();
 
