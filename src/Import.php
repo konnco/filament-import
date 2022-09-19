@@ -2,7 +2,6 @@
 
 namespace Konnco\FilamentImport;
 
-use Filament\Forms\Components\Field;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -106,7 +105,7 @@ class Import
                     $field = $this->formSchemas[$key];
                     $fieldValue = $row[$value];
 
-                    if($field instanceof ImportField){
+                    if ($field instanceof ImportField) {
                         $fieldValue = $field?->doMutateBeforeCreate($row[$value]) ?? $row[$value];
                     }
 

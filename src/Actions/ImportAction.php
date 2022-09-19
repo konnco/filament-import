@@ -130,7 +130,7 @@ class ImportAction extends Action
      */
     private function getFields(ImportField|Field $field): mixed
     {
-        if($field instanceof Field){
+        if ($field instanceof Field) {
             return $field;
         }
 
