@@ -3,6 +3,7 @@
 namespace Konnco\FilamentImport;
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -97,11 +98,13 @@ class Import
     {
         DB::transaction(function () {
             foreach ($this->getSpreadsheetData() as $row) {
-                $prepareInsert = [];
+                $prepareInsert = collect([]);
 
-                foreach ($this->fields as $key => $value) {
+                foreach (Arr::dot($this->fields) as $key => $value) {
                     $prepareInsert[$key] = $this->formSchemas[$key]?->doMutateBeforeCreate($row[$value]) ?? $row[$value];
                 }
+
+                $prepareInsert = Arr::undot($prepareInsert);
 
                 if (! $this->massCreate) {
                     $this->model::fill($prepareInsert)->save();
