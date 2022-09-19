@@ -103,7 +103,7 @@ class Import
 
                 foreach (Arr::dot($this->fields) as $key => $value) {
                     $field = $this->formSchemas[$key];
-                    $fieldValue = $row[$value];
+                    $fieldValue = $value;
 
                     if ($field instanceof ImportField) {
                         $fieldValue = $field?->doMutateBeforeCreate($row[$value]) ?? $row[$value];
