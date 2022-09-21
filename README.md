@@ -190,6 +190,25 @@ protected function getActions(): array
 }
 ```
 
+### Validation
+you can make the validation for import fields, for more information about the available validation please check laravel documentation
+
+```php
+use Filament\Forms\Components\Select;
+
+protected function getActions(): array
+{
+    return [
+        ImportAction::make()
+            ->fields([
+                ImportField::make('name')
+                    ->label('Project')
+                    ->rules('required|min:10|max:255'),
+            ], columns:2)
+    ];
+}
+```
+
 
 ## Testing
 
