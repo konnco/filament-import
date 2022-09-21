@@ -90,9 +90,15 @@ class Import
 
     public function getSpreadsheetData()
     {
-        return $this->toCollection(new UploadedFile(Storage::disk($this->disk)->path($this->spreadsheet), $this->spreadsheet))
-                                ->first()
-                                ->skip((int) $this->skipHeader);
+        $spreadsheet = $this->toCollection(new UploadedFile(Storage::disk($this->disk)->path($this->spreadsheet), $this->spreadsheet))->first();
+
+        if ($this->skipHeader) {
+            $header = $spreadsheet[(int) $this->skipHeader - 1];
+
+            return $spreadsheet->skip((int) $this->skipHeader)->map(fn ($row) => $row->mapWithKeys(fn ($value, $key) => [$header[$key] => $value]));
+        }
+
+        return $spreadsheet->skip((int) $this->skipHeader);
     }
 
     public function execute()
@@ -106,7 +112,12 @@ class Import
                     $fieldValue = $value;
 
                     if ($field instanceof ImportField) {
-                        $fieldValue = $field?->doMutateBeforeCreate($row[$value]) ?? $row[$value];
+                        if ($this->skipHeader) {
+                            $header = $row->keys();
+                            $fieldValue = $field?->doMutateBeforeCreate($row[$header[$value]], $row) ?? $row[$value];
+                        } else {
+                            $fieldValue = $field?->doMutateBeforeCreate($row[$value], $row) ?? $row[$value];
+                        }
                     }
 
                     $prepareInsert[$key] = $fieldValue;
