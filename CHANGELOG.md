@@ -2,6 +2,19 @@
 
 All notable changes to `konnco/filament-import` will be documented in this file.
 
+## 1.1.0 - 2022-09-21
+
+### What's Changed
+
+- Manipulate data based on another column by @abduromanov in https://github.com/konnco/filament-import/pull/18
+- Added basic validation by @frankyso in https://github.com/konnco/filament-import/pull/23
+
+### New Contributors
+
+- @abduromanov made their first contribution in https://github.com/konnco/filament-import/pull/18
+
+**Full Changelog**: https://github.com/konnco/filament-import/compare/1.0.5...1.1.0
+
 ## 1.0.5 - 2022-09-19
 
 ### What's Changed
