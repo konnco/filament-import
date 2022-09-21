@@ -2,6 +2,14 @@
 
 All notable changes to `konnco/filament-import` will be documented in this file.
 
+## 1.1.1 - 2022-09-21
+
+### What's Changed
+
+- feature/documentation by @frankyso in https://github.com/konnco/filament-import/pull/24
+
+**Full Changelog**: https://github.com/konnco/filament-import/compare/1.1.0...1.1.1
+
 ## 1.1.0 - 2022-09-21
 
 ### What's Changed
