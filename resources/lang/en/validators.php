@@ -1,4 +1,5 @@
 <?php
+
 return [
-    'message' => ':error at line :line'
+    'message' => ':error at line :line',
 ];

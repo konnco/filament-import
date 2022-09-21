@@ -2,7 +2,6 @@
 
 namespace Konnco\FilamentImport\Actions;
 
-use Illuminate\Support\Facades\Validator;
 use Konnco\FilamentImport\Concerns\HasFieldHelper;
 use Konnco\FilamentImport\Concerns\HasFieldLabel;
 use Konnco\FilamentImport\Concerns\HasFieldMutation;
@@ -21,7 +20,6 @@ class ImportField
 
     public function __construct(private string $name)
     {
-
     }
 
     public static function make(string $name): static

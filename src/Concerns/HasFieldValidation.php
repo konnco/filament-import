@@ -5,9 +5,10 @@ namespace Konnco\FilamentImport\Concerns;
 trait HasFieldValidation
 {
     protected array|string $rules = [];
+
     protected $customMessages = [];
 
-    public function rules(array|string $rules=[], $customMessages = []): static
+    public function rules(array|string $rules = [], $customMessages = []): static
     {
         $this->rules = $rules;
         $this->customMessages = $customMessages;
@@ -15,11 +16,13 @@ trait HasFieldValidation
         return $this;
     }
 
-    public function getValidationRules(){
+    public function getValidationRules()
+    {
         return $this->rules;
     }
 
-    public function getCustomValidationMessages(){
+    public function getCustomValidationMessages()
+    {
         return $this->customMessages;
     }
 }

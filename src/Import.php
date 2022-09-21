@@ -2,7 +2,6 @@
 
 namespace Konnco\FilamentImport;
 
-use Exception;
 use Filament\Notifications\Notification;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
@@ -98,14 +97,15 @@ class Import
                                 ->skip((int) $this->skipHeader);
     }
 
-    public function validated($data, $rules, $customMessages, $line) {
+    public function validated($data, $rules, $customMessages, $line)
+    {
         $validator = Validator::make($data, $rules, $customMessages);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             Notification::make()
                 ->danger()
-                ->title("Import Failed")
-                ->body(trans('filament-import::validators.message', ['line'=>$line, 'error' => $validator->errors()->first()]))
+                ->title('Import Failed')
+                ->body(trans('filament-import::validators.message', ['line' => $line, 'error' => $validator->errors()->first()]))
                 ->persistent()
                 ->send();
 
@@ -135,9 +135,9 @@ class Import
                     $prepareInsert[$key] = $fieldValue;
                 }
 
-                $prepareInsert = $this->validated(rules:$rules, data:Arr::undot($prepareInsert), line:$line+1, customMessages:$validationMessages);
+                $prepareInsert = $this->validated(rules:$rules, data:Arr::undot($prepareInsert), line:$line + 1, customMessages:$validationMessages);
 
-                if(!$prepareInsert){
+                if (! $prepareInsert) {
                     DB::rollBack();
                     break;
                 }
