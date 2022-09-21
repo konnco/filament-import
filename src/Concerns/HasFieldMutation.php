@@ -3,6 +3,7 @@
 namespace Konnco\FilamentImport\Concerns;
 
 use Closure;
+use Illuminate\Support\Collection;
 
 trait HasFieldMutation
 {
@@ -15,7 +16,7 @@ trait HasFieldMutation
         return $this;
     }
 
-    public function doMutateBeforeCreate($state)
+    public function doMutateBeforeCreate(mixed $state, Collection $row)
     {
         $closure = $this->mutateBeforeCreate;
 
@@ -23,6 +24,6 @@ trait HasFieldMutation
             return $state;
         }
 
-        return $closure($state);
+        return $closure($state, $row);
     }
 }

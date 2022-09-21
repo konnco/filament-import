@@ -104,12 +104,30 @@ protected function getActions(): array
             ->fields([
                 ImportField::make('project')
                     ->label('Project')
-                    ->mutateBeforeCreate(fn($string) => Str::of($string)->camelCase())
+                    ->mutateBeforeCreate(fn($value) => Str::of($value)->camelCase())
                     ->required(),
             ])
     ];
 }
 ```
+otherwise you can manipulate data with other column in the same row by passing `$row` as second argument and access the index of column
+
+For example when create email from username
+```php
+protected function getActions(): array
+{
+    return [
+        ImportAction::make()
+            ->fields([
+                ImportField::make('email')
+                    ->label('Email')
+                    ->mutateBeforeCreate(fn($value, $row) => $row['username'] . '@mail.com')
+                    ->required(),
+            ])
+    ];
+}
+```
+
 
 ### Grid Column
 Of course, you can divide the column grid into several parts to beautify the appearance of the data map
@@ -195,6 +213,14 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 <!-- readme: collaborators -start -->
 <table>
+<tr>
+    <td align="center">
+        <a href="https://github.com/abduromanov">
+            <img src="https://avatars.githubusercontent.com/u/37548312?v=4" width="100;" alt="abduromanov"/>
+            <br />
+            <sub><b>Hafiz Abd</b></sub>
+        </a>
+    </td></tr>
 </table>
 <!-- readme: collaborators -end -->
 
@@ -208,6 +234,13 @@ Please review [our security policy](../../security/policy) on how to report secu
             <img src="https://avatars.githubusercontent.com/u/5705520?v=4" width="100;" alt="frankyso"/>
             <br />
             <sub><b>Franky So</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/abduromanov">
+            <img src="https://avatars.githubusercontent.com/u/37548312?v=4" width="100;" alt="abduromanov"/>
+            <br />
+            <sub><b>Hafiz Abd</b></sub>
         </a>
     </td>
     <td align="center">
