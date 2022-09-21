@@ -1,5 +1,6 @@
-# Filament Import
+![Screenshot of Login](./art/screenshot.png)
 
+# Filament Plugin for Import CSV and XLS into Database
 
 <a href="https://filamentadmin.com/docs/2.x/admin/installation">
     <img alt="FILAMENT 2.x" src="https://img.shields.io/badge/FILAMENT-2.x-EBB304">
@@ -14,11 +15,9 @@
 [![Code Styles](https://github.com/konnco/filament-import/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/konnco/filament-import/actions/workflows/php-cs-fixer.yml)
 [![run-tests](https://github.com/konnco/filament-import/actions/workflows/run-tests.yml/badge.svg)](https://github.com/konnco/filament-import/actions/workflows/run-tests.yml)
 
-make it easy to import spreadsheets to databases with dynamic mapping forms
+This package will make it easier for you to import from files to your model, very easily without the need to do templates.
 
-## Screenshots
-
-![Screenshot of Login](./art/screenshot.png)
+all you have to do is drag and drop and match the fields and columns of your file, and let magic happens!
 
 ## Installation
 
@@ -26,6 +25,14 @@ You can install the package via composer:
 
 ```bash
 composer require konnco/filament-import
+```
+
+## Publishing Config
+
+If you want to do the settings manually, please publish the existing config.
+
+```bash
+php artisan vendor:publish --tag=filament-import-config
 ```
 
 ## Usage
@@ -133,6 +140,51 @@ protected function getActions(): array
                 ImportField::make('project')
                     ->label('Project')
                     ->required(),
+            ], columns:2)
+    ];
+}
+```
+
+### Json Format Field
+We also support the json format field, which you can set when calling the `make` function and separate the name with a dot annotation
+
+```php
+protected function getActions(): array
+{
+    return [
+        ImportAction::make()
+            ->fields([
+                ImportField::make('project.en')
+                    ->label('Project In English')
+                    ->required(),
+                ImportField::make('project.id')
+                    ->label('Project in Indonesia')
+                    ->required(),
+            ], columns:2)
+    ];
+}
+```
+
+### Static Field Data
+for the static field data you can use the common fields from filament
+
+```php
+use Filament\Forms\Components\Select;
+
+protected function getActions(): array
+{
+    return [
+        ImportAction::make()
+            ->fields([
+                ImportField::make('name')
+                    ->label('Project')
+                    ->required(),
+                Select::make('status')
+                    ->options([
+                        'draft' => 'Draft',
+                        'reviewing' => 'Reviewing',
+                        'published' => 'Published',
+                    ])
             ], columns:2)
     ];
 }
