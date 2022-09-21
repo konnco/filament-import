@@ -112,7 +112,7 @@ protected function getActions(): array
 ```
 otherwise you can manipulate data with other column in the same row by passing `$row` as second argument and access the index of column
 
-For example when create email from username that filled in the first column of spreadsheet
+For example when create email from username
 ```php
 protected function getActions(): array
 {
@@ -121,7 +121,7 @@ protected function getActions(): array
             ->fields([
                 ImportField::make('email')
                     ->label('Email')
-                    ->mutateBeforeCreate(fn($value, $row) => $row[0] . '@mail.com')
+                    ->mutateBeforeCreate(fn($value, $row) => $row['username'] . '@mail.com')
                     ->required(),
             ])
     ];
