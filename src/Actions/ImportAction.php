@@ -111,7 +111,7 @@ class ImportAction extends Action
             array_merge(
                 $this->getFormSchema(),
                 [
-                    Fieldset::make('Match data to column')
+                    Fieldset::make(__('filament-import::actions.match_to_column'))
                         ->schema($fields)
                         ->columns($columns)
                         ->visible(function (callable $get) {
