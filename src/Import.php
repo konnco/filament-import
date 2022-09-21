@@ -2,11 +2,14 @@
 
 namespace Konnco\FilamentImport;
 
+use Exception;
+use Filament\Notifications\Notification;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Konnco\FilamentImport\Actions\ImportField;
 use Maatwebsite\Excel\Concerns\Importable;
 
@@ -90,40 +93,54 @@ class Import
 
     public function getSpreadsheetData()
     {
-        $spreadsheet = $this->toCollection(new UploadedFile(Storage::disk($this->disk)->path($this->spreadsheet), $this->spreadsheet))->first();
+        return $this->toCollection(new UploadedFile(Storage::disk($this->disk)->path($this->spreadsheet), $this->spreadsheet))
+                                ->first()
+                                ->skip((int) $this->skipHeader);
+    }
 
-        if ($this->skipHeader) {
-            $header = $spreadsheet[(int) $this->skipHeader - 1];
+    public function validated($data, $rules, $customMessages, $line) {
+        $validator = Validator::make($data, $rules, $customMessages);
 
-            return $spreadsheet->skip((int) $this->skipHeader)->map(fn ($row) => $row->mapWithKeys(fn ($value, $key) => [$header[$key] => $value]));
+        if($validator->fails()){
+            Notification::make()
+                ->danger()
+                ->title("Import Failed")
+                ->body(trans('filament-import::validators.message', ['line'=>$line, 'error' => $validator->errors()->first()]))
+                ->persistent()
+                ->send();
+
+            return false;
         }
 
-        return $spreadsheet->skip((int) $this->skipHeader);
+        return $data;
     }
 
     public function execute()
     {
         DB::transaction(function () {
-            foreach ($this->getSpreadsheetData() as $row) {
+            foreach ($this->getSpreadsheetData() as $line => $row) {
                 $prepareInsert = collect([]);
+                $rules = [];
+                $validationMessages = [];
 
                 foreach (Arr::dot($this->fields) as $key => $value) {
                     $field = $this->formSchemas[$key];
                     $fieldValue = $value;
 
                     if ($field instanceof ImportField) {
-                        if ($this->skipHeader) {
-                            $header = $row->keys();
-                            $fieldValue = $field?->doMutateBeforeCreate($row[$header[$value]], $row) ?? $row[$value];
-                        } else {
-                            $fieldValue = $field?->doMutateBeforeCreate($row[$value], $row) ?? $row[$value];
-                        }
+                        $fieldValue = $field?->doMutateBeforeCreate($row[$value], $row) ?? $row[$value];
+                        $rules[$key] = $field->getValidationRules();
                     }
 
                     $prepareInsert[$key] = $fieldValue;
                 }
 
-                $prepareInsert = Arr::undot($prepareInsert);
+                $prepareInsert = $this->validated(rules:$rules, data:Arr::undot($prepareInsert), line:$line+1, customMessages:$validationMessages);
+
+                if(!$prepareInsert){
+                    DB::rollBack();
+                    break;
+                }
 
                 if (! $this->massCreate) {
                     $this->model::fill($prepareInsert)->save();
