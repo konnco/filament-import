@@ -3,7 +3,6 @@
 namespace Konnco\FilamentImport\Concerns;
 
 use Closure;
-use Illuminate\Support\Collection;
 
 trait HasActionMutation
 {
