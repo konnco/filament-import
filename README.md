@@ -41,7 +41,7 @@ import the actions into `ListRecords` page
 
 ```php
 use Konnco\FilamentImport\Actions\ImportAction;
-use Konnco\FilamentImport\ImportField;
+use Konnco\FilamentImport\Actions\ImportField;
 
 class ListCredentialDatabases extends ListRecords
 {
