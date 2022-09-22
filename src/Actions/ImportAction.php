@@ -11,6 +11,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Pages\Actions\Action;
 use Filament\Support\Actions\Concerns\CanCustomizeProcess;
+use Konnco\FilamentImport\Concerns\HasActionMutation;
 use Konnco\FilamentImport\Concerns\HasTemporaryDisk;
 use Konnco\FilamentImport\Import;
 use Livewire\TemporaryUploadedFile;
@@ -21,6 +22,7 @@ class ImportAction extends Action
     use CanCustomizeProcess;
     use Importable;
     use HasTemporaryDisk;
+    use HasActionMutation;
 
     protected array $fields = [];
 
@@ -58,6 +60,7 @@ class ImportAction extends Action
                     ->disk('local')
                     ->skipHeader((bool) $data['skipHeader'])
                     ->massCreate($this->massCreate)
+                    ->mutateBeforeCreate($this->mutateBeforeCreate)
                     ->execute();
             });
         });

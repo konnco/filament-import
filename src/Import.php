@@ -10,11 +10,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Konnco\FilamentImport\Actions\ImportField;
+use Konnco\FilamentImport\Concerns\HasActionMutation;
 use Maatwebsite\Excel\Concerns\Importable;
 
 class Import
 {
     use Importable;
+    use HasActionMutation;
 
     protected string $spreadsheet;
 
@@ -141,6 +143,8 @@ class Import
                     DB::rollBack();
                     break;
                 }
+
+                $prepareInsert = $this->doMutateBeforeCreate($prepareInsert);
 
                 if (! $this->massCreate) {
                     $this->model::fill($prepareInsert)->save();

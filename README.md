@@ -94,7 +94,7 @@ protected function getActions(): array
 }
 ```
 
-### Mutate Data
+### Field Data Mutation
 you can also manipulate data from row spreadsheet before saving to model
 ```php
 protected function getActions(): array
@@ -110,9 +110,7 @@ protected function getActions(): array
     ];
 }
 ```
-otherwise you can manipulate data with other column in the same row by passing `$row` as second argument and access the index of column
-
-For example when create email from username
+otherwise you can manipulate data and getting all mutated data from field before its getting insert into the database.
 ```php
 protected function getActions(): array
 {
@@ -121,9 +119,12 @@ protected function getActions(): array
             ->fields([
                 ImportField::make('email')
                     ->label('Email')
-                    ->mutateBeforeCreate(fn($value, $row) => $row['username'] . '@mail.com')
                     ->required(),
-            ])
+            ])->mutateBeforeCreate(function($row){
+                    $row['password'] = bcrypt($row['email']);
+
+                    return $row;
+                })
     ];
 }
 ```
