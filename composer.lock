@@ -819,16 +819,16 @@
         },
         {
             "name": "filament/filament",
-            "version": "v2.16.12",
+            "version": "v2.16.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/admin.git",
-                "reference": "b64925667b6f01724cdb7bc80394d116bf679aba"
+                "reference": "1e1c937094e30d16d3f29e924b0c18ec5d49d902"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/admin/zipball/b64925667b6f01724cdb7bc80394d116bf679aba",
-                "reference": "b64925667b6f01724cdb7bc80394d116bf679aba",
+                "url": "https://api.github.com/repos/filamentphp/admin/zipball/1e1c937094e30d16d3f29e924b0c18ec5d49d902",
+                "reference": "1e1c937094e30d16d3f29e924b0c18ec5d49d902",
                 "shasum": ""
             },
             "require": {
@@ -878,20 +878,20 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2022-09-22T20:32:16+00:00"
+            "time": "2022-09-23T11:39:36+00:00"
         },
         {
             "name": "filament/forms",
-            "version": "v2.16.12",
+            "version": "v2.16.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/forms.git",
-                "reference": "565edfb0ffd5453a2ad34469e0c8096c011f5ff5"
+                "reference": "037ef411663c4925c490b92bc4ebe6b948d57296"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/forms/zipball/565edfb0ffd5453a2ad34469e0c8096c011f5ff5",
-                "reference": "565edfb0ffd5453a2ad34469e0c8096c011f5ff5",
+                "url": "https://api.github.com/repos/filamentphp/forms/zipball/037ef411663c4925c490b92bc4ebe6b948d57296",
+                "reference": "037ef411663c4925c490b92bc4ebe6b948d57296",
                 "shasum": ""
             },
             "require": {
@@ -936,20 +936,20 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2022-09-22T19:57:44+00:00"
+            "time": "2022-09-23T11:39:40+00:00"
         },
         {
             "name": "filament/notifications",
-            "version": "v2.16.12",
+            "version": "v2.16.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/notifications.git",
-                "reference": "5165b6bdffc93ef2176136f5425409faf994a81c"
+                "reference": "559c821e44887058c168e7e883b23267df841e70"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/notifications/zipball/5165b6bdffc93ef2176136f5425409faf994a81c",
-                "reference": "5165b6bdffc93ef2176136f5425409faf994a81c",
+                "url": "https://api.github.com/repos/filamentphp/notifications/zipball/559c821e44887058c168e7e883b23267df841e70",
+                "reference": "559c821e44887058c168e7e883b23267df841e70",
                 "shasum": ""
             },
             "require": {
@@ -986,11 +986,11 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2022-09-22T19:57:30+00:00"
+            "time": "2022-09-23T10:20:40+00:00"
         },
         {
             "name": "filament/support",
-            "version": "v2.16.12",
+            "version": "v2.16.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/support.git",
@@ -1040,16 +1040,16 @@
         },
         {
             "name": "filament/tables",
-            "version": "v2.16.12",
+            "version": "v2.16.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/tables.git",
-                "reference": "114e1625d06923846cce92752b4b73050d13cece"
+                "reference": "9690836dfcf378e907167ab2e9dd19dc483fed8f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/tables/zipball/114e1625d06923846cce92752b4b73050d13cece",
-                "reference": "114e1625d06923846cce92752b4b73050d13cece",
+                "url": "https://api.github.com/repos/filamentphp/tables/zipball/9690836dfcf378e907167ab2e9dd19dc483fed8f",
+                "reference": "9690836dfcf378e907167ab2e9dd19dc483fed8f",
                 "shasum": ""
             },
             "require": {
@@ -1092,7 +1092,7 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2022-09-22T20:32:43+00:00"
+            "time": "2022-09-23T11:39:54+00:00"
         },
         {
             "name": "fruitcake/php-cors",
@@ -7884,16 +7884,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.8.5",
+            "version": "1.8.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "f6598a5ff12ca4499a836815e08b4d77a2ddeb20"
+                "reference": "c386ab2741e64cc9e21729f891b28b2b10fe6618"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/f6598a5ff12ca4499a836815e08b4d77a2ddeb20",
-                "reference": "f6598a5ff12ca4499a836815e08b4d77a2ddeb20",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/c386ab2741e64cc9e21729f891b28b2b10fe6618",
+                "reference": "c386ab2741e64cc9e21729f891b28b2b10fe6618",
                 "shasum": ""
             },
             "require": {
@@ -7923,7 +7923,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.8.5"
+                "source": "https://github.com/phpstan/phpstan/tree/1.8.6"
             },
             "funding": [
                 {
@@ -7939,7 +7939,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-09-07T16:05:32+00:00"
+            "time": "2022-09-23T09:54:39+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",

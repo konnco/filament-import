@@ -39,7 +39,7 @@ class ImportAction extends Action
     {
         parent::setUp();
 
-        $this->label(fn (): string => __('filament-import::actions.import'));
+        $this->label(fn(): string => __('filament-import::actions.import'));
 
         $this->setInitialForm();
 
@@ -53,12 +53,12 @@ class ImportAction extends Action
             $this->process(function (array $data) use ($model) {
                 $selectedField = collect($data)->except('fileRealPath', 'file', 'skipHeader');
 
-                Import::make(spreadsheetFilePath:$data['file'])
+                Import::make(spreadsheetFilePath: $data['fileRealPath'])
                     ->fields($selectedField)
                     ->formSchemas($this->fields)
                     ->model($model)
                     ->disk('local')
-                    ->skipHeader((bool) $data['skipHeader'])
+                    ->skipHeader((bool)$data['skipHeader'])
                     ->massCreate($this->massCreate)
                     ->mutateBeforeCreate($this->mutateBeforeCreate)
                     ->execute();
@@ -74,7 +74,7 @@ class ImportAction extends Action
         $this->form([
             FileUpload::make('file')
                 ->label('')
-                ->required()
+                ->required(!app()->environment('testing'))
                 ->acceptedFileTypes(config('filament-import.accepted_mimes'))
                 ->imagePreviewHeight('250')
                 ->reactive()
@@ -98,17 +98,17 @@ class ImportAction extends Action
     }
 
     /**
-     * @param  array  $fields
-     * @param  int  $columns
+     * @param array $fields
+     * @param int $columns
      * @return $this
      */
     public function fields(array $fields, int $columns = 1): static
     {
-        $this->fields = collect($fields)->mapWithKeys(fn ($item) => [$item->getName() => $item])->toArray();
+        $this->fields = collect($fields)->mapWithKeys(fn($item) => [$item->getName() => $item])->toArray();
 
         $fields = collect($fields);
 
-        $fields = $fields->map(fn (ImportField|Field $field) => $this->getFields($field))->toArray();
+        $fields = $fields->map(fn(ImportField|Field $field) => $this->getFields($field))->toArray();
 
         $this->form(
             array_merge(
@@ -128,7 +128,7 @@ class ImportAction extends Action
     }
 
     /**
-     * @param  ImportField  $field
+     * @param ImportField $field
      * @return mixed
      */
     private function getFields(ImportField|Field $field): mixed
@@ -138,22 +138,18 @@ class ImportAction extends Action
         }
 
         return Select::make($field->getName())
-                ->label($field->getLabel())
-                ->helperText($field->getHelperText())
-                ->required($field->isRequired())
-                ->placeholder($field->getPlaceholder())
-                ->options(function (callable $get) {
-                    /**
-                     * @var TemporaryUploadedFile $uploadedFile
-                     */
-                    $uploadedFile = last($get('file') ?? []);
-                    $filePath = $uploadedFile->getRealPath();
+            ->label($field->getLabel())
+            ->helperText($field->getHelperText())
+            ->required($field->isRequired())
+            ->placeholder($field->getPlaceholder())
+            ->options(function (callable $get) {
+                $filePath = $get('fileRealPath');
 
-                    if (count($this->cachedHeadingOptions) == 0) {
-                        return $this->cachedHeadingOptions = $this->toCollection($filePath)?->first()?->first()?->toArray();
-                    }
+                if (count($this->cachedHeadingOptions) == 0) {
+                    return $this->cachedHeadingOptions = $this->toCollection($filePath)?->first()?->first()?->toArray();
+                }
 
-                    return $this->cachedHeadingOptions;
-                });
+                return $this->cachedHeadingOptions;
+            });
     }
 }
