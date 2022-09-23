@@ -32,7 +32,7 @@ class Import
 
     protected $massCreate = true;
 
-    public static function make(string $spreadsheetFilePath): static
+    public static function make(string $spreadsheetFilePath): self
     {
         return (new self)
             ->spreadsheet($spreadsheetFilePath);
@@ -130,7 +130,7 @@ class Import
                     $fieldValue = $value;
 
                     if ($field instanceof ImportField) {
-                        $fieldValue = $field?->doMutateBeforeCreate($row[$value], $row) ?? $row[$value];
+                        $fieldValue = $field->doMutateBeforeCreate($row[$value], $row) ?? $row[$value];
                         $rules[$key] = $field->getValidationRules();
                     }
 

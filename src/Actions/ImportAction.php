@@ -148,6 +148,9 @@ class ImportAction extends Action
                 if (count($this->cachedHeadingOptions) == 0) {
                     return $this->cachedHeadingOptions = $this->toCollection($filePath)?->first()?->first()?->toArray();
                 }
+                    if (count($this->cachedHeadingOptions) == 0) {
+                        return $this->cachedHeadingOptions = $this->toCollection($filePath)->first()?->first()?->toArray();
+                    }
 
                 return $this->cachedHeadingOptions;
             });

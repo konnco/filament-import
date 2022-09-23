@@ -22,7 +22,7 @@ class ImportField
     {
     }
 
-    public static function make(string $name): static
+    public static function make(string $name): self
     {
         return new self($name);
     }

@@ -9,7 +9,7 @@ trait HasFieldMutation
 {
     protected bool|Closure $mutateBeforeCreate = false;
 
-    public function mutateBeforeCreate(Closure $fn): static
+    public function mutateBeforeCreate(bool|Closure $fn): static
     {
         $this->mutateBeforeCreate = $fn;
 
