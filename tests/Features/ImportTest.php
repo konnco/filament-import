@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Collection;
 // use Spatie\ModelInfo\Attributes\AttributeFinder;
 // use Spatie\ModelInfo\Tests\TestSupport\Models\ExtendedTypesModel;
 // use Spatie\ModelInfo\Tests\TestSupport\Models\TestModel;
