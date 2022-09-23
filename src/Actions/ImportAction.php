@@ -150,7 +150,7 @@ class ImportAction extends Action
                     $filePath = $uploadedFile->getRealPath();
 
                     if (count($this->cachedHeadingOptions) == 0) {
-                        return $this->cachedHeadingOptions = $this->toCollection($filePath)?->first()?->first()?->toArray();
+                        return $this->cachedHeadingOptions = $this->toCollection($filePath)->first()?->first()?->toArray();
                     }
 
                     return $this->cachedHeadingOptions;

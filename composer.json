@@ -23,7 +23,9 @@
         "spatie/laravel-package-tools": "^1.9.2",
         "illuminate/contracts": "^9.0",
         "illuminate/support": "^9.0",
-        "maatwebsite/excel": "^3.1"
+        "maatwebsite/excel": "^3.1",
+        "filament/filament":"^2.0",
+        "filament/notifications":"^2.0"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
