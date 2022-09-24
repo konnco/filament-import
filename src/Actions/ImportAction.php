@@ -143,16 +143,13 @@ class ImportAction extends Action
             ->required($field->isRequired())
             ->placeholder($field->getPlaceholder())
             ->options(function (callable $get) {
-                $filePath = $get('fileRealPath');
+                /**
+                 * @var TemporaryUploadedFile|string $uploadedFile
+                 */
+                $uploadedFile = last($get('file') ?? []);
+                $filePath = is_string($uploadedFile) ? $uploadedFile : $uploadedFile->getRealPath();
 
-                if (count($this->cachedHeadingOptions) == 0) {
-                    return $this->cachedHeadingOptions = $this->toCollection($filePath)?->first()?->first()?->toArray();
-                }
-                    if (count($this->cachedHeadingOptions) == 0) {
-                        return $this->cachedHeadingOptions = $this->toCollection($filePath)->first()?->first()?->toArray();
-                    }
-
-                return $this->cachedHeadingOptions;
+                return $this->toCollection($filePath)->first()?->first()?->toArray();
             });
     }
 }

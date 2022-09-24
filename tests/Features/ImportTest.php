@@ -9,6 +9,7 @@ it('can upload file', function () {
 
     livewire()->callPageAction('import', [
         'fileRealPath' => $file->getRealPath(),
+        'file' => [\Illuminate\Support\Facades\Storage::path($file->store('file'))],
         'title' => 0,
         'slug' => 1,
         'body' => 2
