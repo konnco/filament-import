@@ -3,19 +3,20 @@
 use Illuminate\Support\Facades\Storage;
 use Konnco\FilamentImport\Actions\ImportAction;
 use Konnco\FilamentImport\Actions\ImportField;
-use Konnco\FilamentImport\Tests\Resources\Pages\ListPost;
+use Konnco\FilamentImport\Tests\Resources\Pages\CommonTestList;
+use Konnco\FilamentImport\Tests\Resources\Pages\ValidateTestList;
 use Konnco\FilamentImport\Tests\TestCase;
 use Livewire\Livewire;
 use Illuminate\Http\UploadedFile;
 
 uses(TestCase::class)->in(__DIR__);
 
-function livewire()
+function livewire($list = null)
 {
-    return Livewire::test(ListPost::class);
+    return Livewire::test($list ?? CommonTestList::class);
 }
 
-function csvFiles($rows = 10)
+function csvFiles($rows = 10, $extraRow = [])
 {
     Storage::fake('uploads');
 
@@ -26,6 +27,10 @@ function csvFiles($rows = 10)
             fake()->slug,
             fake()->text(500)
         ]));
+    }
+
+    if (count($extraRow) > 0) {
+        $content = $content->push(collect($extraRow)->join(","));
     }
 
     return UploadedFile::fake()

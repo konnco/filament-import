@@ -3,6 +3,7 @@
 namespace Konnco\FilamentImport;
 
 use Filament\Notifications\Notification;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -24,13 +25,13 @@ class Import
 
     protected array $formSchemas;
 
-    protected string $model;
+    protected string|Model $model;
 
-    protected $disk = 'local';
+    protected string $disk = 'local';
 
-    protected $skipHeader = false;
+    protected bool $shouldSkipHeader = false;
 
-    protected $massCreate = true;
+    protected bool $shouldMassCreate = true;
 
     public static function make(string $spreadsheetFilePath): self
     {
@@ -73,30 +74,25 @@ class Import
         return $this;
     }
 
-    public function skipHeader(bool $skip): static
+    public function skipHeader(bool $shouldSkipHeader): static
     {
-        $this->skipHeader = $skip;
+        $this->shouldSkipHeader = $shouldSkipHeader;
 
         return $this;
     }
 
-    public function massCreate($massCreate = true): static
+    public function massCreate($shouldMassCreate = true): static
     {
-        $this->massCreate = $massCreate;
+        $this->shouldMassCreate = $shouldMassCreate;
 
         return $this;
     }
 
-    public function getSpreadsheetExtension()
-    {
-        return pathinfo($this->spreadsheet, PATHINFO_EXTENSION);
-    }
-
-    public function getSpreadsheetData()
+    public function getSpreadsheetData(): Collection
     {
         return $this->toCollection(new UploadedFile(Storage::disk($this->disk)->path($this->spreadsheet), $this->spreadsheet))
-                                ->first()
-                                ->skip((int) $this->skipHeader);
+            ->first()
+            ->skip((int)$this->shouldSkipHeader);
     }
 
     public function validated($data, $rules, $customMessages, $line)
@@ -137,19 +133,21 @@ class Import
                     $prepareInsert[$key] = $fieldValue;
                 }
 
-                $prepareInsert = $this->validated(rules:$rules, data:Arr::undot($prepareInsert), line:$line + 1, customMessages:$validationMessages);
+                $prepareInsert = $this->validated(data: Arr::undot($prepareInsert), rules: $rules, customMessages: $validationMessages, line: $line + 1);
 
-                if (! $prepareInsert) {
+                if (!$prepareInsert) {
                     DB::rollBack();
                     break;
                 }
 
                 $prepareInsert = $this->doMutateBeforeCreate($prepareInsert);
 
-                if (! $this->massCreate) {
-                    $this->model::fill($prepareInsert)->save();
+                if (!$this->shouldMassCreate) {
+                    (new $this->model)
+                        ->fill($prepareInsert)
+                        ->save();
 
-                    return;
+                    continue;
                 }
 
                 $this->model::create($prepareInsert);

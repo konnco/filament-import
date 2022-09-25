@@ -26,7 +26,7 @@ class ImportAction extends Action
 
     protected array $fields = [];
 
-    protected $massCreate = true;
+    protected bool $shouldMassCreate = true;
 
     protected array $cachedHeadingOptions = [];
 
@@ -51,15 +51,16 @@ class ImportAction extends Action
             $model = $form->getModel();
 
             $this->process(function (array $data) use ($model) {
-                $selectedField = collect($data)->except('fileRealPath', 'file', 'skipHeader');
+                $selectedField = collect($data)
+                                    ->except('fileRealPath', 'file', 'skipHeader');
 
-                Import::make(spreadsheetFilePath: $data['fileRealPath'])
+                Import::make(spreadsheetFilePath: $data['file'])
                     ->fields($selectedField)
                     ->formSchemas($this->fields)
                     ->model($model)
                     ->disk('local')
                     ->skipHeader((bool)$data['skipHeader'])
-                    ->massCreate($this->massCreate)
+                    ->massCreate($this->shouldMassCreate)
                     ->mutateBeforeCreate($this->mutateBeforeCreate)
                     ->execute();
             });
@@ -90,9 +91,9 @@ class ImportAction extends Action
         ]);
     }
 
-    public function massCreate($massCreate = true): static
+    public function massCreate($shouldMassCreate = true): static
     {
-        $this->massCreate = $massCreate;
+        $this->shouldMassCreate = $shouldMassCreate;
 
         return $this;
     }
@@ -128,10 +129,10 @@ class ImportAction extends Action
     }
 
     /**
-     * @param ImportField $field
-     * @return mixed
+     * @param ImportField|Field $field
+     * @return Field
      */
-    private function getFields(ImportField|Field $field): mixed
+    private function getFields(ImportField|Field $field): Field
     {
         if ($field instanceof Field) {
             return $field;
@@ -142,14 +143,18 @@ class ImportAction extends Action
             ->helperText($field->getHelperText())
             ->required($field->isRequired())
             ->placeholder($field->getPlaceholder())
-            ->options(function (callable $get) {
+            ->options(options: function (callable $get) {
                 /**
-                 * @var TemporaryUploadedFile|string $uploadedFile
+                 * @var TemporaryUploadedFile|null $uploadedFile
                  */
                 $uploadedFile = last($get('file') ?? []);
-                $filePath = is_string($uploadedFile) ? $uploadedFile : $uploadedFile->getRealPath();
+                $filePath = is_string($uploadedFile) ? $uploadedFile : $uploadedFile?->getRealPath();
 
-                return $this->toCollection($filePath)->first()?->first()?->toArray();
+                if (count($this->cachedHeadingOptions) == 0) {
+                    return $this->cachedHeadingOptions = $this->toCollection($filePath)->first()?->first()?->toArray();
+                }
+
+                return $this->cachedHeadingOptions;
             });
     }
 }

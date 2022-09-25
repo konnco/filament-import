@@ -7,7 +7,7 @@ use Konnco\FilamentImport\Actions\ImportAction;
 use Konnco\FilamentImport\Actions\ImportField;
 use Konnco\FilamentImport\Tests\Resources\PostResource;
 
-class ListPost extends ListRecords
+class ValidateTestList extends ListRecords
 {
     protected static string $resource = PostResource::class;
 
@@ -15,9 +15,10 @@ class ListPost extends ListRecords
     {
         return [
             ImportAction::make('import')
-                ->fields($scheme ?? [
+                ->fields([
                     ImportField::make('title'),
-                    ImportField::make('slug'),
+                    ImportField::make('slug')
+                        ->rules('min:6'),
                     ImportField::make('body'),
                 ])];
     }

@@ -2,16 +2,15 @@
 
 namespace Konnco\FilamentImport\Tests\Resources;
 
-use App\Filament\Resources\PostResource\Pages;
-use App\Filament\Resources\PostResource\RelationManagers;
 use Filament\Forms;
 use Filament\Resources\Form;
+use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Konnco\FilamentImport\Tests\Resources\Models\Post;
-use Konnco\FilamentImport\Tests\Resources\Pages\ListPost;
+use Konnco\FilamentImport\Tests\Resources\Pages\ValidateTestList;
 
-class PostResource extends \Filament\Resources\Resource
+class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
 
@@ -64,7 +63,7 @@ class PostResource extends \Filament\Resources\Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListPost::route('/'),
+            'index' => ValidateTestList::route('/'),
         ];
     }
 }
