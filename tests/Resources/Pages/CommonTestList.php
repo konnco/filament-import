@@ -19,6 +19,6 @@ class CommonTestList extends ListRecords
                     ImportField::make('title'),
                     ImportField::make('slug'),
                     ImportField::make('body'),
-                ])];
+                ]), ];
     }
 }

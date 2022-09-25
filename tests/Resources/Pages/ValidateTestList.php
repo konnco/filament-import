@@ -20,6 +20,6 @@ class ValidateTestList extends ListRecords
                     ImportField::make('slug')
                         ->rules('min:6'),
                     ImportField::make('body'),
-                ])];
+                ]), ];
     }
 }

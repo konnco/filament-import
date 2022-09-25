@@ -33,7 +33,7 @@ class TestCase extends Orchestra
             SupportServiceProvider::class,
             TablesServiceProvider::class,
             FilamentImportServiceProvider::class,
-            ExcelServiceProvider::class
+            ExcelServiceProvider::class,
         ];
     }
 
@@ -46,11 +46,11 @@ class TestCase extends Orchestra
             'prefix' => '',
         ]);
 
-        $migration = include __DIR__ . '/Migrations/post_migration.php';
+        $migration = include __DIR__.'/Migrations/post_migration.php';
         $migration->up();
 
-        config()->set('filament.resources.namespace', "Konnco\\FilamentImport\\Tests\\Resources");
-        config()->set('filament.resources.path', __DIR__ . "/Resources");
+        config()->set('filament.resources.namespace', 'Konnco\\FilamentImport\\Tests\\Resources');
+        config()->set('filament.resources.path', __DIR__.'/Resources');
 
         config()->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
     }

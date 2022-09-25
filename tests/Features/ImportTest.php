@@ -18,7 +18,7 @@ it('can upload file', function () {
             'title' => 0,
             'slug' => 1,
             'body' => 2,
-            'skipHeader' => false
+            'skipHeader' => false,
         ])
         ->callMountedPageAction()
         ->assertHasNoPageActionErrors()
@@ -36,7 +36,7 @@ it('can upload file and skip header', function () {
             'title' => 0,
             'slug' => 1,
             'body' => 2,
-            'skipHeader' => true
+            'skipHeader' => true,
         ])
         ->callMountedPageAction()
         ->assertHasNoPageActionErrors()
@@ -55,7 +55,7 @@ it('can validate with laravel rules', function () {
             'title' => 0,
             'slug' => 1,
             'body' => 2,
-            'skipHeader' => true
+            'skipHeader' => true,
         ])
         ->callMountedPageAction()
         ->assertHasNoPageActionErrors()
@@ -73,7 +73,7 @@ it('can disable mass create', function () {
             'title' => 0,
             'slug' => 1,
             'body' => 2,
-            'skipHeader' => true
+            'skipHeader' => true,
         ])
         ->callMountedPageAction()
         ->assertHasNoPageActionErrors()

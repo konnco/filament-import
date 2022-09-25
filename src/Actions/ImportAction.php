@@ -39,7 +39,7 @@ class ImportAction extends Action
     {
         parent::setUp();
 
-        $this->label(fn(): string => __('filament-import::actions.import'));
+        $this->label(fn (): string => __('filament-import::actions.import'));
 
         $this->setInitialForm();
 
@@ -59,7 +59,7 @@ class ImportAction extends Action
                     ->formSchemas($this->fields)
                     ->model($model)
                     ->disk('local')
-                    ->skipHeader((bool)$data['skipHeader'])
+                    ->skipHeader((bool) $data['skipHeader'])
                     ->massCreate($this->shouldMassCreate)
                     ->mutateBeforeCreate($this->mutateBeforeCreate)
                     ->execute();
@@ -75,7 +75,7 @@ class ImportAction extends Action
         $this->form([
             FileUpload::make('file')
                 ->label('')
-                ->required(!app()->environment('testing'))
+                ->required(! app()->environment('testing'))
                 ->acceptedFileTypes(config('filament-import.accepted_mimes'))
                 ->imagePreviewHeight('250')
                 ->reactive()
@@ -99,17 +99,17 @@ class ImportAction extends Action
     }
 
     /**
-     * @param array $fields
-     * @param int $columns
+     * @param  array  $fields
+     * @param  int  $columns
      * @return $this
      */
     public function fields(array $fields, int $columns = 1): static
     {
-        $this->fields = collect($fields)->mapWithKeys(fn($item) => [$item->getName() => $item])->toArray();
+        $this->fields = collect($fields)->mapWithKeys(fn ($item) => [$item->getName() => $item])->toArray();
 
         $fields = collect($fields);
 
-        $fields = $fields->map(fn(ImportField|Field $field) => $this->getFields($field))->toArray();
+        $fields = $fields->map(fn (ImportField|Field $field) => $this->getFields($field))->toArray();
 
         $this->form(
             array_merge(
@@ -129,7 +129,7 @@ class ImportAction extends Action
     }
 
     /**
-     * @param ImportField|Field $field
+     * @param  ImportField|Field  $field
      * @return Field
      */
     private function getFields(ImportField|Field $field): Field

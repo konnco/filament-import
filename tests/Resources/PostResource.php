@@ -67,5 +67,3 @@ class PostResource extends Resource
         ];
     }
 }
-
-

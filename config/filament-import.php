@@ -7,7 +7,7 @@ return [
         'text/csv',
         'text/plain',
         'csv',
-        'txt'
+        'txt',
     ],
     'temporary_files' => [
         'disk' => 'local',
