@@ -127,7 +127,7 @@ class Import
 
                     if ($field instanceof ImportField) {
                         // check if field is optional
-                        if(!$field->isRequired() && blank(@$row[$value])){
+                        if (! $field->isRequired() && blank(@$row[$value])) {
                             continue;
                         }
 
