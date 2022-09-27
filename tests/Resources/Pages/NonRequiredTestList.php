@@ -23,10 +23,11 @@ class NonRequiredTestList extends ListRecords
                     ImportField::make('body')
                         ->required(),
                 ])
-                ->mutateBeforeCreate(function($data){
-                    $data['title'] = "";
+                ->mutateBeforeCreate(function ($data) {
+                    $data['title'] = '';
+
                     return $data;
-                })
-            ];
+                }),
+        ];
     }
 }

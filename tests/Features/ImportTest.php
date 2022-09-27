@@ -83,7 +83,7 @@ it('can disable mass create', function () {
     assertDatabaseCount(Post::class, 10);
 });
 
-it('can ignore non required fields', function(){
+it('can ignore non required fields', function () {
     $file = csvFiles(10);
     livewire(NonRequiredTestList::class)->mountPageAction('import')
         ->setPageActionData([
