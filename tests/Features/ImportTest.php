@@ -1,6 +1,7 @@
 <?php
 
 use Konnco\FilamentImport\Tests\Resources\Models\Post;
+use Konnco\FilamentImport\Tests\Resources\Pages\NonRequiredTestList;
 use Konnco\FilamentImport\Tests\Resources\Pages\ValidateTestList;
 use Konnco\FilamentImport\Tests\Resources\Pages\WithoutMassCreateTestList;
 use function Pest\Laravel\assertDatabaseCount;
@@ -71,6 +72,24 @@ it('can disable mass create', function () {
             'file' => [$file->store('file')],
             'fileRealPath' => $file->getRealPath(),
             'title' => 0,
+            'slug' => 1,
+            'body' => 2,
+            'skipHeader' => true,
+        ])
+        ->callMountedPageAction()
+        ->assertHasNoPageActionErrors()
+        ->assertSuccessful();
+
+    assertDatabaseCount(Post::class, 10);
+});
+
+it('can ignore non required fields', function(){
+    $file = csvFiles(10);
+    livewire(NonRequiredTestList::class)->mountPageAction('import')
+        ->setPageActionData([
+            'file' => [$file->store('file')],
+            'fileRealPath' => $file->getRealPath(),
+            // 'title' => 0,
             'slug' => 1,
             'body' => 2,
             'skipHeader' => true,
