@@ -144,9 +144,6 @@ class ImportAction extends Action
             ->required($field->isRequired())
             ->placeholder($field->getPlaceholder())
             ->options(options: function (callable $get) {
-                /**
-                 * @var TemporaryUploadedFile|null $uploadedFile
-                 */
                 $uploadedFile = last($get('file') ?? []);
                 $filePath = is_string($uploadedFile) ? $uploadedFile : $uploadedFile?->getRealPath();
 
