@@ -126,7 +126,12 @@ class Import
                     $fieldValue = $value;
 
                     if ($field instanceof ImportField) {
-                        $fieldValue = $field->doMutateBeforeCreate($row[$value], $row) ?? $row[$value];
+                        // check if field is optional
+                        if(!$field->isRequired() && blank(@$row[$value])){
+                            continue;
+                        }
+
+                        $fieldValue = $field->doMutateBeforeCreate($row[$value], collect($row)) ?? $row[$value];
                         $rules[$key] = $field->getValidationRules();
                     }
 
