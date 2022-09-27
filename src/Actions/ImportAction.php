@@ -26,7 +26,7 @@ class ImportAction extends Action
 
     protected array $fields = [];
 
-    protected $massCreate = true;
+    protected bool $shouldMassCreate = true;
 
     protected array $cachedHeadingOptions = [];
 
@@ -51,15 +51,16 @@ class ImportAction extends Action
             $model = $form->getModel();
 
             $this->process(function (array $data) use ($model) {
-                $selectedField = collect($data)->except('fileRealPath', 'file', 'skipHeader');
+                $selectedField = collect($data)
+                                    ->except('fileRealPath', 'file', 'skipHeader');
 
-                Import::make(spreadsheetFilePath:$data['file'])
+                Import::make(spreadsheetFilePath: $data['file'])
                     ->fields($selectedField)
                     ->formSchemas($this->fields)
                     ->model($model)
                     ->disk('local')
                     ->skipHeader((bool) $data['skipHeader'])
-                    ->massCreate($this->massCreate)
+                    ->massCreate($this->shouldMassCreate)
                     ->mutateBeforeCreate($this->mutateBeforeCreate)
                     ->execute();
             });
@@ -74,7 +75,7 @@ class ImportAction extends Action
         $this->form([
             FileUpload::make('file')
                 ->label('')
-                ->required()
+                ->required(! app()->environment('testing'))
                 ->acceptedFileTypes(config('filament-import.accepted_mimes'))
                 ->imagePreviewHeight('250')
                 ->reactive()
@@ -90,9 +91,9 @@ class ImportAction extends Action
         ]);
     }
 
-    public function massCreate($massCreate = true): static
+    public function massCreate($shouldMassCreate = true): static
     {
-        $this->massCreate = $massCreate;
+        $this->shouldMassCreate = $shouldMassCreate;
 
         return $this;
     }
@@ -128,32 +129,29 @@ class ImportAction extends Action
     }
 
     /**
-     * @param  ImportField  $field
-     * @return mixed
+     * @param  ImportField|Field  $field
+     * @return Field
      */
-    private function getFields(ImportField|Field $field): mixed
+    private function getFields(ImportField|Field $field): Field
     {
         if ($field instanceof Field) {
             return $field;
         }
 
         return Select::make($field->getName())
-                ->label($field->getLabel())
-                ->helperText($field->getHelperText())
-                ->required($field->isRequired())
-                ->placeholder($field->getPlaceholder())
-                ->options(function (callable $get) {
-                    /**
-                     * @var TemporaryUploadedFile $uploadedFile
-                     */
-                    $uploadedFile = last($get('file') ?? []);
-                    $filePath = $uploadedFile->getRealPath();
+            ->label($field->getLabel())
+            ->helperText($field->getHelperText())
+            ->required($field->isRequired())
+            ->placeholder($field->getPlaceholder())
+            ->options(options: function (callable $get) {
+                $uploadedFile = last($get('file') ?? []);
+                $filePath = is_string($uploadedFile) ? $uploadedFile : $uploadedFile?->getRealPath();
 
-                    if (count($this->cachedHeadingOptions) == 0) {
-                        return $this->cachedHeadingOptions = $this->toCollection($filePath)->first()?->first()?->toArray();
-                    }
+                if (count($this->cachedHeadingOptions) == 0) {
+                    return $this->cachedHeadingOptions = $this->toCollection($filePath)->first()?->first()?->toArray();
+                }
 
-                    return $this->cachedHeadingOptions;
-                });
+                return $this->cachedHeadingOptions;
+            });
     }
 }

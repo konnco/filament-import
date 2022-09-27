@@ -6,6 +6,8 @@ return [
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         'text/csv',
         'text/plain',
+        'csv',
+        'txt',
     ],
     'temporary_files' => [
         'disk' => 'local',
