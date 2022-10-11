@@ -2,6 +2,14 @@
 
 All notable changes to `konnco/filament-import` will be documented in this file.
 
+## 1.2.5 - 2022-10-11
+
+### What's Changed
+
+- Fix/heading options by @rizkyanfasafm in https://github.com/konnco/filament-import/pull/38
+
+**Full Changelog**: https://github.com/konnco/filament-import/compare/1.2.4...1.2.5
+
 ## 1.2.4 - 2022-10-06
 
 ### What's Changed
