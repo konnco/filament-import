@@ -235,10 +235,10 @@ Please review [our security policy](../../security/policy) on how to report secu
 <table>
 <tr>
     <td align="center">
-        <a href="https://github.com/abduromanov">
-            <img src="https://avatars.githubusercontent.com/u/37548312?v=4" width="100;" alt="abduromanov"/>
+        <a href="https://github.com/rizkyanfasafm">
+            <img src="https://avatars.githubusercontent.com/u/24226461?v=4" width="100;" alt="rizkyanfasafm"/>
             <br />
-            <sub><b>Hafiz Abd</b></sub>
+            <sub><b>Rizky Anfasa Farras Mada</b></sub>
         </a>
     </td></tr>
 </table>
