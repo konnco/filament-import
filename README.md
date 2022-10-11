@@ -235,10 +235,10 @@ Please review [our security policy](../../security/policy) on how to report secu
 <table>
 <tr>
     <td align="center">
-        <a href="https://github.com/rizkyanfasafm">
-            <img src="https://avatars.githubusercontent.com/u/24226461?v=4" width="100;" alt="rizkyanfasafm"/>
+        <a href="https://github.com/abduromanov">
+            <img src="https://avatars.githubusercontent.com/u/37548312?v=4" width="100;" alt="abduromanov"/>
             <br />
-            <sub><b>Rizky Anfasa Farras Mada</b></sub>
+            <sub><b>Hafiz Abd</b></sub>
         </a>
     </td></tr>
 </table>
@@ -257,17 +257,17 @@ Please review [our security policy](../../security/policy) on how to report secu
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/abduromanov">
-            <img src="https://avatars.githubusercontent.com/u/37548312?v=4" width="100;" alt="abduromanov"/>
-            <br />
-            <sub><b>Hafiz Abd</b></sub>
-        </a>
-    </td>
-    <td align="center">
         <a href="https://github.com/rizkyanfasafm">
             <img src="https://avatars.githubusercontent.com/u/24226461?v=4" width="100;" alt="rizkyanfasafm"/>
             <br />
             <sub><b>Rizky Anfasa Farras Mada</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/abduromanov">
+            <img src="https://avatars.githubusercontent.com/u/37548312?v=4" width="100;" alt="abduromanov"/>
+            <br />
+            <sub><b>Hafiz Abd</b></sub>
         </a>
     </td>
     <td align="center">
