@@ -143,15 +143,26 @@ class ImportAction extends Action
             ->helperText($field->getHelperText())
             ->required($field->isRequired())
             ->placeholder($field->getPlaceholder())
-            ->options(options: function (callable $get) {
+            ->options(options: function (callable $get, callable $set) use ($field) {
                 $uploadedFile = last($get('file') ?? []);
                 $filePath = is_string($uploadedFile) ? $uploadedFile : $uploadedFile?->getRealPath();
 
-                if (count($this->cachedHeadingOptions) == 0) {
-                    return $this->cachedHeadingOptions = $this->toCollection($filePath)->first()?->first()->filter(fn ($value) => $value != null)->toArray();
+                $options = $this->cachedHeadingOptions;
+
+                if (count($options) == 0) {
+                    $options = $this->toCollection($filePath)->first()?->first()->filter(fn ($value) => $value != null)->toArray();
                 }
 
-                return $this->cachedHeadingOptions;
+                $selected = array_search($field->getName(), $options);
+                if($selected != false){
+                    $set($field->getName(), $selected);
+                }
+
+                return $options;
             });
+    }
+
+    private function getCachedHeadingOptions(callable $get){
+
     }
 }
