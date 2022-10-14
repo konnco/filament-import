@@ -154,7 +154,7 @@ class ImportAction extends Action
                 }
 
                 $selected = array_search($field->getName(), $options);
-                if($selected != false){
+                if ($selected != false) {
                     $set($field->getName(), $selected);
                 }
 
@@ -162,7 +162,7 @@ class ImportAction extends Action
             });
     }
 
-    private function getCachedHeadingOptions(callable $get){
-
+    private function getCachedHeadingOptions(callable $get)
+    {
     }
 }
