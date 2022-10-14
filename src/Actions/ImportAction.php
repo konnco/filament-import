@@ -161,8 +161,4 @@ class ImportAction extends Action
                 return $options;
             });
     }
-
-    private function getCachedHeadingOptions(callable $get){
-
-    }
 }
