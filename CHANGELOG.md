@@ -2,6 +2,14 @@
 
 All notable changes to `konnco/filament-import` will be documented in this file.
 
+## 1.2.7 - 2022-10-28
+
+### What's Changed
+
+- Bump actions/checkout from 2 to 3 by @dependabot in https://github.com/konnco/filament-import/pull/40
+
+**Full Changelog**: https://github.com/konnco/filament-import/compare/1.2.6...1.2.7
+
 ## 1.2.6 - 2022-10-14
 
 ### What's Changed
