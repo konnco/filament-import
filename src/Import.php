@@ -133,6 +133,7 @@ class Import
 
                         $fieldValue = $field->doMutateBeforeCreate($row[$value], collect($row)) ?? $row[$value];
                         $rules[$key] = $field->getValidationRules();
+                        $validationMessages[$key] = $field->getCustomValidationMessages();
                     }
 
                     $prepareInsert[$key] = $fieldValue;
