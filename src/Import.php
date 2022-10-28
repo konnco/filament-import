@@ -92,22 +92,26 @@ class Import
     {
         return $this->toCollection(new UploadedFile(Storage::disk($this->disk)->path($this->spreadsheet), $this->spreadsheet))
             ->first()
-            ->skip((int) $this->shouldSkipHeader);
+            ->skip((int)$this->shouldSkipHeader);
     }
 
     public function validated($data, $rules, $customMessages, $line)
     {
         $validator = Validator::make($data, $rules, $customMessages);
 
-        if ($validator->fails()) {
-            Notification::make()
-                ->danger()
-                ->title('Import Failed')
-                ->body(trans('filament-import::validators.message', ['line' => $line, 'error' => $validator->errors()->first()]))
-                ->persistent()
-                ->send();
+        try {
+            if ($validator->fails()) {
+                Notification::make()
+                    ->danger()
+                    ->title('Import Failed')
+                    ->body(trans('filament-import::validators.message', ['line' => $line, 'error' => $validator->errors()->first()]))
+                    ->persistent()
+                    ->send();
 
-            return false;
+                return false;
+            }
+        } catch (\Exception $e) {
+            return $data;
         }
 
         return $data;
@@ -127,12 +131,15 @@ class Import
 
                     if ($field instanceof ImportField) {
                         // check if field is optional
-                        if (! $field->isRequired() && blank(@$row[$value])) {
+                        if (!$field->isRequired() && blank(@$row[$value])) {
                             continue;
                         }
 
                         $fieldValue = $field->doMutateBeforeCreate($row[$value], collect($row)) ?? $row[$value];
                         $rules[$key] = $field->getValidationRules();
+                        if (count($field->getCustomValidationMessages())) {
+                            $validationMessages[$key] = $field->getCustomValidationMessages();
+                        }
                     }
 
                     $prepareInsert[$key] = $fieldValue;
@@ -140,14 +147,14 @@ class Import
 
                 $prepareInsert = $this->validated(data: Arr::undot($prepareInsert), rules: $rules, customMessages: $validationMessages, line: $line + 1);
 
-                if (! $prepareInsert) {
+                if (!$prepareInsert) {
                     DB::rollBack();
                     break;
                 }
 
                 $prepareInsert = $this->doMutateBeforeCreate($prepareInsert);
 
-                if (! $this->shouldMassCreate) {
+                if (!$this->shouldMassCreate) {
                     (new $this->model)
                         ->fill($prepareInsert)
                         ->save();
