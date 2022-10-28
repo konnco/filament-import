@@ -92,7 +92,7 @@ class Import
     {
         return $this->toCollection(new UploadedFile(Storage::disk($this->disk)->path($this->spreadsheet), $this->spreadsheet))
             ->first()
-            ->skip((int)$this->shouldSkipHeader);
+            ->skip((int) $this->shouldSkipHeader);
     }
 
     public function validated($data, $rules, $customMessages, $line)
@@ -131,7 +131,7 @@ class Import
 
                     if ($field instanceof ImportField) {
                         // check if field is optional
-                        if (!$field->isRequired() && blank(@$row[$value])) {
+                        if (! $field->isRequired() && blank(@$row[$value])) {
                             continue;
                         }
 
@@ -147,14 +147,14 @@ class Import
 
                 $prepareInsert = $this->validated(data: Arr::undot($prepareInsert), rules: $rules, customMessages: $validationMessages, line: $line + 1);
 
-                if (!$prepareInsert) {
+                if (! $prepareInsert) {
                     DB::rollBack();
                     break;
                 }
 
                 $prepareInsert = $this->doMutateBeforeCreate($prepareInsert);
 
-                if (!$this->shouldMassCreate) {
+                if (! $this->shouldMassCreate) {
                     (new $this->model)
                         ->fill($prepareInsert)
                         ->save();
