@@ -121,14 +121,33 @@ protected function getActions(): array
                     ->label('Email')
                     ->required(),
             ])->mutateBeforeCreate(function($row){
-                    $row['password'] = bcrypt($row['email']);
+                $row['password'] = bcrypt($row['email']);
 
-                    return $row;
-                })
+                return $row;
+            })
     ];
 }
 ```
+it is also possible to manipulate data after it was inserted into the database
+```php
+use Illuminate\Database\Eloquent\Model;
 
+protected function getActions(): array
+{
+    return [
+        ImportAction::make()
+            ->fields([
+                ImportField::make('email')
+                    ->label('Email')
+                    ->required(),
+            ])->mutateAfterCreate(function(Model $model, $row){
+                // do something with the model
+
+                return $model;
+            })
+    ];
+}
+```
 
 ### Grid Column
 Of course, you can divide the column grid into several parts to beautify the appearance of the data map
