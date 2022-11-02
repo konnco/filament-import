@@ -12,12 +12,14 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Konnco\FilamentImport\Actions\ImportField;
 use Konnco\FilamentImport\Concerns\HasActionMutation;
+use Konnco\FilamentImport\Concerns\HasActionUniqueField;
 use Maatwebsite\Excel\Concerns\Importable;
 
 class Import
 {
     use Importable;
     use HasActionMutation;
+    use HasActionUniqueField;
 
     protected string $spreadsheet;
 
@@ -103,7 +105,7 @@ class Import
             if ($validator->fails()) {
                 Notification::make()
                     ->danger()
-                    ->title('Import Failed')
+                    ->title(trans('filament-import::actions.import_failed_title'))
                     ->body(trans('filament-import::validators.message', ['line' => $line, 'error' => $validator->errors()->first()]))
                     ->persistent()
                     ->send();
@@ -119,7 +121,9 @@ class Import
 
     public function execute()
     {
-        DB::transaction(function () {
+        $importSuccess = true;
+        $skipped = 0;
+        DB::transaction(function () use (&$importSuccess, &$skipped) {
             foreach ($this->getSpreadsheetData() as $line => $row) {
                 $prepareInsert = collect([]);
                 $rules = [];
@@ -149,7 +153,27 @@ class Import
 
                 if (! $prepareInsert) {
                     DB::rollBack();
+                    $importSuccess = false;
+
                     break;
+                }
+
+                $prepareInsert = $this->doMutateBeforeCreate($prepareInsert);
+
+                if ($this->uniqueField !== false) {
+                    if (is_null($prepareInsert[$this->uniqueField] ?? null)) {
+                        DB::rollBack();
+                        $importSuccess = false;
+
+                        break;
+                    }
+
+                    $exists = (new $this->model)->where($this->uniqueField, $prepareInsert[$this->uniqueField] ?? null)->first();
+                    if ($exists instanceof $this->model) {
+                        $skipped++;
+
+                        continue;
+                    }
                 }
 
                 $prepareInsert = $this->doMutateBeforeCreate($prepareInsert);
@@ -165,5 +189,23 @@ class Import
                 $this->model::create($prepareInsert);
             }
         });
+
+        if ($importSuccess) {
+            Notification::make()
+                ->success()
+                ->title(trans('filament-import::actions.import_succeeded_title'))
+                ->body(trans('filament-import::actions.import_succeeded', ['count' => count($this->getSpreadsheetData()), 'skipped' => $skipped]))
+                ->persistent()
+                ->send();
+        }
+
+        if (!$importSuccess) {
+            Notification::make()
+                ->danger()
+                ->title(trans('filament-import::actions.import_failed_title'))
+                ->body(trans('filament-import::actions.import_failed'))
+                ->persistent()
+                ->send();
+        }
     }
 }
