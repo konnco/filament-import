@@ -210,6 +210,26 @@ protected function getActions(): array
 }
 ```
 
+### Unique field
+if your model should be unique, you can pass the name of the field, which will be used to check if a row already exists in the database. if it exists, skip that row (preventing an error about non unique row)
+
+```php
+use Filament\Forms\Components\Select;
+
+protected function getActions(): array
+{
+    return [
+        ImportAction::make()
+            ->uniqueField('email')
+            ->fields([
+                ImportField::make('email')
+                    ->label('Email')
+                    ->required(),
+            ], columns:2)
+    ];
+}
+```
+
 ### Validation
 you can make the validation for import fields, for more information about the available validation please check laravel documentation
 

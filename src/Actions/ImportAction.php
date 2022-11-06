@@ -12,6 +12,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Pages\Actions\Action;
 use Filament\Support\Actions\Concerns\CanCustomizeProcess;
 use Konnco\FilamentImport\Concerns\HasActionMutation;
+use Konnco\FilamentImport\Concerns\HasActionUniqueField;
 use Konnco\FilamentImport\Concerns\HasTemporaryDisk;
 use Konnco\FilamentImport\Import;
 use Livewire\TemporaryUploadedFile;
@@ -23,6 +24,7 @@ class ImportAction extends Action
     use Importable;
     use HasTemporaryDisk;
     use HasActionMutation;
+    use HasActionUniqueField;
 
     protected array $fields = [];
 
@@ -57,6 +59,7 @@ class ImportAction extends Action
                 Import::make(spreadsheetFilePath: $data['file'])
                     ->fields($selectedField)
                     ->formSchemas($this->fields)
+                    ->uniqueField($this->uniqueField)
                     ->model($model)
                     ->disk('local')
                     ->skipHeader((bool) $data['skipHeader'])
