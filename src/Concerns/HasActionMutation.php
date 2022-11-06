@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 trait HasActionMutation
 {
     protected bool|Closure $mutateBeforeCreate = false;
+
     protected bool|Closure $mutateAfterCreate = false;
 
     public function mutateBeforeCreate(bool|Closure $fn): static

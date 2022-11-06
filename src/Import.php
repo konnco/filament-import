@@ -198,7 +198,7 @@ class Import
                 ->send();
         }
 
-        if (!$importSuccess) {
+        if (! $importSuccess) {
             Notification::make()
                 ->danger()
                 ->title(trans('filament-import::actions.import_failed_title'))
