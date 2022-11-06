@@ -62,6 +62,7 @@ class ImportAction extends Action
                     ->skipHeader((bool) $data['skipHeader'])
                     ->massCreate($this->shouldMassCreate)
                     ->mutateBeforeCreate($this->mutateBeforeCreate)
+                    ->mutateAfterCreate($this->mutateAfterCreate)
                     ->execute();
             });
         });
