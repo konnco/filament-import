@@ -2,6 +2,20 @@
 
 All notable changes to `konnco/filament-import` will be documented in this file.
 
+## 1.3.0 - 2022-11-14
+
+### What's Changed
+
+- feature/mutate after create by @arjendejong12 in https://github.com/konnco/filament-import/pull/44
+- feature/unique field by @arjendejong12 in https://github.com/konnco/filament-import/pull/45
+- Bump dependabot/fetch-metadata from 1.3.4 to 1.3.5 by @dependabot in https://github.com/konnco/filament-import/pull/47
+
+### New Contributors
+
+- @arjendejong12 made their first contribution in https://github.com/konnco/filament-import/pull/44
+
+**Full Changelog**: https://github.com/konnco/filament-import/compare/1.2.7...1.3.0
+
 ## 1.2.7 - 2022-10-28
 
 ### What's Changed
