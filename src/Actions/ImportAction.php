@@ -2,6 +2,7 @@
 
 namespace Konnco\FilamentImport\Actions;
 
+use Closure;
 use Filament\Forms\ComponentContainer;
 use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Fieldset;
@@ -31,6 +32,8 @@ class ImportAction extends Action
     protected bool $shouldMassCreate = true;
 
     protected array $cachedHeadingOptions = [];
+
+    protected null|Closure $handleRecordCreation = null;
 
     public static function getDefaultName(): ?string
     {
@@ -66,6 +69,7 @@ class ImportAction extends Action
                     ->massCreate($this->shouldMassCreate)
                     ->mutateBeforeCreate($this->mutateBeforeCreate)
                     ->mutateAfterCreate($this->mutateAfterCreate)
+                    ->handleRecordCreation($this->handleRecordCreation)
                     ->execute();
             });
         });
@@ -164,5 +168,11 @@ class ImportAction extends Action
 
                 return $options;
             });
+    }
+
+    public function handleRecordCreation(Closure $closure) {
+        $this->handleRecordCreation = $closure;
+        $this->massCreate(false);
+        return $this;
     }
 }

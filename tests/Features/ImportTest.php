@@ -1,6 +1,7 @@
 <?php
 
 use Konnco\FilamentImport\Tests\Resources\Models\Post;
+use Konnco\FilamentImport\Tests\Resources\Pages\HandleCreationList;
 use Konnco\FilamentImport\Tests\Resources\Pages\NonRequiredTestList;
 use Konnco\FilamentImport\Tests\Resources\Pages\ValidateTestList;
 use Konnco\FilamentImport\Tests\Resources\Pages\WithoutMassCreateTestList;
@@ -13,6 +14,24 @@ it('can render import properly', function () {
 it('can upload file', function () {
     $file = csvFiles(10);
     livewire()->mountPageAction('import')
+        ->setPageActionData([
+            'file' => [$file->store('file')],
+            'fileRealPath' => $file->getRealPath(),
+            'title' => 0,
+            'slug' => 1,
+            'body' => 2,
+            'skipHeader' => false,
+        ])
+        ->callMountedPageAction()
+        ->assertHasNoPageActionErrors()
+        ->assertSuccessful();
+
+    assertDatabaseCount(Post::class, 11);
+});
+
+it('can handling record creation', function () {
+    $file = csvFiles(10);
+    livewire(HandleCreationList::class)->mountPageAction('import')
         ->setPageActionData([
             'file' => [$file->store('file')],
             'fileRealPath' => $file->getRealPath(),
