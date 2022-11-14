@@ -2,6 +2,7 @@
 
 namespace Konnco\FilamentImport;
 
+use Closure;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
@@ -34,6 +35,8 @@ class Import
     protected bool $shouldSkipHeader = false;
 
     protected bool $shouldMassCreate = true;
+
+    protected ?Closure $handleRecordCreation = null;
 
     public static function make(string $spreadsheetFilePath): self
     {
@@ -119,6 +122,13 @@ class Import
         return $data;
     }
 
+    public function handleRecordCreation(Closure|null $closure): static
+    {
+        $this->handleRecordCreation = $closure;
+
+        return $this;
+    }
+
     public function execute()
     {
         $importSuccess = true;
@@ -176,13 +186,18 @@ class Import
                     }
                 }
 
-                if (! $this->shouldMassCreate) {
-                    $model = (new $this->model)->fill($prepareInsert);
-                    $model = tap($model, function ($instance) {
-                        $instance->save();
-                    });
+                if (! $this->handleRecordCreation) {
+                    if (! $this->shouldMassCreate) {
+                        $model = (new $this->model)->fill($prepareInsert);
+                        $model = tap($model, function ($instance) {
+                            $instance->save();
+                        });
+                    } else {
+                        $model = $this->model::create($prepareInsert);
+                    }
                 } else {
-                    $model = $this->model::create($prepareInsert);
+                    $closure = $this->handleRecordCreation;
+                    $model = $closure($prepareInsert);
                 }
 
                 $this->doMutateAfterCreate($model, $prepareInsert);
