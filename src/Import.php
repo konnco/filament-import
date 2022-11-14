@@ -122,7 +122,8 @@ class Import
         return $data;
     }
 
-    public function handleRecordCreation(Closure|null $closure):static{
+    public function handleRecordCreation(Closure|null $closure): static
+    {
         $this->handleRecordCreation = $closure;
 
         return $this;
@@ -185,7 +186,7 @@ class Import
                     }
                 }
 
-                if(!$this->handleRecordCreation){
+                if (! $this->handleRecordCreation) {
                     if (! $this->shouldMassCreate) {
                         $model = (new $this->model)->fill($prepareInsert);
                         $model = tap($model, function ($instance) {

@@ -170,9 +170,11 @@ class ImportAction extends Action
             });
     }
 
-    public function handleRecordCreation(Closure $closure) {
+    public function handleRecordCreation(Closure $closure)
+    {
         $this->handleRecordCreation = $closure;
         $this->massCreate(false);
+
         return $this;
     }
 }

@@ -21,9 +21,9 @@ class HandleCreationList extends ListRecords
                     ImportField::make('slug'),
                     ImportField::make('body'),
                 ])
-                ->handleRecordCreation(function($data){
+                ->handleRecordCreation(function ($data) {
                     return Post::create($data);
-                })
-            ];
+                }),
+        ];
     }
 }
