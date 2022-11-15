@@ -2,6 +2,16 @@
 
 All notable changes to `konnco/filament-import` will be documented in this file.
 
+## 1.4.0 - 2022-11-15
+
+### What's Changed
+
+- Updated readme by @frankyso in https://github.com/konnco/filament-import/pull/52
+- docs(contributor): contributors readme action update by @github-actions in https://github.com/konnco/filament-import/pull/53
+- Added handle record creation function by @frankyso in https://github.com/konnco/filament-import/pull/54
+
+**Full Changelog**: https://github.com/konnco/filament-import/compare/1.3.0...1.4.0
+
 ## 1.3.0 - 2022-11-14
 
 ### What's Changed
