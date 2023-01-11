@@ -36,6 +36,8 @@ class Import
 
     protected bool $shouldMassCreate = true;
 
+    protected bool $shouldHandleBlankRows = false;
+
     protected ?Closure $handleRecordCreation = null;
 
     public static function make(string $spreadsheetFilePath): self
@@ -93,11 +95,24 @@ class Import
         return $this;
     }
 
+    public function handleBlankRows($shouldHandleBlankRows = false): static
+    {
+        $this->shouldHandleBlankRows = $shouldHandleBlankRows;
+
+        return $this;
+    }
+
     public function getSpreadsheetData(): Collection
     {
-        return $this->toCollection(new UploadedFile(Storage::disk($this->disk)->path($this->spreadsheet), $this->spreadsheet))
+        $data = $this->toCollection(new UploadedFile(Storage::disk($this->disk)->path($this->spreadsheet), $this->spreadsheet))
             ->first()
             ->skip((int) $this->shouldSkipHeader);
+        if (!$this->shouldHandleBlankRows) {
+            return $data;
+        }
+        return $data->filter(function ($row) {
+            return $row->filter()->isNotEmpty();
+        });
     }
 
     public function validated($data, $rules, $customMessages, $line)

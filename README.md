@@ -94,6 +94,23 @@ protected function getActions(): array
 }
 ```
 
+### Filter Out Blank Rows
+If you have a spreadsheet which includes blank data [click here to see more](https://thesoftwarepro.com/excel-tips-how-to-fill-blank-cells/), you can filter these out:
+```php
+protected function getActions(): array
+{
+    return [
+        ImportAction::make()
+            ->handleBlankRows(true)
+            ->fields([
+                ImportField::make('project')
+                    ->label('Project')
+                    ->required(),
+            ])
+    ];
+}
+```
+
 ### Field Data Mutation
 you can also manipulate data from row spreadsheet before saving to model
 ```php
