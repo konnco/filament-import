@@ -31,6 +31,8 @@ class ImportAction extends Action
 
     protected bool $shouldMassCreate = true;
 
+    protected bool $shouldHandleBlankRows = false;
+
     protected array $cachedHeadingOptions = [];
 
     protected null|Closure $handleRecordCreation = null;
@@ -67,6 +69,7 @@ class ImportAction extends Action
                     ->disk('local')
                     ->skipHeader((bool) $data['skipHeader'])
                     ->massCreate($this->shouldMassCreate)
+                    ->handleBlankRows($this->shouldHandleBlankRows)
                     ->mutateBeforeCreate($this->mutateBeforeCreate)
                     ->mutateAfterCreate($this->mutateAfterCreate)
                     ->handleRecordCreation($this->handleRecordCreation)
@@ -102,6 +105,13 @@ class ImportAction extends Action
     public function massCreate($shouldMassCreate = true): static
     {
         $this->shouldMassCreate = $shouldMassCreate;
+
+        return $this;
+    }
+
+    public function handleBlankRows($shouldHandleBlankRows = false): static
+    {
+        $this->shouldHandleBlankRows = $shouldHandleBlankRows;
 
         return $this;
     }
