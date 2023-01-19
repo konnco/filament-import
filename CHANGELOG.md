@@ -2,6 +2,18 @@
 
 All notable changes to `konnco/filament-import` will be documented in this file.
 
+## 1.4.2 - 2023-01-19
+
+### What's Changed
+
+- Excel Blank Rows Calls mutateBeforeCreate (#66) by @jaetoole in https://github.com/konnco/filament-import/pull/67
+
+### New Contributors
+
+- @jaetoole made their first contribution in https://github.com/konnco/filament-import/pull/67
+
+**Full Changelog**: https://github.com/konnco/filament-import/compare/1.4.1...1.4.2
+
 ## 1.4.1 - 2022-12-18
 
 **Full Changelog**: https://github.com/konnco/filament-import/compare/1.4.0...1.4.1
