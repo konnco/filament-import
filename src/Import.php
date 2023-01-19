@@ -107,9 +107,10 @@ class Import
         $data = $this->toCollection(new UploadedFile(Storage::disk($this->disk)->path($this->spreadsheet), $this->spreadsheet))
             ->first()
             ->skip((int) $this->shouldSkipHeader);
-        if (!$this->shouldHandleBlankRows) {
+        if (! $this->shouldHandleBlankRows) {
             return $data;
         }
+
         return $data->filter(function ($row) {
             return $row->filter()->isNotEmpty();
         });
