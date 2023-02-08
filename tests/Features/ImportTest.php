@@ -5,6 +5,7 @@ use Konnco\FilamentImport\Tests\Resources\Pages\HandleCreationList;
 use Konnco\FilamentImport\Tests\Resources\Pages\NonRequiredTestList;
 use Konnco\FilamentImport\Tests\Resources\Pages\ValidateTestList;
 use Konnco\FilamentImport\Tests\Resources\Pages\WithoutMassCreateTestList;
+
 use function Pest\Laravel\assertDatabaseCount;
 
 it('can render import properly', function () {
@@ -118,6 +119,38 @@ it('can ignore non required fields', function () {
         ->assertSuccessful();
 
     assertDatabaseCount(Post::class, 10);
+});
+
+it('can match fields to columns', function () {
+    $file = csvFiles(10, fields:'title,slug,body');
+    livewire(HandleCreationList::class)->mountPageAction('import')
+        ->setPageActionData([
+            'file' => [$file->store('file')],
+            'fileRealPath' => $file->getRealPath(),
+            'skipHeader' => false,
+        ])
+        ->callMountedPageAction()
+        ->assertHasNoPageActionErrors()
+        ->assertSuccessful();
+
+    assertDatabaseCount(Post::class, 11);
+});
+
+it('can match the first field', function () {
+    $file = csvFiles(10, fields:'title,Slug,Body');
+    livewire(HandleCreationList::class)->mountPageAction('import')
+        ->setPageActionData([
+            'file' => [$file->store('file')],
+            'fileRealPath' => $file->getRealPath(),
+            'slug' => 1,
+            'body' => 2,
+            'skipHeader' => false,
+        ])
+        ->callMountedPageAction()
+        ->assertHasNoPageActionErrors()
+        ->assertSuccessful();
+
+    assertDatabaseCount(Post::class, 11);
 });
 
 //it('can manipulate single field', function () {
