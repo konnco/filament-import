@@ -168,19 +168,25 @@ class ImportAction extends Action
                 $options = $this->cachedHeadingOptions;
 
                 if (count($options) == 0) {
-                    $options = $this->toCollection($filePath)->first()?->first()->filter(fn ($value) => $value != null)->toArray();
+                    $options = $this->toCollection($filePath)->first()?->first()->filter(fn ($value) => $value != null)->map('trim')->toArray();
                 }
 
                 $selected = array_search($field->getName(), $options);
-                if ($selected != false) {
+
+                if ($selected !== false) {
                     $set($field->getName(), $selected);
+                } elseif (! empty($field->getAlternativeColumnNames())) {
+                    $alternativeNames = array_intersect($field->getAlternativeColumnNames(), $options);
+                    if (count($alternativeNames) > 0) {
+                        $set($field->getName(), array_search(current($alternativeNames), $options));
+                    }
                 }
 
                 return $options;
             });
     }
 
-    public function handleRecordCreation(Closure $closure)
+    public function handleRecordCreation(Closure $closure): static
     {
         $this->handleRecordCreation = $closure;
         $this->massCreate(false);

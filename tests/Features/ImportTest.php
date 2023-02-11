@@ -1,6 +1,7 @@
 <?php
 
 use Konnco\FilamentImport\Tests\Resources\Models\Post;
+use Konnco\FilamentImport\Tests\Resources\Pages\AlternativeColumnsNamesList;
 use Konnco\FilamentImport\Tests\Resources\Pages\HandleCreationList;
 use Konnco\FilamentImport\Tests\Resources\Pages\NonRequiredTestList;
 use Konnco\FilamentImport\Tests\Resources\Pages\ValidateTestList;
@@ -118,6 +119,22 @@ it('can ignore non required fields', function () {
         ->assertSuccessful();
 
     assertDatabaseCount(Post::class, 10);
+});
+
+it('can match alternative column names', function () {
+    $file = csvFiles(10);
+    livewire(AlternativeColumnsNamesList::class)->mountPageAction('import')
+        ->setPageActionData([
+            'file' => [$file->store('file')],
+            'fileRealPath' => $file->getRealPath(),
+            'skipHeader' => false,
+        ])
+        ->assertPageActionDataSet(['title' => 0, 'slug' => 1, 'body' => 2])
+        ->callMountedPageAction()
+        ->assertHasNoPageActionErrors()
+        ->assertSuccessful();
+
+    assertDatabaseCount(Post::class, 11);
 });
 
 //it('can manipulate single field', function () {
