@@ -7,7 +7,6 @@ trait HasFieldPlaceholder
     protected ?string $placeholder = null;
 
     /**
-     * @param  string  $placeholder
      * @return $this
      */
     public function placeholder(string $placeholder): static
@@ -17,9 +16,6 @@ trait HasFieldPlaceholder
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPlaceholder(): ?string
     {
         return $this->placeholder;
