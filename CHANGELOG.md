@@ -2,6 +2,21 @@
 
 All notable changes to `konnco/filament-import` will be documented in this file.
 
+## 1.4.3 - 2023-02-24
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.3.5 to 1.3.6 by @dependabot in https://github.com/konnco/filament-import/pull/72
+- Adds spanish translation by @archilex in https://github.com/konnco/filament-import/pull/76
+- Support Laravel 10 by @mtawil in https://github.com/konnco/filament-import/pull/81
+
+### New Contributors
+
+- @archilex made their first contribution in https://github.com/konnco/filament-import/pull/76
+- @mtawil made their first contribution in https://github.com/konnco/filament-import/pull/81
+
+**Full Changelog**: https://github.com/konnco/filament-import/compare/1.4.2...1.4.3
+
 ## 1.4.2 - 2023-01-19
 
 ### What's Changed

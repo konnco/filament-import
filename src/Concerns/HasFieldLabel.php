@@ -12,7 +12,6 @@ trait HasFieldLabel
     protected ?string $label = null;
 
     /**
-     * @param  string  $label
      * @return $this
      */
     public function label(string $label): static
@@ -22,9 +21,6 @@ trait HasFieldLabel
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getLabel(): string
     {
         return $this->label ?? Str::of($this->name)->title();
