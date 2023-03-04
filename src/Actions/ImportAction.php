@@ -109,7 +109,7 @@ class ImportAction extends Action
                     TextInput::make('skipFooterCount')
                         ->numeric()
                         ->minValue(0)
-                        ->default(0)
+                        ->default(1)
                         ->label(__('filament-import::actions.skip_footer_count'))
                         ->visible(fn (Closure $get) => $get('skipFooter'))
                         ->columnSpan(1),
