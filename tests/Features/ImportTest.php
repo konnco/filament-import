@@ -22,6 +22,7 @@ it('can upload file', function () {
             'slug' => 1,
             'body' => 2,
             'skipHeader' => false,
+            'skipFooter' => false,
         ])
         ->callMountedPageAction()
         ->assertHasNoPageActionErrors()
@@ -40,6 +41,7 @@ it('can handling record creation', function () {
             'slug' => 1,
             'body' => 2,
             'skipHeader' => false,
+            'skipFooter' => false,
         ])
         ->callMountedPageAction()
         ->assertHasNoPageActionErrors()
@@ -58,12 +60,33 @@ it('can upload file and skip header', function () {
             'slug' => 1,
             'body' => 2,
             'skipHeader' => true,
+            'skipFooter' => false,
         ])
         ->callMountedPageAction()
         ->assertHasNoPageActionErrors()
         ->assertSuccessful();
 
     assertDatabaseCount(Post::class, 10);
+});
+
+it('can upload file and skip footer', function () {
+    $file = csvFiles(10);
+    livewire()->mountPageAction('import')
+        ->setPageActionData([
+            'file' => [$file->store('file')],
+            'fileRealPath' => $file->getRealPath(),
+            'title' => 0,
+            'slug' => 1,
+            'body' => 2,
+            'skipHeader' => true,
+            'skipFooter' => true,
+            'skipFooterCount' => 2,
+        ])
+        ->callMountedPageAction()
+        ->assertHasNoPageActionErrors()
+        ->assertSuccessful();
+
+    assertDatabaseCount(Post::class, 8);
 });
 
 it('can validate with laravel rules', function () {
@@ -77,6 +100,7 @@ it('can validate with laravel rules', function () {
             'slug' => 1,
             'body' => 2,
             'skipHeader' => true,
+            'skipFooter' => false,
         ])
         ->callMountedPageAction()
         ->assertHasNoPageActionErrors()
@@ -95,6 +119,7 @@ it('can disable mass create', function () {
             'slug' => 1,
             'body' => 2,
             'skipHeader' => true,
+            'skipFooter' => false,
         ])
         ->callMountedPageAction()
         ->assertHasNoPageActionErrors()
@@ -113,6 +138,7 @@ it('can ignore non required fields', function () {
             'slug' => 1,
             'body' => 2,
             'skipHeader' => true,
+            'skipFooter' => false,
         ])
         ->callMountedPageAction()
         ->assertHasNoPageActionErrors()

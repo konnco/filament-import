@@ -34,6 +34,10 @@ class Import
 
     protected bool $shouldSkipHeader = false;
 
+    protected bool $shouldSkipFooter = false;
+
+    protected int $skipFooterCount = 0;
+
     protected bool $shouldMassCreate = true;
 
     protected bool $shouldHandleBlankRows = false;
@@ -88,6 +92,20 @@ class Import
         return $this;
     }
 
+    public function skipFooter(bool $shouldSkipFooter): static
+    {
+        $this->shouldSkipFooter = $shouldSkipFooter;
+
+        return $this;
+    }
+
+    public function skipFooterCount(int $skipFooterCount = 0): static
+    {
+        $this->skipFooterCount = $skipFooterCount;
+
+        return $this;
+    }
+
     public function massCreate($shouldMassCreate = true): static
     {
         $this->shouldMassCreate = $shouldMassCreate;
@@ -107,6 +125,11 @@ class Import
         $data = $this->toCollection(new UploadedFile(Storage::disk($this->disk)->path($this->spreadsheet), $this->spreadsheet))
             ->first()
             ->skip((int) $this->shouldSkipHeader);
+
+        if ($this->shouldSkipFooter) {
+            $data = $data->slice(0, $this->skipFooterCount * -1);
+        }
+
         if (! $this->shouldHandleBlankRows) {
             return $data;
         }
