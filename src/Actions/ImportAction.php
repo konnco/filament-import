@@ -78,9 +78,6 @@ class ImportAction extends Action
         });
     }
 
-    /**
-     * @return void
-     */
     public function setInitialForm(): void
     {
         $this->form([
@@ -117,8 +114,6 @@ class ImportAction extends Action
     }
 
     /**
-     * @param  array  $fields
-     * @param  int  $columns
      * @return $this
      */
     public function fields(array $fields, int $columns = 1): static
@@ -146,10 +141,6 @@ class ImportAction extends Action
         return $this;
     }
 
-    /**
-     * @param  ImportField|Field  $field
-     * @return Field
-     */
     private function getFields(ImportField|Field $field): Field
     {
         if ($field instanceof Field) {
