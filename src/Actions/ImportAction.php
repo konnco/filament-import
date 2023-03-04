@@ -9,6 +9,7 @@ use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Pages\Actions\Action;
 use Filament\Support\Actions\Concerns\CanCustomizeProcess;
@@ -59,7 +60,7 @@ class ImportAction extends Action
 
             $this->process(function (array $data) use ($model) {
                 $selectedField = collect($data)
-                                    ->except('fileRealPath', 'file', 'skipHeader');
+                                    ->except('fileRealPath', 'file', 'skipHeader', 'skipFooter', 'skipFooterCount');
 
                 Import::make(spreadsheetFilePath: $data['file'])
                     ->fields($selectedField)
@@ -68,6 +69,8 @@ class ImportAction extends Action
                     ->model($model)
                     ->disk('local')
                     ->skipHeader((bool) $data['skipHeader'])
+                    ->skipFooter((bool) $data['skipFooter'])
+                    ->skipFooterCount($data['skipFooter'] ? $data['skipFooterCount'] : 0)
                     ->massCreate($this->shouldMassCreate)
                     ->handleBlankRows($this->shouldHandleBlankRows)
                     ->mutateBeforeCreate($this->mutateBeforeCreate)
@@ -96,6 +99,14 @@ class ImportAction extends Action
             Toggle::make('skipHeader')
                 ->default(true)
                 ->label(__('filament-import::actions.skip_header')),
+            Toggle::make('skipFooter')
+                ->default(true)
+                ->label(__('filament-import::actions.skip_footer'))
+                ->reactive(),
+            TextInput::make('skipFooterCount')
+                ->default(0)
+                ->label(__('filament-import::actions.skip_footer_count'))
+                ->visible(fn (Closure $get) => $get('skipFooter')),
         ]);
     }
 
