@@ -7,6 +7,7 @@ use Filament\Forms\ComponentContainer;
 use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -103,10 +104,16 @@ class ImportAction extends Action
                 ->default(true)
                 ->label(__('filament-import::actions.skip_footer'))
                 ->reactive(),
-            TextInput::make('skipFooterCount')
-                ->default(0)
-                ->label(__('filament-import::actions.skip_footer_count'))
-                ->visible(fn (Closure $get) => $get('skipFooter')),
+            Grid::make(2)
+                ->schema([
+                    TextInput::make('skipFooterCount')
+                        ->numeric()
+                        ->minValue(0)
+                        ->default(0)
+                        ->label(__('filament-import::actions.skip_footer_count'))
+                        ->visible(fn (Closure $get) => $get('skipFooter'))
+                        ->columnSpan(1),
+                ])
         ]);
     }
 
