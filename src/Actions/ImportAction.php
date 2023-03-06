@@ -180,7 +180,10 @@ class ImportAction extends Action
                     $options = $this->toCollection($filePath)->first()?->first()->filter(fn ($value) => $value != null)->toArray();
                 }
 
-                $selected = array_search($field->getName(), $options);
+                $needles = $field->getAdditionalMatches();
+                array_push($needles, $field->getName());
+                $selected = array_search(current($needles), $options);
+
                 if ($selected !== false) {
                     $set($field->getName(), $selected);
                 }

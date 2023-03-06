@@ -180,7 +180,6 @@ class Import
 
                 foreach (Arr::dot($this->fields) as $key => $value) {
                     $field = $this->formSchemas[$key];
-                    $key = $field->getColumn();
                     $fieldValue = $value;
 
                     if ($field instanceof ImportField) {
