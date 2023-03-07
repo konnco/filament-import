@@ -247,7 +247,7 @@ class Import
             Notification::make()
                 ->success()
                 ->title(trans('filament-import::actions.import_succeeded_title'))
-                ->body(trans('filament-import::actions.import_succeeded', ['count' => count($this->getSpreadsheetData()), 'skipped' => $skipped]))
+                ->body(trans('filament-import::actions.import_succeeded', ['count' => count($this->getSpreadsheetData()), 'imported' => count($this->getSpreadsheetData()) - $skipped, 'skipped' => $skipped]))
                 ->persistent()
                 ->send();
         }
