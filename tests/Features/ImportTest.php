@@ -2,6 +2,7 @@
 
 use Konnco\FilamentImport\Tests\Resources\Models\Post;
 use Konnco\FilamentImport\Tests\Resources\Pages\HandleCreationList;
+use Konnco\FilamentImport\Tests\Resources\Pages\MatchTestList;
 use Konnco\FilamentImport\Tests\Resources\Pages\NonRequiredTestList;
 use Konnco\FilamentImport\Tests\Resources\Pages\ValidateTestList;
 use Konnco\FilamentImport\Tests\Resources\Pages\WithoutMassCreateTestList;
@@ -170,6 +171,21 @@ it('can match the first field', function () {
             'fileRealPath' => $file->getRealPath(),
             'slug' => 1,
             'body' => 2,
+            'skipHeader' => false,
+        ])
+        ->callMountedPageAction()
+        ->assertHasNoPageActionErrors()
+        ->assertSuccessful();
+
+    assertDatabaseCount(Post::class, 11);
+});
+
+it('can match fields with different matches to columns', function () {
+    $file = csvFiles(10, fields:'titulo,frase,cuerpo');
+    livewire(MatchTestList::class)->mountPageAction('import')
+        ->setPageActionData([
+            'file' => [$file->store('file')],
+            'fileRealPath' => $file->getRealPath(),
             'skipHeader' => false,
         ])
         ->callMountedPageAction()

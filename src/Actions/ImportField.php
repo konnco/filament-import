@@ -2,7 +2,7 @@
 
 namespace Konnco\FilamentImport\Actions;
 
-use Konnco\FilamentImport\Concerns\HasFieldColumn;
+use Konnco\FilamentImport\Concerns\HasAdditionalMatches;
 use Konnco\FilamentImport\Concerns\HasFieldHelper;
 use Konnco\FilamentImport\Concerns\HasFieldLabel;
 use Konnco\FilamentImport\Concerns\HasFieldMutation;
@@ -18,7 +18,7 @@ class ImportField
     use HasFieldLabel;
     use HasFieldRequire;
     use HasFieldValidation;
-    use HasFieldColumn;
+    use HasAdditionalMatches;
 
     public function __construct(private string $name)
     {
