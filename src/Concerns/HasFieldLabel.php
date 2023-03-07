@@ -6,10 +6,9 @@ use Illuminate\Support\Str;
 
 trait HasFieldLabel
 {
-    /**
-     * @var string
-     */
     protected ?string $label = null;
+
+    protected bool $shouldTranslateLabel = false;
 
     /**
      * @return $this
@@ -21,8 +20,23 @@ trait HasFieldLabel
         return $this;
     }
 
+    public function translateLabel(bool $shouldTranslateLabel = true): static
+    {
+        $this->shouldTranslateLabel = $shouldTranslateLabel;
+
+        return $this;
+    }
+
     public function getLabel(): string
     {
-        return $this->label ?? Str::of($this->name)->title();
+        $label = $this->label ?? (string) Str::of($this->name)
+            ->afterLast('.')
+            ->kebab()
+            ->replace(['-', '_'], ' ')
+            ->ucfirst();
+        
+        return (is_string($label) && $this->shouldTranslateLabel) ?
+            __($label) :
+            $label;
     }
 }
