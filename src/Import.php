@@ -34,8 +34,6 @@ class Import
 
     protected bool $shouldSkipHeader = false;
 
-    protected bool $shouldSkipFooter = false;
-
     protected int $skipFooterCount = 0;
 
     protected bool $shouldMassCreate = true;
@@ -92,13 +90,6 @@ class Import
         return $this;
     }
 
-    public function skipFooter(bool $shouldSkipFooter): static
-    {
-        $this->shouldSkipFooter = $shouldSkipFooter;
-
-        return $this;
-    }
-
     public function skipFooterCount(int $skipFooterCount = 0): static
     {
         $this->skipFooterCount = $skipFooterCount;
@@ -126,7 +117,7 @@ class Import
             ->first()
             ->skip((int) $this->shouldSkipHeader);
 
-        if ($this->shouldSkipFooter) {
+        if ($this->skipFooterCount) {
             $data = $data->slice(0, $this->skipFooterCount * -1);
         }
 

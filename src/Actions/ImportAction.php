@@ -14,6 +14,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Pages\Actions\Action;
 use Filament\Support\Actions\Concerns\CanCustomizeProcess;
+use Konnco\FilamentImport\Concerns\CanSkipFooter;
+use Konnco\FilamentImport\Concerns\CanSkipHeader;
 use Konnco\FilamentImport\Concerns\HasActionMutation;
 use Konnco\FilamentImport\Concerns\HasActionUniqueField;
 use Konnco\FilamentImport\Concerns\HasTemporaryDisk;
@@ -24,6 +26,8 @@ use Maatwebsite\Excel\Concerns\Importable;
 class ImportAction extends Action
 {
     use CanCustomizeProcess;
+    use CanSkipFooter;
+    use CanSkipHeader;
     use Importable;
     use HasTemporaryDisk;
     use HasActionMutation;
@@ -70,7 +74,6 @@ class ImportAction extends Action
                     ->model($model)
                     ->disk('local')
                     ->skipHeader((bool) $data['skipHeader'])
-                    ->skipFooter((bool) $data['skipFooter'])
                     ->skipFooterCount($data['skipFooter'] ? $data['skipFooterCount'] : 0)
                     ->massCreate($this->shouldMassCreate)
                     ->handleBlankRows($this->shouldHandleBlankRows)
@@ -97,23 +100,6 @@ class ImportAction extends Action
                     $set('fileRealPath', $state->getRealPath());
                 }),
             Hidden::make('fileRealPath'),
-            Toggle::make('skipHeader')
-                ->default(true)
-                ->label(__('filament-import::actions.skip_header')),
-            Toggle::make('skipFooter')
-                ->default(true)
-                ->label(__('filament-import::actions.skip_footer'))
-                ->reactive(),
-            Grid::make(2)
-                ->schema([
-                    TextInput::make('skipFooterCount')
-                        ->numeric()
-                        ->minValue(0)
-                        ->default(1)
-                        ->label(__('filament-import::actions.skip_footer_count'))
-                        ->visible(fn (Closure $get) => $get('skipFooter'))
-                        ->columnSpan(1),
-                ])
         ]);
     }
 
@@ -146,9 +132,29 @@ class ImportAction extends Action
             array_merge(
                 $this->getFormSchema(),
                 [
-                    Fieldset::make(__('filament-import::actions.match_to_column'))
-                        ->schema($fields)
-                        ->columns($columns)
+                    Grid::make(1)
+                        ->schema([
+                            Toggle::make('skipHeader')
+                                ->default($this->shouldSkipHeader())
+                                ->label(__('filament-import::actions.skip_header')),
+                            Toggle::make('skipFooter')
+                                ->default($this->shouldSkipFooter())
+                                ->label(__('filament-import::actions.skip_footer'))
+                                ->reactive(),
+                            Grid::make(2)
+                                ->schema([
+                                    TextInput::make('skipFooterCount')
+                                        ->numeric()
+                                        ->minValue(0)
+                                        ->default($this->getSkipFooterCount())
+                                        ->label(__('filament-import::actions.skip_footer_count'))
+                                        ->visible(fn (Closure $get) => $get('skipFooter'))
+                                        ->columnSpan(1),
+                                ]),
+                            Fieldset::make(__('filament-import::actions.match_to_column'))
+                                ->schema($fields)
+                                ->columns($columns),
+                        ])
                         ->visible(function (callable $get) {
                             return $get('file') != null;
                         }),
