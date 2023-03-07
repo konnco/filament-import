@@ -188,10 +188,10 @@ class ImportAction extends Action
 
                 $needles = $field->getAdditionalMatches();
                 array_push($needles, $field->getName());
-                $selected = array_search(current($needles), $options);
+                $matches = array_intersect($needles, $options);
 
-                if ($selected !== false) {
-                    $set($field->getName(), $selected);
+                if (! empty($matches)) {
+                    $set($field->getName(), array_search(current($matches), $options));
                 }
 
                 return $options;
