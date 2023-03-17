@@ -34,7 +34,7 @@ trait HasFieldLabel
             ->kebab()
             ->replace(['-', '_'], ' ')
             ->ucfirst();
-        
+
         return (is_string($label) && $this->shouldTranslateLabel) ?
             __($label) :
             $label;
