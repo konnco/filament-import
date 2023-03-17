@@ -2,6 +2,14 @@
 
 All notable changes to `konnco/filament-import` will be documented in this file.
 
+## 1.5 - 2023-03-17
+
+### What's Changed
+
+- Translates labels by @archilex in https://github.com/konnco/filament-import/pull/82
+
+**Full Changelog**: https://github.com/konnco/filament-import/compare/1.4.3...1.5
+
 ## 1.4.3 - 2023-02-24
 
 ### What's Changed
