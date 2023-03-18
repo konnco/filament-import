@@ -25,7 +25,7 @@
         "illuminate/contracts": "^9.0|^10.0",
         "illuminate/support": "^9.0|^10.0",
         "maatwebsite/excel": "^3.1",
-        "psr/simple-cache": "^2.0",
+        "psr/simple-cache": "^2.0|^3.0",
         "spatie/laravel-package-tools": "^1.14"
     },
     "require-dev": {
