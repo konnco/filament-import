@@ -13,11 +13,11 @@ function livewire($list = null)
     return Livewire::test($list ?? CommonTestList::class);
 }
 
-function csvFiles($rows = 10, $extraRow = [])
+function csvFiles($rows = 10, $extraRow = [], $fields='Title,Slug,Body')
 {
     Storage::fake('uploads');
 
-    $content = collect('Title,Slug,Body');
+    $content = collect($fields);
     for ($i = 0; $i < $rows; $i++) {
         $content = $content->push(implode(',', [
             fake()->title,

@@ -7,11 +7,15 @@ use Filament\Forms\ComponentContainer;
 use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Pages\Actions\Action;
 use Filament\Support\Actions\Concerns\CanCustomizeProcess;
+use Konnco\FilamentImport\Concerns\CanSkipFooter;
+use Konnco\FilamentImport\Concerns\CanSkipHeader;
 use Konnco\FilamentImport\Concerns\HasActionMutation;
 use Konnco\FilamentImport\Concerns\HasActionUniqueField;
 use Konnco\FilamentImport\Concerns\HasTemporaryDisk;
@@ -22,6 +26,8 @@ use Maatwebsite\Excel\Concerns\Importable;
 class ImportAction extends Action
 {
     use CanCustomizeProcess;
+    use CanSkipFooter;
+    use CanSkipHeader;
     use Importable;
     use HasTemporaryDisk;
     use HasActionMutation;
@@ -59,7 +65,7 @@ class ImportAction extends Action
 
             $this->process(function (array $data) use ($model) {
                 $selectedField = collect($data)
-                                    ->except('fileRealPath', 'file', 'skipHeader');
+                                    ->except('fileRealPath', 'file', 'skipHeader', 'skipFooter', 'skipFooterCount');
 
                 Import::make(spreadsheetFilePath: $data['file'])
                     ->fields($selectedField)
@@ -68,6 +74,7 @@ class ImportAction extends Action
                     ->model($model)
                     ->disk('local')
                     ->skipHeader((bool) $data['skipHeader'])
+                    ->skipFooterCount($data['skipFooter'] ? $data['skipFooterCount'] : 0)
                     ->massCreate($this->shouldMassCreate)
                     ->handleBlankRows($this->shouldHandleBlankRows)
                     ->mutateBeforeCreate($this->mutateBeforeCreate)
@@ -93,9 +100,6 @@ class ImportAction extends Action
                     $set('fileRealPath', $state->getRealPath());
                 }),
             Hidden::make('fileRealPath'),
-            Toggle::make('skipHeader')
-                ->default(true)
-                ->label(__('filament-import::actions.skip_header')),
         ]);
     }
 
@@ -128,9 +132,29 @@ class ImportAction extends Action
             array_merge(
                 $this->getFormSchema(),
                 [
-                    Fieldset::make(__('filament-import::actions.match_to_column'))
-                        ->schema($fields)
-                        ->columns($columns)
+                    Grid::make(1)
+                        ->schema([
+                            Toggle::make('skipHeader')
+                                ->default($this->shouldSkipHeader())
+                                ->label(__('filament-import::actions.skip_header')),
+                            Toggle::make('skipFooter')
+                                ->default($this->shouldSkipFooter())
+                                ->label(__('filament-import::actions.skip_footer'))
+                                ->reactive(),
+                            Grid::make(2)
+                                ->schema([
+                                    TextInput::make('skipFooterCount')
+                                        ->numeric()
+                                        ->minValue(0)
+                                        ->default($this->getSkipFooterCount())
+                                        ->label(__('filament-import::actions.skip_footer_count'))
+                                        ->visible(fn (Closure $get) => $get('skipFooter'))
+                                        ->columnSpan(1),
+                                ]),
+                            Fieldset::make(__('filament-import::actions.match_to_column'))
+                                ->schema($fields)
+                                ->columns($columns),
+                        ])
                         ->visible(function (callable $get) {
                             return $get('file') != null;
                         }),
@@ -162,9 +186,12 @@ class ImportAction extends Action
                     $options = $this->toCollection($filePath)->first()?->first()->filter(fn ($value) => $value != null)->toArray();
                 }
 
-                $selected = array_search($field->getName(), $options);
-                if ($selected != false) {
-                    $set($field->getName(), $selected);
+                $needles = $field->getAdditionalMatches();
+                array_push($needles, $field->getName());
+                $matches = array_intersect($needles, $options);
+
+                if (! empty($matches)) {
+                    $set($field->getName(), array_search(current($matches), $options));
                 }
 
                 return $options;

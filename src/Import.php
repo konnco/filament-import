@@ -34,6 +34,8 @@ class Import
 
     protected bool $shouldSkipHeader = false;
 
+    protected int $skipFooterCount = 0;
+
     protected bool $shouldMassCreate = true;
 
     protected bool $shouldHandleBlankRows = false;
@@ -88,6 +90,13 @@ class Import
         return $this;
     }
 
+    public function skipFooterCount(int $skipFooterCount = 0): static
+    {
+        $this->skipFooterCount = $skipFooterCount;
+
+        return $this;
+    }
+
     public function massCreate($shouldMassCreate = true): static
     {
         $this->shouldMassCreate = $shouldMassCreate;
@@ -107,6 +116,11 @@ class Import
         $data = $this->toCollection(new UploadedFile(Storage::disk($this->disk)->path($this->spreadsheet), $this->spreadsheet))
             ->first()
             ->skip((int) $this->shouldSkipHeader);
+
+        if ($this->skipFooterCount) {
+            $data = $data->slice(0, $this->skipFooterCount * -1);
+        }
+
         if (! $this->shouldHandleBlankRows) {
             return $data;
         }
@@ -224,7 +238,7 @@ class Import
             Notification::make()
                 ->success()
                 ->title(trans('filament-import::actions.import_succeeded_title'))
-                ->body(trans('filament-import::actions.import_succeeded', ['count' => count($this->getSpreadsheetData()), 'skipped' => $skipped]))
+                ->body(trans('filament-import::actions.import_succeeded', ['count' => count($this->getSpreadsheetData()), 'imported' => count($this->getSpreadsheetData()) - $skipped, 'skipped' => $skipped]))
                 ->persistent()
                 ->send();
         }
