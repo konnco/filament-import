@@ -2,6 +2,18 @@
 
 All notable changes to `konnco/filament-import` will be documented in this file.
 
+## 1.5.2 - 2023-05-03
+
+### What's Changed
+
+- feat: Add pt_BR support by @jeffersonGlemos in https://github.com/konnco/filament-import/pull/89
+
+### New Contributors
+
+- @jeffersonGlemos made their first contribution in https://github.com/konnco/filament-import/pull/89
+
+**Full Changelog**: https://github.com/konnco/filament-import/compare/1.5.1...1.5.2
+
 ## 1.5.1 - 2023-05-03
 
 ### What's Changed
