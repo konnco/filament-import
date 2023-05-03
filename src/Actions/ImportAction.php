@@ -59,7 +59,7 @@ class ImportAction extends Action
 
             $this->process(function (array $data) use ($model) {
                 $selectedField = collect($data)
-                                    ->except('fileRealPath', 'file', 'skipHeader');
+                    ->except('fileRealPath', 'file', 'skipHeader');
 
                 Import::make(spreadsheetFilePath: $data['file'])
                     ->fields($selectedField)
