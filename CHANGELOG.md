@@ -2,6 +2,21 @@
 
 All notable changes to `konnco/filament-import` will be documented in this file.
 
+## 1.5.1 - 2023-05-03
+
+### What's Changed
+
+- add psr/simple-cache ^3.0 by @ster in https://github.com/konnco/filament-import/pull/83
+- Bump dependabot/fetch-metadata from 1.3.6 to 1.4.0 by @dependabot in https://github.com/konnco/filament-import/pull/90
+- Adds FA translations. by @fsamapoor in https://github.com/konnco/filament-import/pull/86
+
+### New Contributors
+
+- @ster made their first contribution in https://github.com/konnco/filament-import/pull/83
+- @fsamapoor made their first contribution in https://github.com/konnco/filament-import/pull/86
+
+**Full Changelog**: https://github.com/konnco/filament-import/compare/1.5...1.5.1
+
 ## 1.5 - 2023-03-17
 
 ### What's Changed
