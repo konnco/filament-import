@@ -213,7 +213,7 @@ class Import
                     }
                 } else {
                     $closure = $this->handleRecordCreation;
-                    $model = $closure($prepareInsert);
+                    $model = $closure($prepareInsert, $row);
                 }
 
                 $this->doMutateAfterCreate($model, $prepareInsert);
