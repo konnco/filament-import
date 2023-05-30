@@ -2,6 +2,20 @@
 
 All notable changes to `konnco/filament-import` will be documented in this file.
 
+## 1.5.3 - 2023-05-30
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.4.0 to 1.5.0 by @dependabot in https://github.com/konnco/filament-import/pull/92
+- Bump dependabot/fetch-metadata from 1.5.0 to 1.5.1 by @dependabot in https://github.com/konnco/filament-import/pull/94
+- AR Translations. by @Saifallak in https://github.com/konnco/filament-import/pull/96
+
+### New Contributors
+
+- @Saifallak made their first contribution in https://github.com/konnco/filament-import/pull/96
+
+**Full Changelog**: https://github.com/konnco/filament-import/compare/1.5.2...1.5.3
+
 ## 1.5.2 - 2023-05-03
 
 ### What's Changed
