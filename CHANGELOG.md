@@ -2,6 +2,19 @@
 
 All notable changes to `konnco/filament-import` will be documented in this file.
 
+## 1.6.0 - 2023-06-18
+
+### What's Changed
+
+- Bump aglipanci/laravel-pint-action from 1.0.0 to 2.3.0 by @dependabot in https://github.com/konnco/filament-import/pull/95
+- add alternative column names for automatic matching by @alex552 in https://github.com/konnco/filament-import/pull/77
+
+### New Contributors
+
+- @alex552 made their first contribution in https://github.com/konnco/filament-import/pull/77
+
+**Full Changelog**: https://github.com/konnco/filament-import/compare/1.5.3...1.6.0
+
 ## 1.5.3 - 2023-05-30
 
 ### What's Changed
