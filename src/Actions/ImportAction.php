@@ -18,6 +18,7 @@ use Konnco\FilamentImport\Concerns\HasTemporaryDisk;
 use Konnco\FilamentImport\Import;
 use Livewire\TemporaryUploadedFile;
 use Maatwebsite\Excel\Concerns\Importable;
+use Illuminate\Support\Str;
 
 class ImportAction extends Action
 {
@@ -159,7 +160,7 @@ class ImportAction extends Action
                 $options = $this->cachedHeadingOptions;
 
                 if (count($options) == 0) {
-                    $options = $this->toCollection($filePath)->first()?->first()->filter(fn ($value) => $value != null)->map('trim')->toArray();
+                    $options = $this->toCollection($filePath)->first()?->first()->filter(fn ($value) => $value != null)->map(fn ($value) => Str::of($value)->trim())->toArray();
                 }
 
                 $selected = array_search($field->getName(), $options);
