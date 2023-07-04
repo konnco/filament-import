@@ -149,6 +149,7 @@ class Import
     {
         $importSuccess = true;
         $skipped = 0;
+        $massCreateRecords = [];
         DB::transaction(function () use (&$importSuccess, &$skipped) {
             foreach ($this->getSpreadsheetData() as $line => $row) {
                 $prepareInsert = collect([]);
@@ -205,18 +206,21 @@ class Import
                 if (! $this->handleRecordCreation) {
                     if (! $this->shouldMassCreate) {
                         $model = (new $this->model)->fill($prepareInsert);
-                        $model = tap($model, function ($instance) {
-                            $instance->save();
-                        });
+                        $model->save();
+                        
+                        $this->doMutateAfterCreate($model, $prepareInsert);
                     } else {
+                        $massCreateRecords[] = $prepareInsert;
                         $model = $this->model::create($prepareInsert);
                     }
                 } else {
                     $closure = $this->handleRecordCreation;
                     $model = $closure($prepareInsert);
                 }
+            }
 
-                $this->doMutateAfterCreate($model, $prepareInsert);
+            if ($this->shouldMassCreate) {
+                $this->model::create($massCreateRecords);
             }
         });
 
