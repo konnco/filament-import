@@ -34,7 +34,7 @@ class Import
 
     protected bool $shouldSkipHeader = false;
 
-    protected bool $shouldMassCreate = true;
+    protected bool $shouldMassCreate = false;
 
     protected bool $shouldHandleBlankRows = false;
 
