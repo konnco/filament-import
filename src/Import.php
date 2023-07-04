@@ -218,7 +218,7 @@ class Import
                 }
             }
 
-            if ($this->shouldMassCreate) {
+            if ($importSuccess && $this->shouldMassCreate) {
                 $this->model::create($massCreateRecords);
             }
         });
