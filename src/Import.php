@@ -211,7 +211,6 @@ class Import
                         $this->doMutateAfterCreate($model, $prepareInsert);
                     } else {
                         $massCreateRecords[] = $prepareInsert;
-                        $model = $this->model::create($prepareInsert);
                     }
                 } else {
                     $closure = $this->handleRecordCreation;
