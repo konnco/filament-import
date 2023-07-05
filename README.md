@@ -77,14 +77,15 @@ protected function getActions(): array
 }
 ```
 
-### Disable Mass Create
-if you still want to stick with the event model you might need this and turn off mass create
+### Enable Mass Create
+if you can live without model event you can turn this on to enable mass record creation/insertion.
+NOTE: `mutateAfterCreate` will not be applied in this case.
 ```php
 protected function getActions(): array
 {
     return [
         ImportAction::make()
-            ->massCreate(false)
+            ->massCreate(true)
             ->fields([
                 ImportField::make('project')
                     ->label('Project')
