@@ -246,7 +246,55 @@ protected function getActions(): array
     ];
 }
 ```
+#### Upsert data
+If you want to update data in your application, you can set the `upsert.active` configuration in `config/filament-import.php` to `true`. This will prevent the package from skipping rows that already exist in the database.
+`config/filament-import.php`:
+```php
+'upsert' => [
+    'active' => true,
+]
+```
+##### Upsert using the entire row value
+Here's an example of how to use this feature:
+```php
+ImportAction::make()
+    ->uniqueField('email')
+    ->fields([
+        ImportField::make('name'),
+        ImportField::make('email'),
+        ImportField::make('address'),
+        ->mutateBeforeCreate(function($row){
+            $row['password'] = 'fixed value';
+            return $row;
+        })
+    ])
+```
+In this example, `filament-import` should update the fields `name`, `address`, and `password` of the model that matches the value of the field `email`.
+##### Upsert only the fields defined with `ImportField`
+You can activate the `upsert.only_form_fields` configuration in `config/filament-import.php` to `true` to make the package ignore other fields not listed using `ImportField` (such as those created hardcoded at `mutateBeforeCreate`, for example).
 
+Here's an example of how to use this feature:
+`config/filament-import.php`:
+```php
+'upsert' => [
+    'active' => true,
+    'only_form_fields' => true,
+]
+```
+```php
+ImportAction::make()
+    ->uniqueField('email')
+    ->fields([
+        ImportField::make('name'),
+        ImportField::make('email'),
+        ImportField::make('address'),
+        ->mutateBeforeCreate(function($row){
+            $row['password'] = 'fixed value';
+            return $row;
+        })
+    ])
+```
+In this example, `filament-import` should only update the fields `name` and `address` and ignore `password` for the models that match the value of the field `email`.
 ### Validation
 you can make the validation for import fields, for more information about the available validation please check laravel documentation
 
