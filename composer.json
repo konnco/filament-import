@@ -20,8 +20,8 @@
     ],
     "require": {
         "php": "^8.0",
-        "filament/filament": "^2.0",
-        "filament/notifications": "^2.0",
+        "filament/filament": "^2.0|^3.0",
+        "filament/notifications": "^2.0|^3.0",
         "illuminate/contracts": "^9.0|^10.0",
         "illuminate/support": "^9.0|^10.0",
         "maatwebsite/excel": "^3.1",
