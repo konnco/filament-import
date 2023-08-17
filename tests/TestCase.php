@@ -4,15 +4,19 @@ namespace Konnco\FilamentImport\Tests;
 
 use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
 use BladeUI\Icons\BladeIconsServiceProvider;
+use Filament\Actions\ActionsServiceProvider;
 use Filament\FilamentServiceProvider;
 use Filament\Forms\FormsServiceProvider;
 use Filament\Notifications\NotificationsServiceProvider;
 use Filament\Support\SupportServiceProvider;
 use Filament\Tables\TablesServiceProvider;
+use Filament\Widgets\WidgetsServiceProvider;
 use Konnco\FilamentImport\FilamentImportServiceProvider;
+use Konnco\FilamentImport\Tests\Resources\Panels\TestPanelProvider;
 use Livewire\LivewireServiceProvider;
 use Maatwebsite\Excel\ExcelServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
+use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -29,11 +33,15 @@ class TestCase extends Orchestra
             LivewireServiceProvider::class,
             FilamentServiceProvider::class,
             FormsServiceProvider::class,
-            NotificationsServiceProvider::class,
+            ActionsServiceProvider::class,
+            WidgetsServiceProvider::class,
             SupportServiceProvider::class,
+            NotificationsServiceProvider::class,
             TablesServiceProvider::class,
             FilamentImportServiceProvider::class,
             ExcelServiceProvider::class,
+            BladeCaptureDirectiveServiceProvider::class,
+            TestPanelProvider::class,
         ];
     }
 

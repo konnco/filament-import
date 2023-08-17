@@ -2,10 +2,10 @@
 
 namespace Konnco\FilamentImport;
 
-use Filament\PluginServiceProvider;
 use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class FilamentImportServiceProvider extends PluginServiceProvider
+class FilamentImportServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {

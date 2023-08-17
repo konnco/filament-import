@@ -3,6 +3,8 @@
 namespace Konnco\FilamentImport\Actions;
 
 use Closure;
+use Filament\Actions\Action;
+use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Forms\ComponentContainer;
 use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Fieldset;
@@ -10,13 +12,11 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
-use Filament\Pages\Actions\Action;
-use Filament\Support\Actions\Concerns\CanCustomizeProcess;
 use Konnco\FilamentImport\Concerns\HasActionMutation;
 use Konnco\FilamentImport\Concerns\HasActionUniqueField;
 use Konnco\FilamentImport\Concerns\HasTemporaryDisk;
 use Konnco\FilamentImport\Import;
-use Livewire\TemporaryUploadedFile;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Maatwebsite\Excel\Concerns\Importable;
 
 class ImportAction extends Action
@@ -35,7 +35,7 @@ class ImportAction extends Action
 
     protected array $cachedHeadingOptions = [];
 
-    protected null|Closure $handleRecordCreation = null;
+    protected ?Closure $handleRecordCreation = null;
 
     public static function getDefaultName(): ?string
     {
@@ -80,23 +80,7 @@ class ImportAction extends Action
 
     public function setInitialForm(): void
     {
-        $this->form([
-            FileUpload::make('file')
-                ->label('')
-                ->required(! app()->environment('testing'))
-                ->acceptedFileTypes(config('filament-import.accepted_mimes'))
-                ->imagePreviewHeight('250')
-                ->reactive()
-                ->disk($this->getTemporaryDisk())
-                ->directory($this->getTemporaryDirectory())
-                ->afterStateUpdated(function (callable $set, TemporaryUploadedFile $state) {
-                    $set('fileRealPath', $state->getRealPath());
-                }),
-            Hidden::make('fileRealPath'),
-            Toggle::make('skipHeader')
-                ->default(true)
-                ->label(__('filament-import::actions.skip_header')),
-        ]);
+        $this->form($this->getInitialFormSchema());
     }
 
     public function massCreate($shouldMassCreate = true): static
@@ -126,19 +110,40 @@ class ImportAction extends Action
 
         $this->form(
             array_merge(
-                $this->getFormSchema(),
+                $this->getInitialFormSchema(),
                 [
                     Fieldset::make(__('filament-import::actions.match_to_column'))
                         ->schema($fields)
                         ->columns($columns)
                         ->visible(function (callable $get) {
-                            return $get('file') != null;
+                            return filled($get('file'));
                         }),
                 ]
             )
         );
 
         return $this;
+    }
+
+    protected function getInitialFormSchema(): array
+    {
+        return [
+            FileUpload::make('file')
+                ->label('')
+                ->required(! app()->environment('testing'))
+                ->acceptedFileTypes(config('filament-import.accepted_mimes'))
+                ->imagePreviewHeight('250')
+                ->reactive()
+                ->disk($this->getTemporaryDisk())
+                ->directory($this->getTemporaryDirectory())
+                ->afterStateUpdated(function (callable $set, TemporaryUploadedFile $state) {
+                    $set('fileRealPath', $state->getRealPath());
+                }),
+            Hidden::make('fileRealPath'),
+            Toggle::make('skipHeader')
+                ->default(true)
+                ->label(__('filament-import::actions.skip_header')),
+        ];
     }
 
     private function getFields(ImportField|Field $field): Field
@@ -158,7 +163,7 @@ class ImportAction extends Action
 
                 $options = $this->cachedHeadingOptions;
 
-                if (count($options) == 0) {
+                if (count($options) === 0) {
                     $options = $this->toCollection($filePath)->first()?->first()->filter(fn ($value) => $value != null)->map('trim')->toArray();
                 }
 

@@ -4,6 +4,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Konnco\FilamentImport\Tests\Resources\Pages\CommonTestList;
 use Konnco\FilamentImport\Tests\TestCase;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\Livewire;
 
 uses(TestCase::class)->in(__DIR__);
@@ -30,7 +31,7 @@ function csvFiles($rows = 10, $extraRow = [])
         $content = $content->push(collect($extraRow)->join(','));
     }
 
-    return UploadedFile::fake()
+    return TemporaryUploadedFile::fake()
         ->createWithContent(
             name: 'file.csv',
             content: $content->join("\n")
