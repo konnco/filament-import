@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Konnco\FilamentImport\Tests\Resources\Pages\CommonTestList;
 use Konnco\FilamentImport\Tests\TestCase;
