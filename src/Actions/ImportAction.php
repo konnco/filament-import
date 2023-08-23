@@ -35,7 +35,7 @@ class ImportAction extends Action
 
     protected array $cachedHeadingOptions = [];
 
-    protected null|Closure $handleRecordCreation = null;
+    protected ?Closure $handleRecordCreation = null;
 
     public static function getDefaultName(): ?string
     {

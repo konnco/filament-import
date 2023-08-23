@@ -138,7 +138,7 @@ class Import
         return $data;
     }
 
-    public function handleRecordCreation(Closure|null $closure): static
+    public function handleRecordCreation(?Closure $closure): static
     {
         $this->handleRecordCreation = $closure;
 
