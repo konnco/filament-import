@@ -1,4 +1,5 @@
 /vendor/
 .phpunit.result.cache
 
-build/phpstan
+build/
+.idea/

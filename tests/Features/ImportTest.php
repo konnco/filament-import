@@ -15,17 +15,16 @@ it('can render import properly', function () {
 
 it('can upload file', function () {
     $file = csvFiles(10);
-    livewire()->mountPageAction('import')
-        ->setPageActionData([
-            'file' => [$file->store('file')],
-            'fileRealPath' => $file->getRealPath(),
+    livewire()->mountAction('import')
+        ->setActionData([
+            'file' => $file,
             'title' => 0,
             'slug' => 1,
             'body' => 2,
             'skipHeader' => false,
         ])
-        ->callMountedPageAction()
-        ->assertHasNoPageActionErrors()
+        ->callMountedAction()
+        ->assertHasNoActionErrors()
         ->assertSuccessful();
 
     assertDatabaseCount(Post::class, 11);
@@ -33,17 +32,16 @@ it('can upload file', function () {
 
 it('can handling record creation', function () {
     $file = csvFiles(10);
-    livewire(HandleCreationList::class)->mountPageAction('import')
-        ->setPageActionData([
-            'file' => [$file->store('file')],
-            'fileRealPath' => $file->getRealPath(),
+    livewire(HandleCreationList::class)->mountAction('import')
+        ->setActionData([
+            'file' => $file,
             'title' => 0,
             'slug' => 1,
             'body' => 2,
             'skipHeader' => false,
         ])
-        ->callMountedPageAction()
-        ->assertHasNoPageActionErrors()
+        ->callMountedAction()
+        ->assertHasNoActionErrors()
         ->assertSuccessful();
 
     assertDatabaseCount(Post::class, 11);
@@ -51,17 +49,16 @@ it('can handling record creation', function () {
 
 it('can upload file and skip header', function () {
     $file = csvFiles(10);
-    livewire()->mountPageAction('import')
-        ->setPageActionData([
-            'file' => [$file->store('file')],
-            'fileRealPath' => $file->getRealPath(),
+    livewire()->mountAction('import')
+        ->setActionData([
+            'file' => $file,
             'title' => 0,
             'slug' => 1,
             'body' => 2,
             'skipHeader' => true,
         ])
-        ->callMountedPageAction()
-        ->assertHasNoPageActionErrors()
+        ->callMountedAction()
+        ->assertHasNoActionErrors()
         ->assertSuccessful();
 
     assertDatabaseCount(Post::class, 10);
@@ -70,17 +67,16 @@ it('can upload file and skip header', function () {
 it('can validate with laravel rules', function () {
     $file = csvFiles(10, ['hello', 'hello', 'hello']);
 
-    livewire(ValidateTestList::class)->mountPageAction('import')
-        ->setPageActionData([
-            'file' => [$file->store('file')],
-            'fileRealPath' => $file->getRealPath(),
+    livewire(ValidateTestList::class)->mountAction('import')
+        ->setActionData([
+            'file' => $file,
             'title' => 0,
             'slug' => 1,
             'body' => 2,
             'skipHeader' => true,
         ])
-        ->callMountedPageAction()
-        ->assertHasNoPageActionErrors()
+        ->callMountedAction()
+        ->assertHasNoActionErrors()
         ->assertSuccessful();
 
     assertDatabaseCount(Post::class, 0);
@@ -88,17 +84,16 @@ it('can validate with laravel rules', function () {
 
 it('can disable mass create', function () {
     $file = csvFiles(10);
-    livewire(WithoutMassCreateTestList::class)->mountPageAction('import')
-        ->setPageActionData([
-            'file' => [$file->store('file')],
-            'fileRealPath' => $file->getRealPath(),
+    livewire(WithoutMassCreateTestList::class)->mountAction('import')
+        ->setActionData([
+            'file' => $file,
             'title' => 0,
             'slug' => 1,
             'body' => 2,
             'skipHeader' => true,
         ])
-        ->callMountedPageAction()
-        ->assertHasNoPageActionErrors()
+        ->callMountedAction()
+        ->assertHasNoActionErrors()
         ->assertSuccessful();
 
     assertDatabaseCount(Post::class, 10);
@@ -106,17 +101,16 @@ it('can disable mass create', function () {
 
 it('can ignore non required fields', function () {
     $file = csvFiles(10);
-    livewire(NonRequiredTestList::class)->mountPageAction('import')
-        ->setPageActionData([
-            'file' => [$file->store('file')],
-            'fileRealPath' => $file->getRealPath(),
+    livewire(NonRequiredTestList::class)->mountAction('import')
+        ->setActionData([
+            'file' => $file,
             // 'title' => 0,
             'slug' => 1,
             'body' => 2,
             'skipHeader' => true,
         ])
-        ->callMountedPageAction()
-        ->assertHasNoPageActionErrors()
+        ->callMountedAction()
+        ->assertHasNoActionErrors()
         ->assertSuccessful();
 
     assertDatabaseCount(Post::class, 10);
@@ -124,15 +118,14 @@ it('can ignore non required fields', function () {
 
 it('can match alternative column names', function () {
     $file = csvFiles(10);
-    livewire(AlternativeColumnsNamesList::class)->mountPageAction('import')
-        ->setPageActionData([
-            'file' => [$file->store('file')],
-            'fileRealPath' => $file->getRealPath(),
+    livewire(AlternativeColumnsNamesList::class)->mountAction('import')
+        ->setActionData([
+            'file' => $file,
             'skipHeader' => false,
         ])
-        ->assertPageActionDataSet(['title' => 0, 'slug' => 1, 'body' => 2])
-        ->callMountedPageAction()
-        ->assertHasNoPageActionErrors()
+        ->assertActionDataSet(['title' => 0, 'slug' => 1, 'body' => 2])
+        ->callMountedAction()
+        ->assertHasNoActionErrors()
         ->assertSuccessful();
 
     assertDatabaseCount(Post::class, 11);
