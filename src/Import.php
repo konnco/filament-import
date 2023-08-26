@@ -104,7 +104,10 @@ class Import
 
     public function getSpreadsheetData(): Collection
     {
-        $data = $this->toCollection(new UploadedFile(Storage::disk($this->disk)->path($this->spreadsheet), $this->spreadsheet))
+        $driver = config("filesystems.disks.{$this->disk}.driver");
+        $isRemote = in_array($driver, ['s3', 'ftp', 'sftp']);
+
+        $data = $this->toCollection($isRemote ? $this->spreadsheet : new UploadedFile(Storage::disk($this->disk)->path($this->spreadsheet), $this->spreadsheet))
             ->first()
             ->skip((int) $this->shouldSkipHeader);
         if (! $this->shouldHandleBlankRows) {
