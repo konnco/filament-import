@@ -2,6 +2,21 @@
 
 All notable changes to `konnco/filament-import` will be documented in this file.
 
+## 1.6.1 - 2023-08-28
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.5.1 to 1.6.0 by @dependabot in https://github.com/konnco/filament-import/pull/106
+- Filament v3 support by @tiagof in https://github.com/konnco/filament-import/pull/117
+- Fix library to work with remote disks like s3 by @adriaardila in https://github.com/konnco/filament-import/pull/121
+
+### New Contributors
+
+- @tiagof made their first contribution in https://github.com/konnco/filament-import/pull/117
+- @adriaardila made their first contribution in https://github.com/konnco/filament-import/pull/121
+
+**Full Changelog**: https://github.com/konnco/filament-import/compare/1.6.0...1.6.1
+
 ## 1.6.0 - 2023-06-18
 
 ### What's Changed
