@@ -30,4 +30,10 @@ trait HasTemporaryDisk
     {
         $this->temporaryDirectory = $temporaryPath;
     }
+
+    public function temporaryDiskIsRemote(): bool
+    {
+        $driver = config("filesystems.disks.{$this->getTemporaryDisk()}.driver");
+        return in_array($driver, ['s3', 'ftp', 'sftp']);
+    }
 }
