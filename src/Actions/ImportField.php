@@ -12,13 +12,13 @@ use Konnco\FilamentImport\Concerns\HasFieldValidation;
 
 class ImportField
 {
-    use HasFieldMutation;
+    use HasColumnMatching;
     use HasFieldHelper;
-    use HasFieldPlaceholder;
     use HasFieldLabel;
+    use HasFieldMutation;
+    use HasFieldPlaceholder;
     use HasFieldRequire;
     use HasFieldValidation;
-    use HasColumnMatching;
 
     public function __construct(private string $name)
     {

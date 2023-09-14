@@ -19,10 +19,10 @@ use Maatwebsite\Excel\Concerns\Importable;
 
 class Import
 {
-    use Importable;
     use HasActionMutation;
     use HasActionUniqueField;
     use HasTemporaryDisk;
+    use Importable;
 
     protected string $spreadsheet;
 
