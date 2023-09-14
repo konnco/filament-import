@@ -2,6 +2,19 @@
 
 All notable changes to `konnco/filament-import` will be documented in this file.
 
+## 2.0.2-beta - 2023-09-14
+
+### What's Changed
+
+- Fix library to work with remote disks like s3 by @adriaardila in https://github.com/konnco/filament-import/pull/121
+- Fix import with local disks not working after last beta release by @adriaardila in https://github.com/konnco/filament-import/pull/125
+
+### New Contributors
+
+- @adriaardila made their first contribution in https://github.com/konnco/filament-import/pull/121
+
+**Full Changelog**: https://github.com/konnco/filament-import/compare/2.0.0-beta...2.0.2-beta
+
 ## 1.6.1 - 2023-08-28
 
 ### What's Changed
