@@ -12,7 +12,6 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
-use Illuminate\Support\Facades\App;
 use Konnco\FilamentImport\Concerns\HasActionMutation;
 use Konnco\FilamentImport\Concerns\HasActionUniqueField;
 use Konnco\FilamentImport\Concerns\HasTemporaryDisk;
@@ -165,7 +164,7 @@ class ImportAction extends Action
                 $options = $this->cachedHeadingOptions;
 
                 if (count($options) === 0) {
-                    $options = $this->toCollection($filePath, ! App::runningUnitTests() ? $this->getTemporaryDisk() : null)->first()?->first()->filter(fn ($value) => $value != null)->map('trim')->toArray();
+                    $options = $this->toCollection($filePath, $this->temporaryDiskIsRemote() ? $this->getTemporaryDisk() : null)->first()?->first()->filter(fn ($value) => $value != null)->map('trim')->toArray();
                 }
 
                 $selected = array_search($field->getName(), $options);

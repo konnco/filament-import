@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use Konnco\FilamentImport\Actions\ImportField;
 use Konnco\FilamentImport\Concerns\HasActionMutation;
 use Konnco\FilamentImport\Concerns\HasActionUniqueField;
+use Konnco\FilamentImport\Concerns\HasTemporaryDisk;
 use Maatwebsite\Excel\Concerns\Importable;
 
 class Import
@@ -21,6 +22,7 @@ class Import
     use Importable;
     use HasActionMutation;
     use HasActionUniqueField;
+    use HasTemporaryDisk;
 
     protected string $spreadsheet;
 
@@ -104,10 +106,7 @@ class Import
 
     public function getSpreadsheetData(): Collection
     {
-        $driver = config("filesystems.disks.{$this->disk}.driver");
-        $isRemote = in_array($driver, ['s3', 'ftp', 'sftp']);
-
-        $data = $this->toCollection($isRemote ? $this->spreadsheet : new UploadedFile(Storage::disk($this->disk)->path($this->spreadsheet), $this->spreadsheet))
+        $data = $this->toCollection($this->temporaryDiskIsRemote() ? $this->spreadsheet : new UploadedFile(Storage::disk($this->disk)->path($this->spreadsheet), $this->spreadsheet))
             ->first()
             ->skip((int) $this->shouldSkipHeader);
         if (! $this->shouldHandleBlankRows) {
