@@ -37,6 +37,8 @@ class ImportAction extends Action
 
     protected null|Closure $handleRecordCreation = null;
 
+    protected null|array $acceptedMimeTypes = [];
+
     public static function getDefaultName(): ?string
     {
         return 'import';
@@ -84,7 +86,7 @@ class ImportAction extends Action
             FileUpload::make('file')
                 ->label('')
                 ->required(! app()->environment('testing'))
-                ->acceptedFileTypes(config('filament-import.accepted_mimes'))
+                ->acceptedFileTypes(fn () => $this->acceptedMimeTypes ?: config('filament-import.accepted_mimes'))
                 ->imagePreviewHeight('250')
                 ->reactive()
                 ->disk($this->getTemporaryDisk())
@@ -181,6 +183,13 @@ class ImportAction extends Action
     {
         $this->handleRecordCreation = $closure;
         $this->massCreate(false);
+
+        return $this;
+    }
+
+    public function acceptedMimeTypes(array $mimeType)
+    {
+        $this->acceptedMimeTypes = $mimeType;
 
         return $this;
     }
