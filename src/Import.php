@@ -18,9 +18,9 @@ use Maatwebsite\Excel\Concerns\Importable;
 
 class Import
 {
-    use Importable;
     use HasActionMutation;
     use HasActionUniqueField;
+    use Importable;
 
     protected string $spreadsheet;
 
@@ -138,7 +138,7 @@ class Import
         return $data;
     }
 
-    public function handleRecordCreation(Closure|null $closure): static
+    public function handleRecordCreation(?Closure $closure): static
     {
         $this->handleRecordCreation = $closure;
 
