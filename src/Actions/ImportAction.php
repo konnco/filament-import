@@ -22,10 +22,10 @@ use Maatwebsite\Excel\Concerns\Importable;
 class ImportAction extends Action
 {
     use CanCustomizeProcess;
-    use Importable;
-    use HasTemporaryDisk;
     use HasActionMutation;
     use HasActionUniqueField;
+    use HasTemporaryDisk;
+    use Importable;
 
     protected array $fields = [];
 
@@ -35,7 +35,7 @@ class ImportAction extends Action
 
     protected array $cachedHeadingOptions = [];
 
-    protected null|Closure $handleRecordCreation = null;
+    protected ?Closure $handleRecordCreation = null;
 
     public static function getDefaultName(): ?string
     {
