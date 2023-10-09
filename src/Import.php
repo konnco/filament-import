@@ -196,7 +196,7 @@ class Import
                         break;
                     }
 
-                    $exists = (new $this->model)->where($this->uniqueField, $prepareInsert[$this->uniqueField] ?? null)->first();
+                    $exists = (new $this->model)->where($this->uniqueField, $prepareInsert[$this->uniqueField] ?? null)->withTrashed()->first();
                     if ($exists instanceof $this->model) {
                         $skipped++;
 
