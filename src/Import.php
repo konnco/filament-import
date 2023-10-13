@@ -24,6 +24,10 @@ class Import
 
     protected string $spreadsheet;
 
+    protected Collection $data;
+
+    protected Collection|bool $headers;
+
     protected Collection $fields;
 
     protected array $formSchemas;
@@ -102,18 +106,20 @@ class Import
         return $this;
     }
 
-    public function getSpreadsheetData(): Collection
+    public function importSpreadsheet()
     {
         $data = $this->toCollection(new UploadedFile(Storage::disk($this->disk)->path($this->spreadsheet), $this->spreadsheet))
-            ->first()
-            ->skip((int) $this->shouldSkipHeader);
-        if (! $this->shouldHandleBlankRows) {
-            return $data;
-        }
+            ->first();
 
-        return $data->filter(function ($row) {
-            return $row->filter()->isNotEmpty();
-        });
+        if ($this->shouldSkipHeader) {
+            // First row is headers, data starts from second row
+            $this->headers = $data->first();
+            $this->data = $data->skip(1);
+        } else {
+            // First row is data, headers aren't set
+            $this->headers = false;
+            $this->data = $data;
+        }
     }
 
     public function validated($data, $rules, $customMessages, $line)
@@ -150,7 +156,9 @@ class Import
         $importSuccess = true;
         $skipped = 0;
         DB::transaction(function () use (&$importSuccess, &$skipped) {
-            foreach ($this->getSpreadsheetData() as $line => $row) {
+            $this->importSpreadsheet();
+
+            foreach ($this->data as $line => $row) {
                 $prepareInsert = collect([]);
                 $rules = [];
                 $validationMessages = [];
@@ -213,7 +221,7 @@ class Import
                     }
                 } else {
                     $closure = $this->handleRecordCreation;
-                    $model = $closure($prepareInsert);
+                    $model = $closure($prepareInsert, $row, $this->fields, $this->headers);
                 }
 
                 $this->doMutateAfterCreate($model, $prepareInsert);
@@ -224,7 +232,7 @@ class Import
             Notification::make()
                 ->success()
                 ->title(trans('filament-import::actions.import_succeeded_title'))
-                ->body(trans('filament-import::actions.import_succeeded', ['count' => count($this->getSpreadsheetData()), 'skipped' => $skipped]))
+                ->body(trans('filament-import::actions.import_succeeded', ['count' => count($this->data), 'skipped' => $skipped]))
                 ->persistent()
                 ->send();
         }
