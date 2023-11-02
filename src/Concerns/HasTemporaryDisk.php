@@ -8,10 +8,7 @@ trait HasTemporaryDisk
 
     protected string $temporaryDirectory;
 
-    /**
-     * @return mixed
-     */
-    public function getTemporaryDisk()
+    public function getTemporaryDisk(): mixed
     {
         return $this->temporaryDisk ?? config('filament-import.temporary_files.disk');
     }
@@ -26,9 +23,11 @@ trait HasTemporaryDisk
         return $this->temporaryDirectory ?? config('filament-import.temporary_files.directory');
     }
 
-    public function temporaryDirectory(string $temporaryPath): void
+    public function temporaryDirectory(string $temporaryPath): static
     {
         $this->temporaryDirectory = $temporaryPath;
+
+        return $this;
     }
 
     public function temporaryDiskIsRemote(): bool
