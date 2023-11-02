@@ -6,9 +6,6 @@ trait HasFieldHelper
 {
     protected ?string $helperText = null;
 
-    /**
-     * @return $this
-     */
     public function helperText($text): static
     {
         $this->helperText = $text;

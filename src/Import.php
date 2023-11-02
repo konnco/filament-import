@@ -106,16 +106,19 @@ class Import
 
     public function getSpreadsheetData(): Collection
     {
-        $data = $this->toCollection($this->temporaryDiskIsRemote() ? $this->spreadsheet : new UploadedFile(Storage::disk($this->disk)->path($this->spreadsheet), $this->spreadsheet))
+        $data = $this->toCollection(
+            $this->temporaryDiskIsRemote() 
+                ? $this->spreadsheet 
+                : new UploadedFile(Storage::disk($this->disk)->path($this->spreadsheet), $this->spreadsheet)
+        )
             ->first()
             ->skip((int) $this->shouldSkipHeader);
+        
         if (! $this->shouldHandleBlankRows) {
             return $data;
         }
 
-        return $data->filter(function ($row) {
-            return $row->filter()->isNotEmpty();
-        });
+        return $data->filter(fn ($row) => $row->filter()->isNotEmpty());
     }
 
     public function validated($data, $rules, $customMessages, $line)
