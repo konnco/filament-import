@@ -10,9 +10,6 @@ trait HasFieldLabel
 
     protected bool $shouldTranslateLabel = false;
 
-    /**
-     * @return $this
-     */
     public function label(string $label): static
     {
         $this->label = $label;
@@ -35,8 +32,8 @@ trait HasFieldLabel
             ->replace(['-', '_'], ' ')
             ->ucfirst();
 
-        return (is_string($label) && $this->shouldTranslateLabel) ?
-            __($label) :
-            $label;
+        return (is_string($label) && $this->shouldTranslateLabel) 
+            ? __($label) 
+            : $label;
     }
 }

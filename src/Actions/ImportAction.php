@@ -54,10 +54,8 @@ class ImportAction extends Action
 
         $this->groupedIcon('heroicon-s-plus');
 
-        $this->action(function (ComponentContainer $form): void {
-            $model = $form->getModel();
-
-            $this->process(function (array $data) use ($model) {
+        $this->action(fn (ComponentContainer $form) => $this->process(
+            function (array $data) use ($form) {
                 $selectedField = collect($data)
                     ->except('fileRealPath', 'file', 'skipHeader');
 
@@ -65,7 +63,7 @@ class ImportAction extends Action
                     ->fields($selectedField)
                     ->formSchemas($this->fields)
                     ->uniqueField($this->uniqueField)
-                    ->model($model)
+                    ->model($form->getModel())
                     ->disk($this->getTemporaryDisk())
                     ->skipHeader((bool) $data['skipHeader'])
                     ->massCreate($this->shouldMassCreate)
@@ -74,8 +72,8 @@ class ImportAction extends Action
                     ->mutateAfterCreate($this->mutateAfterCreate)
                     ->handleRecordCreation($this->handleRecordCreation)
                     ->execute();
-            });
-        });
+            }
+        ));
     }
 
     public function setInitialForm(): void
@@ -97,16 +95,15 @@ class ImportAction extends Action
         return $this;
     }
 
-    /**
-     * @return $this
-     */
     public function fields(array $fields, int $columns = 1): static
     {
-        $this->fields = collect($fields)->mapWithKeys(fn ($item) => [$item->getName() => $item])->toArray();
+        $this->fields = collect($fields)
+            ->mapWithKeys(fn (ImportField|Field $field): array => [$field->getName() => $field])
+            ->toArray();
 
-        $fields = collect($fields);
-
-        $fields = $fields->map(fn (ImportField|Field $field) => $this->getFields($field))->toArray();
+        $fields = collect($fields)
+            ->map(fn (ImportField|Field $field): Field => $this->getFields($field))
+            ->toArray();
 
         $this->form(
             array_merge(
@@ -115,9 +112,7 @@ class ImportAction extends Action
                     Fieldset::make(__('filament-import::actions.match_to_column'))
                         ->schema($fields)
                         ->columns($columns)
-                        ->visible(function (callable $get) {
-                            return filled($get('file'));
-                        }),
+                        ->visible(fn (callable $get): bool => filled($get('file'))),
                 ]
             )
         );
@@ -159,20 +154,37 @@ class ImportAction extends Action
             ->placeholder($field->getPlaceholder())
             ->options(options: function (callable $get, callable $set) use ($field) {
                 $uploadedFile = last($get('file') ?? []);
-                $filePath = is_string($uploadedFile) ? $uploadedFile : $uploadedFile?->getRealPath();
+                $filePath = is_string($uploadedFile) 
+                    ? $uploadedFile 
+                    : $uploadedFile?->getRealPath();
 
                 $options = $this->cachedHeadingOptions;
 
                 if (count($options) === 0) {
-                    $options = $this->toCollection($filePath, $this->temporaryDiskIsRemote() ? $this->getTemporaryDisk() : null)->first()?->first()->filter(fn ($value) => $value != null)->map('trim')->toArray();
+                    $options = $this->toCollection(
+                        $filePath, 
+                        $this->temporaryDiskIsRemote() 
+                            ? $this->getTemporaryDisk() 
+                            : null
+                    )
+                    ->first()
+                    ?->first()
+                    ->filter(fn ($value) => $value != null)
+                    ->map('trim')
+                    ->toArray();
                 }
 
                 $selected = array_search($field->getName(), $options);
 
                 if ($selected !== false) {
                     $set($field->getName(), $selected);
-                } elseif (! empty($field->getAlternativeColumnNames())) {
+
+                    return $options;
+                } 
+                
+                if (filled($field->getAlternativeColumnNames())) {
                     $alternativeNames = array_intersect($field->getAlternativeColumnNames(), $options);
+                    
                     if (count($alternativeNames) > 0) {
                         $set($field->getName(), array_search(current($alternativeNames), $options));
                     }
