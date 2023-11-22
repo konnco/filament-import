@@ -9,5 +9,5 @@ return [
     'import_failed' => 'Importeren is mislukt, controleer uw importbestand en probeer opnieuw',
     'import_failed_title' => 'Importeren Mislukt',
     'import_succeeded' => 'Importeren van :count rij(en) is gelukt, :skipped rij(en) overgeslagen',
-    'import_succeeded_title' => 'Importeren Gelukt',
+    'import_succeeded_title' => 'Importeren gelukt',
 ];
