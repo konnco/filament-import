@@ -159,6 +159,7 @@ class Import
 
                 foreach (Arr::dot($this->fields) as $key => $value) {
                     $field = $this->formSchemas[$key];
+                    // dd($field);
                     $fieldValue = $value;
 
                     if ($field instanceof ImportField) {
@@ -198,7 +199,6 @@ class Import
                         }
 
                         if ($importSuccess) {
-
                             $exists = (new $this->model)->where($this->uniqueField, $prepareInsert[$this->uniqueField] ?? null)->first();
                             if ($exists instanceof $this->model) {
                                 $skipped++;
@@ -229,12 +229,22 @@ class Import
         });
 
         if ($importSuccess) {
-            Notification::make()
-                ->success()
-                ->title(trans('filament-import::actions.import_succeeded_title'))
-                ->body(trans('filament-import::actions.import_succeeded', ['count' => count($this->getSpreadsheetData()), 'skipped' => $skipped]))
-                ->persistent()
-                ->send();
+            if ($skipped > 0) {
+                Notification::make()
+                    ->info()
+                    ->title(trans('filament-import::actions.import_skipped_title'))
+                    ->body(trans('filament-import::actions.import_skipped', ['count' => count($this->getSpreadsheetData()), 'skipped' => $skipped]))
+                    ->persistent()
+                    ->send();
+            } else {
+                Notification::make()
+                    ->success()
+                    ->title(trans('filament-import::actions.import_succeeded_title'))
+                    ->body(trans('filament-import::actions.import_succeeded', ['count' => count($this->getSpreadsheetData())]))
+                    ->persistent()
+                    ->send();
+            }
+
         }
 
         if (! $importSuccess) {
