@@ -183,42 +183,48 @@ class Import
                     DB::rollBack();
                     $importSuccess = false;
 
-                    break;
+                    // break;
                 }
 
-                $prepareInsert = $this->doMutateBeforeCreate($prepareInsert);
+                if ($importSuccess) {
+                    $prepareInsert = $this->doMutateBeforeCreate($prepareInsert);
 
-                if ($this->uniqueField !== false) {
-                    if (is_null($prepareInsert[$this->uniqueField] ?? null)) {
-                        DB::rollBack();
-                        $importSuccess = false;
+                    if ($this->uniqueField !== false) {
+                        if (is_null($prepareInsert[$this->uniqueField] ?? null)) {
+                            DB::rollBack();
+                            $importSuccess = false;
 
-                        break;
+                            // break;
+                        }
+
+                        if ($importSuccess) {
+
+                            $exists = (new $this->model)->where($this->uniqueField, $prepareInsert[$this->uniqueField] ?? null)->first();
+                            if ($exists instanceof $this->model) {
+                                $skipped++;
+
+                                continue;
+                            }
+                        }
                     }
 
-                    $exists = (new $this->model)->where($this->uniqueField, $prepareInsert[$this->uniqueField] ?? null)->first();
-                    if ($exists instanceof $this->model) {
-                        $skipped++;
-
-                        continue;
-                    }
-                }
-
-                if (! $this->handleRecordCreation) {
-                    if (! $this->shouldMassCreate) {
-                        $model = (new $this->model)->fill($prepareInsert);
-                        $model = tap($model, function ($instance) {
-                            $instance->save();
-                        });
+                    if (! $this->handleRecordCreation) {
+                        if (! $this->shouldMassCreate) {
+                            $model = (new $this->model)->fill($prepareInsert);
+                            $model = tap($model, function ($instance) {
+                                $instance->save();
+                            });
+                        } else {
+                            $model = $this->model::create($prepareInsert);
+                        }
                     } else {
-                        $model = $this->model::create($prepareInsert);
+                        $closure = $this->handleRecordCreation;
+                        $model = $closure($prepareInsert);
                     }
-                } else {
-                    $closure = $this->handleRecordCreation;
-                    $model = $closure($prepareInsert);
+
+                    $this->doMutateAfterCreate($model, $prepareInsert);
                 }
 
-                $this->doMutateAfterCreate($model, $prepareInsert);
             }
         });
 
