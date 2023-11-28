@@ -1,8 +1,8 @@
-![Screenshot of Login](./art/screenshot.png)
+<!-- ![Screenshot of Login](./art/screenshot.png) -->
 
-# Filament Plugin for Import CSV and XLS into Database
+<!-- # Filament Plugin for Import CSV and XLS into Database -->
 
-<a href="https://filamentadmin.com/docs/2.x/admin/installation">
+<!-- <a href="https://filamentadmin.com/docs/2.x/admin/installation">
     <img alt="FILAMENT 2.x" src="https://img.shields.io/badge/FILAMENT-2.x-EBB304">
 </a>
 <a href="https://packagist.org/packages/konnco/filament-import">
@@ -13,7 +13,26 @@
 </a>
 
 [![Code Styles](https://github.com/konnco/filament-import/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/konnco/filament-import/actions/workflows/php-cs-fixer.yml)
-[![run-tests](https://github.com/konnco/filament-import/actions/workflows/run-tests.yml/badge.svg)](https://github.com/konnco/filament-import/actions/workflows/run-tests.yml)
+[![run-tests](https://github.com/konnco/filament-import/actions/workflows/run-tests.yml/badge.svg)](https://github.com/konnco/filament-import/actions/workflows/run-tests.yml) -->
+
+# admoradel/filament-import
+
+This is a fork of the original package [konnco/filament-import](https://packagist.org/packages/konnco/filament-import) under the MIT license.
+
+## Modifications Made
+
+- Notification handling
+  - When there are several rows (lines) that have the same error, it is grouped and displayed in a single notification.
+
+## Credits
+
+This package is based on the original work of Konnco Studio, available [here](https://packagist.org/packages/konnco/filament-import).
+
+## License
+
+This package is under the MIT license. See the [LICENSE.md](LICENSE.md) file for details.
+
+## Description
 
 This package will make it easier for you to import from files to your model, very easily without the need to do templates.
 
@@ -24,7 +43,7 @@ all you have to do is drag and drop and match the fields and columns of your fil
 You can install the package via composer:
 
 ```bash
-composer require konnco/filament-import
+composer require admoradel/filament-import
 ```
 
 ## Publishing Config
@@ -62,7 +81,9 @@ class ListCredentialDatabases extends ListRecords
     }
 }
 ```
+
 ### Required Field
+
 ```php
 protected function getActions(): array
 {
@@ -78,7 +99,9 @@ protected function getActions(): array
 ```
 
 ### Disable Mass Create
+
 if you still want to stick with the event model you might need this and turn off mass create
+
 ```php
 protected function getActions(): array
 {
@@ -95,7 +118,9 @@ protected function getActions(): array
 ```
 
 ### Filter Out Blank Rows
+
 If you have a spreadsheet which includes blank data [click here to see more](https://thesoftwarepro.com/excel-tips-how-to-fill-blank-cells/), you can filter these out:
+
 ```php
 protected function getActions(): array
 {
@@ -112,7 +137,9 @@ protected function getActions(): array
 ```
 
 ### Field Data Mutation
+
 you can also manipulate data from row spreadsheet before saving to model
+
 ```php
 protected function getActions(): array
 {
@@ -127,7 +154,9 @@ protected function getActions(): array
     ];
 }
 ```
+
 otherwise you can manipulate data and getting all mutated data from field before its getting insert into the database.
+
 ```php
 protected function getActions(): array
 {
@@ -145,7 +174,9 @@ protected function getActions(): array
     ];
 }
 ```
+
 it is also possible to manipulate data after it was inserted into the database
+
 ```php
 use Illuminate\Database\Eloquent\Model;
 
@@ -167,7 +198,9 @@ protected function getActions(): array
 ```
 
 ### Grid Column
+
 Of course, you can divide the column grid into several parts to beautify the appearance of the data map
+
 ```php
 protected function getActions(): array
 {
@@ -183,6 +216,7 @@ protected function getActions(): array
 ```
 
 ### Json Format Field
+
 We also support the json format field, which you can set when calling the `make` function and separate the name with a dot annotation
 
 ```php
@@ -203,6 +237,7 @@ protected function getActions(): array
 ```
 
 ### Static Field Data
+
 for the static field data you can use the common fields from filament
 
 ```php
@@ -228,6 +263,7 @@ protected function getActions(): array
 ```
 
 ### Unique field
+
 if your model should be unique, you can pass the name of the field, which will be used to check if a row already exists in the database. if it exists, skip that row (preventing an error about non unique row)
 
 ```php
@@ -248,6 +284,7 @@ protected function getActions(): array
 ```
 
 ### Validation
+
 you can make the validation for import fields, for more information about the available validation please check laravel documentation
 
 ```php
@@ -267,6 +304,7 @@ protected function getActions(): array
 ```
 
 ### Create Record
+
 you can overide the default record creation closure and put your own code by using `handleRecordCreation` function
 
 ```php
@@ -288,7 +326,6 @@ protected function getActions(): array
 }
 ```
 
-
 ## Testing
 
 ```bash
@@ -306,4 +343,3 @@ Please see [CONTRIBUTING](https://github.com/konnco/.github/blob/main/CONTRIBUTI
 ## Security Vulnerabilities
 
 Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
-
