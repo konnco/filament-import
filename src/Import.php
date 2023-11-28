@@ -42,6 +42,8 @@ class Import
 
     protected ?Closure $handleRecordCreation = null;
 
+    private Collection $errors;
+
     public static function make(string $spreadsheetFilePath): self
     {
         return (new self)
@@ -124,12 +126,13 @@ class Import
 
         try {
             if ($validator->fails()) {
-                Notification::make()
-                    ->danger()
-                    ->title(trans('filament-import::actions.import_failed_title'))
-                    ->body(trans('filament-import::validators.message', ['line' => $line, 'error' => $validator->errors()->first()]))
-                    ->persistent()
-                    ->send();
+                $this->errors->push(['line' => $line, 'error' => $validator->errors()->first()]);
+                // Notification::make()
+                //     ->danger()
+                //     ->title(trans('filament-import::actions.import_failed_title'))
+                //     ->body(trans('filament-import::validators.message', ['line' => $line, 'error' => $validator->errors()->first()]))
+                //     ->persistent()
+                //     ->send();
 
                 return false;
             }
@@ -138,6 +141,31 @@ class Import
         }
 
         return $data;
+    }
+
+    public function lineErrors()
+    {
+        if ($this->errors) {
+            dd($this->errors);
+            $errors = $this->errors->groupBy('error')
+                ->map(function ($group) {
+                    $line = $group->pluck('line')->unique()->implode(', ');
+                    $error = $group->pluck('error')->unique()->implode('');
+
+                    return ['line' => $line, 'error' => $error];
+                })
+                ->values();
+
+            foreach ($errors as $error) {
+                Notification::make()
+                    ->danger()
+                    ->title(trans('filament-import::actions.import_failed_title'))
+                    ->body(trans('filament-import::validators.message', $error))
+                    ->persistent()
+                    ->send();
+            }
+
+        }
     }
 
     public function handleRecordCreation(?Closure $closure): static
@@ -149,6 +177,7 @@ class Import
 
     public function execute()
     {
+        $this->errors = collect();
         $importSuccess = true;
         $skipped = 0;
         DB::transaction(function () use (&$importSuccess, &$skipped) {
@@ -159,7 +188,6 @@ class Import
 
                 foreach (Arr::dot($this->fields) as $key => $value) {
                     $field = $this->formSchemas[$key];
-                    // dd($field);
                     $fieldValue = $value;
 
                     if ($field instanceof ImportField) {
@@ -232,8 +260,8 @@ class Import
             if ($skipped > 0) {
                 Notification::make()
                     ->info()
-                    ->title(trans('filament-import::actions.import_skipped_title'))
-                    ->body(trans('filament-import::actions.import_skipped', ['count' => count($this->getSpreadsheetData()), 'skipped' => $skipped]))
+                    ->title(trans('filament-import::actions.import_info_title'))
+                    ->body(trans('filament-import::actions.import_info', ['count' => count($this->getSpreadsheetData()), 'skipped' => $skipped]))
                     ->persistent()
                     ->send();
             } else {
@@ -254,6 +282,8 @@ class Import
                 ->body(trans('filament-import::actions.import_failed'))
                 ->persistent()
                 ->send();
+
+            $this->lineErrors();
         }
     }
 }
