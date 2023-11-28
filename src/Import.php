@@ -146,7 +146,6 @@ class Import
     public function lineErrors()
     {
         if ($this->errors) {
-            dd($this->errors);
             $errors = $this->errors->groupBy('error')
                 ->map(function ($group) {
                     $line = $group->pluck('line')->unique()->implode(', ');
