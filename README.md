@@ -1,8 +1,8 @@
-<!-- ![Screenshot of Login](./art/screenshot.png) -->
+![Screenshot of Login](./art/screenshot.png)
 
-<!-- # Filament Plugin for Import CSV and XLS into Database -->
+# Filament Plugin for Import CSV and XLS into Database
 
-<!-- <a href="https://filamentadmin.com/docs/2.x/admin/installation">
+<a href="https://filamentadmin.com/docs/2.x/admin/installation">
     <img alt="FILAMENT 2.x" src="https://img.shields.io/badge/FILAMENT-2.x-EBB304">
 </a>
 <a href="https://packagist.org/packages/konnco/filament-import">
@@ -13,26 +13,7 @@
 </a>
 
 [![Code Styles](https://github.com/konnco/filament-import/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/konnco/filament-import/actions/workflows/php-cs-fixer.yml)
-[![run-tests](https://github.com/konnco/filament-import/actions/workflows/run-tests.yml/badge.svg)](https://github.com/konnco/filament-import/actions/workflows/run-tests.yml) -->
-
-# admoradel/filament-import
-
-This is a fork of the original package [konnco/filament-import](https://packagist.org/packages/konnco/filament-import) under the MIT license.
-
-## Modifications Made
-
-- Notification handling
-  - When there are several rows (lines) that have the same error, it is grouped and displayed in a single notification.
-
-## Credits
-
-This package is based on the original work of Konnco Studio, available [here](https://packagist.org/packages/konnco/filament-import).
-
-## License
-
-This package is under the MIT license. See the [LICENSE.md](LICENSE.md) file for details.
-
-## Description
+[![run-tests](https://github.com/konnco/filament-import/actions/workflows/run-tests.yml/badge.svg)](https://github.com/konnco/filament-import/actions/workflows/run-tests.yml)
 
 This package will make it easier for you to import from files to your model, very easily without the need to do templates.
 
@@ -43,7 +24,7 @@ all you have to do is drag and drop and match the fields and columns of your fil
 You can install the package via composer:
 
 ```bash
-composer require admoradel/filament-import
+composer require konnco/filament-import
 ```
 
 ## Publishing Config
