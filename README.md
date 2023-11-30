@@ -62,7 +62,9 @@ class ListCredentialDatabases extends ListRecords
     }
 }
 ```
+
 ### Required Field
+
 ```php
 protected function getActions(): array
 {
@@ -78,7 +80,9 @@ protected function getActions(): array
 ```
 
 ### Disable Mass Create
+
 if you still want to stick with the event model you might need this and turn off mass create
+
 ```php
 protected function getActions(): array
 {
@@ -95,7 +99,9 @@ protected function getActions(): array
 ```
 
 ### Filter Out Blank Rows
+
 If you have a spreadsheet which includes blank data [click here to see more](https://thesoftwarepro.com/excel-tips-how-to-fill-blank-cells/), you can filter these out:
+
 ```php
 protected function getActions(): array
 {
@@ -112,7 +118,9 @@ protected function getActions(): array
 ```
 
 ### Field Data Mutation
+
 you can also manipulate data from row spreadsheet before saving to model
+
 ```php
 protected function getActions(): array
 {
@@ -127,7 +135,9 @@ protected function getActions(): array
     ];
 }
 ```
+
 otherwise you can manipulate data and getting all mutated data from field before its getting insert into the database.
+
 ```php
 protected function getActions(): array
 {
@@ -145,7 +155,9 @@ protected function getActions(): array
     ];
 }
 ```
+
 it is also possible to manipulate data after it was inserted into the database
+
 ```php
 use Illuminate\Database\Eloquent\Model;
 
@@ -167,7 +179,9 @@ protected function getActions(): array
 ```
 
 ### Grid Column
+
 Of course, you can divide the column grid into several parts to beautify the appearance of the data map
+
 ```php
 protected function getActions(): array
 {
@@ -183,6 +197,7 @@ protected function getActions(): array
 ```
 
 ### Json Format Field
+
 We also support the json format field, which you can set when calling the `make` function and separate the name with a dot annotation
 
 ```php
@@ -203,6 +218,7 @@ protected function getActions(): array
 ```
 
 ### Static Field Data
+
 for the static field data you can use the common fields from filament
 
 ```php
@@ -228,6 +244,7 @@ protected function getActions(): array
 ```
 
 ### Unique field
+
 if your model should be unique, you can pass the name of the field, which will be used to check if a row already exists in the database. if it exists, skip that row (preventing an error about non unique row)
 
 ```php
@@ -248,6 +265,7 @@ protected function getActions(): array
 ```
 
 ### Validation
+
 you can make the validation for import fields, for more information about the available validation please check laravel documentation
 
 ```php
@@ -267,6 +285,7 @@ protected function getActions(): array
 ```
 
 ### Create Record
+
 you can overide the default record creation closure and put your own code by using `handleRecordCreation` function
 
 ```php
@@ -288,7 +307,6 @@ protected function getActions(): array
 }
 ```
 
-
 ## Testing
 
 ```bash
@@ -306,4 +324,3 @@ Please see [CONTRIBUTING](https://github.com/konnco/.github/blob/main/CONTRIBUTI
 ## Security Vulnerabilities
 
 Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
-
