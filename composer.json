@@ -1,72 +1,72 @@
 {
-  "name": "konnco/filament-import",
-  "description": "",
-  "keywords": [
-    "import",
-    "laravel",
-    "filament-import"
-  ],
-  "autoload": {
-    "psr-4": {
-      "Konnco\\FilamentImport\\": "src/"
+    "name": "konnco/filament-import",
+    "description": "",
+    "keywords": [
+        "import",
+        "laravel",
+        "filament-import"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Konnco\\FilamentImport\\": "src/"
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Franky So",
+            "email": "frankyso.mail@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "filament/filament": "^3",
+        "filament/notifications": "^3.0",
+        "illuminate/contracts": "^10|^11.0",
+        "illuminate/support": "^10.0|^11.0",
+        "livewire/livewire": "^3",
+        "maatwebsite/excel": "^3.1.48",
+        "psr/simple-cache": "^2.0|^3.0",
+        "spatie/laravel-package-tools": "^1.16"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.11",
+        "nunomaduro/collision": "^6.4|^7.0|^8.0",
+        "nunomaduro/larastan": "^2.6.4",
+        "orchestra/testbench": "^8.8|^9.0",
+        "pestphp/pest": "^2",
+        "pestphp/pest-plugin-laravel": "^2",
+        "pestphp/pest-plugin-livewire": "^2.1",
+        "phpstan/extension-installer": "^1.3.1",
+        "phpstan/phpstan-deprecation-rules": "^1.1.4",
+        "phpstan/phpstan-phpunit": "^1.3.13",
+        "phpunit/phpunit": "^9.6.10|^10.0"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Konnco\\FilamentImport\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Konnco\\FilamentImport\\FilamentImportServiceProvider"
+            ]
+        }
     }
-  },
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Franky So",
-      "email": "frankyso.mail@gmail.com"
-    }
-  ],
-  "require": {
-    "php": "^8.0",
-    "filament/filament": "^3",
-    "filament/notifications": "^3.0",
-    "illuminate/contracts": "^10",
-    "illuminate/support": "^10.0",
-    "livewire/livewire": "^3",
-    "maatwebsite/excel": "^3.1.48",
-    "psr/simple-cache": "^2.0|^3.0",
-    "spatie/laravel-package-tools": "^1.16"
-  },
-  "require-dev": {
-    "laravel/pint": "^1.11",
-    "nunomaduro/collision": "^6.4|^7.0",
-    "nunomaduro/larastan": "^2.6.4",
-    "orchestra/testbench": "^8.8",
-    "pestphp/pest": "^2",
-    "pestphp/pest-plugin-laravel": "^2",
-    "pestphp/pest-plugin-livewire": "^2.1",
-    "phpstan/extension-installer": "^1.3.1",
-    "phpstan/phpstan-deprecation-rules": "^1.1.4",
-    "phpstan/phpstan-phpunit": "^1.3.13",
-    "phpunit/phpunit": "^9.6.10|^10.0"
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Konnco\\FilamentImport\\Tests\\": "tests"
-    }
-  },
-  "scripts": {
-    "analyse": "vendor/bin/phpstan analyse",
-    "test": "vendor/bin/pest",
-    "test-coverage": "vendor/bin/pest --coverage",
-    "format": "vendor/bin/pint"
-  },
-  "config": {
-    "sort-packages": true,
-    "allow-plugins": {
-      "pestphp/pest-plugin": true,
-      "phpstan/extension-installer": true
-    }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Konnco\\FilamentImport\\FilamentImportServiceProvider"
-      ]
-    }
-  }
 }
