@@ -4439,7 +4439,7 @@
             },
             "require-dev": {
                 "nunomaduro/collision": "^6.0|^7.0",
-                "nunomaduro/larastan": "^2.0",
+                "larastan/larastan": "*",
                 "orchestra/testbench": "^7.22|^8.0",
                 "pestphp/pest": "^1.21",
                 "pestphp/pest-plugin-laravel": "^1.1",
@@ -7816,7 +7816,7 @@
                 "illuminate/view": "^10.5.1",
                 "laravel-zero/framework": "^10.1.1",
                 "mockery/mockery": "^1.5.1",
-                "nunomaduro/larastan": "^2.5.1",
+                "larastan/larastan": "*",
                 "nunomaduro/termwind": "^1.15.1",
                 "pestphp/pest": "^2.4.0"
             },
@@ -8083,7 +8083,7 @@
                 "laravel/sail": "^1.23.1",
                 "laravel/sanctum": "^3.2.5",
                 "laravel/tinker": "^2.8.1",
-                "nunomaduro/larastan": "^2.6.4",
+                "larastan/larastan": "*",
                 "orchestra/testbench-core": "^8.5.9",
                 "pestphp/pest": "^2.12.1",
                 "phpunit/phpunit": "^10.3.1",
@@ -8150,16 +8150,16 @@
             "time": "2023-08-07T08:03:21+00:00"
         },
         {
-            "name": "nunomaduro/larastan",
+            "name": "larastan/larastan",
             "version": "v2.6.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/nunomaduro/larastan.git",
+                "url": "https://github.com/larastan/larastan.git",
                 "reference": "6c5e8820f3db6397546f3ce48520af9d312aed27"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nunomaduro/larastan/zipball/6c5e8820f3db6397546f3ce48520af9d312aed27",
+                "url": "https://api.github.com/repos/larastan/larastan/zipball/6c5e8820f3db6397546f3ce48520af9d312aed27",
                 "reference": "6c5e8820f3db6397546f3ce48520af9d312aed27",
                 "shasum": ""
             },
@@ -8222,8 +8222,8 @@
                 "static analysis"
             ],
             "support": {
-                "issues": "https://github.com/nunomaduro/larastan/issues",
-                "source": "https://github.com/nunomaduro/larastan/tree/v2.6.4"
+                "issues": "https://github.com/larastan/larastan/issues",
+                "source": "https://github.com/larastan/larastan/tree/v2.6.4"
             },
             "funding": [
                 {
