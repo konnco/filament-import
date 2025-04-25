@@ -131,14 +131,14 @@ it('can match alternative column names', function () {
     assertDatabaseCount(Post::class, 11);
 });
 
-//it('can manipulate single field', function () {
+// it('can manipulate single field', function () {
 //    expect(true)->toBeTrue();
-//});
+// });
 //
-//it('can manipulate mass field', function () {
+// it('can manipulate mass field', function () {
 //    expect(true)->toBeTrue();
-//});
+// });
 
-//it('can save json casting field', function () {
+// it('can save json casting field', function () {
 //    expect(true)->toBeTrue();
-//});
+// });

@@ -20,9 +20,7 @@ class ImportField
     use HasFieldRequire;
     use HasFieldValidation;
 
-    public function __construct(private string $name)
-    {
-    }
+    public function __construct(private string $name) {}
 
     public static function make(string $name): self
     {
