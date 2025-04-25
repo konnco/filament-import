@@ -2,6 +2,19 @@
 
 All notable changes to `konnco/filament-import` will be documented in this file.
 
+## 3.0.0 - 2025-04-25
+
+### What's Changed
+
+* Fix import with local disks not working after last beta release by @adriaardila in https://github.com/konnco/filament-import/pull/125
+* laravel 11 support by @marco76tv in https://github.com/konnco/filament-import/pull/157
+
+### New Contributors
+
+* @marco76tv made their first contribution in https://github.com/konnco/filament-import/pull/157
+
+**Full Changelog**: https://github.com/konnco/filament-import/compare/1.6.1...3.0.0
+
 ## 2.0.2-beta - 2023-09-14
 
 ### What's Changed
