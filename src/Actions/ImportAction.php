@@ -165,6 +165,7 @@ class ImportAction extends Action
 
                 if (count($options) === 0) {
                     $options = $this->toCollection($filePath, $this->temporaryDiskIsRemote() ? $this->getTemporaryDisk() : null)->first()?->first()->filter(fn ($value) => $value != null)->map('trim')->toArray();
+                    $this->cachedHeadingOptions = $options;
                 }
 
                 $selected = array_search($field->getName(), $options);
