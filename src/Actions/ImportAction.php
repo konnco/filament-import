@@ -22,10 +22,10 @@ use Maatwebsite\Excel\Concerns\Importable;
 class ImportAction extends Action
 {
     use CanCustomizeProcess;
-    use Importable;
-    use HasTemporaryDisk;
     use HasActionMutation;
     use HasActionUniqueField;
+    use HasTemporaryDisk;
+    use Importable;
 
     protected array $fields = [];
 
@@ -35,7 +35,9 @@ class ImportAction extends Action
 
     protected array $cachedHeadingOptions = [];
 
-    protected null|Closure $handleRecordCreation = null;
+    protected ?Closure $handleRecordCreation = null;
+
+    protected ?array $acceptedMimeTypes = [];
 
     public static function getDefaultName(): ?string
     {
@@ -84,7 +86,7 @@ class ImportAction extends Action
             FileUpload::make('file')
                 ->label('')
                 ->required(! app()->environment('testing'))
-                ->acceptedFileTypes(config('filament-import.accepted_mimes'))
+                ->acceptedFileTypes(fn () => $this->acceptedMimeTypes ?: config('filament-import.accepted_mimes'))
                 ->imagePreviewHeight('250')
                 ->reactive()
                 ->disk($this->getTemporaryDisk())
@@ -181,6 +183,13 @@ class ImportAction extends Action
     {
         $this->handleRecordCreation = $closure;
         $this->massCreate(false);
+
+        return $this;
+    }
+
+    public function acceptedMimeTypes(array $mimeType)
+    {
+        $this->acceptedMimeTypes = $mimeType;
 
         return $this;
     }
