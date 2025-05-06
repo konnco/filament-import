@@ -13,4 +13,8 @@ return [
         'disk' => 'local',
         'directory' => 'filament-import',
     ],
+    'upsert' => [
+        'active' => false,
+        'only_form_fields' => false
+    ]
 ];
