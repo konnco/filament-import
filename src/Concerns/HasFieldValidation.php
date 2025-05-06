@@ -16,7 +16,7 @@ trait HasFieldValidation
         return $this;
     }
 
-    public function getValidationRules()
+    public function getValidationRules(): array|string
     {
         return $this->rules;
     }

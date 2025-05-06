@@ -6,9 +6,6 @@ trait HasFieldPlaceholder
 {
     protected ?string $placeholder = null;
 
-    /**
-     * @return $this
-     */
     public function placeholder(string $placeholder): static
     {
         $this->placeholder = $placeholder;
